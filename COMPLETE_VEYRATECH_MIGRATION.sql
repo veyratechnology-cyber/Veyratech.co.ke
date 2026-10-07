@@ -91,10 +91,10 @@ CREATE TABLE IF NOT EXISTS invoices (
   terms TEXT,
   internal_notes TEXT,
   
-  -- Relations
-  lead_id UUID REFERENCES leads(id) ON DELETE SET NULL,
-  project_id UUID REFERENCES projects(id) ON DELETE SET NULL,
-  assigned_admin_id UUID REFERENCES admins(id) ON DELETE SET NULL,
+  -- Relations (using TEXT for IDs to match existing tables)
+  lead_id TEXT,
+  project_id TEXT,
+  assigned_admin_id TEXT,
   
   -- Email Tracking
   sent_at TIMESTAMP WITH TIME ZONE,
@@ -112,6 +112,52 @@ CREATE TABLE IF NOT EXISTS invoices (
   CONSTRAINT valid_vat_rate CHECK (vat_rate >= 0 AND vat_rate <= 100),
   CONSTRAINT due_date_after_issue CHECK (due_date >= issue_date)
 );
+
+-- Add foreign key constraints after table creation (if related tables exist)
+DO $$
+BEGIN
+  -- Add lead_id foreign key if leads table exists
+  IF EXISTS (SELECT 1 FROM information_schema.tables WHERE table_name = 'leads') THEN
+    IF NOT EXISTS (
+      SELECT 1 FROM information_schema.table_constraints 
+      WHERE constraint_name = 'invoices_lead_id_fkey' 
+        AND table_name = 'invoices'
+    ) THEN
+      ALTER TABLE invoices ADD CONSTRAINT invoices_lead_id_fkey 
+        FOREIGN KEY (lead_id) REFERENCES leads(id) ON DELETE SET NULL;
+      RAISE NOTICE '✓ Added foreign key constraint: invoices_lead_id_fkey';
+    END IF;
+  END IF;
+  
+  -- Add project_id foreign key if projects table exists
+  IF EXISTS (SELECT 1 FROM information_schema.tables WHERE table_name = 'projects') THEN
+    IF NOT EXISTS (
+      SELECT 1 FROM information_schema.table_constraints 
+      WHERE constraint_name = 'invoices_project_id_fkey' 
+        AND table_name = 'invoices'
+    ) THEN
+      ALTER TABLE invoices ADD CONSTRAINT invoices_project_id_fkey 
+        FOREIGN KEY (project_id) REFERENCES projects(id) ON DELETE SET NULL;
+      RAISE NOTICE '✓ Added foreign key constraint: invoices_project_id_fkey';
+    END IF;
+  END IF;
+  
+  -- Add assigned_admin_id foreign key if admins table exists
+  IF EXISTS (SELECT 1 FROM information_schema.tables WHERE table_name = 'admins') THEN
+    IF NOT EXISTS (
+      SELECT 1 FROM information_schema.table_constraints 
+      WHERE constraint_name = 'invoices_assigned_admin_id_fkey' 
+        AND table_name = 'invoices'
+    ) THEN
+      ALTER TABLE invoices ADD CONSTRAINT invoices_assigned_admin_id_fkey 
+        FOREIGN KEY (assigned_admin_id) REFERENCES admins(id) ON DELETE SET NULL;
+      RAISE NOTICE '✓ Added foreign key constraint: invoices_assigned_admin_id_fkey';
+    END IF;
+  END IF;
+EXCEPTION
+  WHEN foreign_key_violation OR datatype_mismatch THEN
+    RAISE NOTICE '⚠ Could not add some foreign key constraints - ID type mismatch. Invoices will work without foreign keys.';
+END $$;
 
 -- Invoice Items Table
 CREATE TABLE IF NOT EXISTS invoice_items (
@@ -160,7 +206,7 @@ CREATE TABLE IF NOT EXISTS invoice_payments (
   notes TEXT,
   
   -- Recording
-  recorded_by_id UUID REFERENCES admins(id) ON DELETE SET NULL,
+  recorded_by_id TEXT,
   
   -- Timestamps
   created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
@@ -169,6 +215,25 @@ CREATE TABLE IF NOT EXISTS invoice_payments (
   -- Constraints
   CONSTRAINT positive_payment_amount CHECK (amount > 0)
 );
+
+-- Add foreign key constraints for invoice_payments (if admins table exists)
+DO $$
+BEGIN
+  IF EXISTS (SELECT 1 FROM information_schema.tables WHERE table_name = 'admins') THEN
+    IF NOT EXISTS (
+      SELECT 1 FROM information_schema.table_constraints 
+      WHERE constraint_name = 'invoice_payments_recorded_by_id_fkey' 
+        AND table_name = 'invoice_payments'
+    ) THEN
+      ALTER TABLE invoice_payments ADD CONSTRAINT invoice_payments_recorded_by_id_fkey 
+        FOREIGN KEY (recorded_by_id) REFERENCES admins(id) ON DELETE SET NULL;
+      RAISE NOTICE '✓ Added foreign key constraint: invoice_payments_recorded_by_id_fkey';
+    END IF;
+  END IF;
+EXCEPTION
+  WHEN foreign_key_violation OR datatype_mismatch THEN
+    RAISE NOTICE '⚠ Could not add invoice_payments foreign key - ID type mismatch';
+END $$;
 
 -- Invoice History/Audit Table
 CREATE TABLE IF NOT EXISTS invoice_history (
@@ -181,7 +246,7 @@ CREATE TABLE IF NOT EXISTS invoice_history (
   new_value TEXT,
   
   -- Who & When
-  performed_by_id UUID REFERENCES admins(id) ON DELETE SET NULL,
+  performed_by_id TEXT,
   performed_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
   
   -- Additional Context
@@ -189,6 +254,25 @@ CREATE TABLE IF NOT EXISTS invoice_history (
   ip_address INET,
   user_agent TEXT
 );
+
+-- Add foreign key constraints for invoice_history (if admins table exists)
+DO $$
+BEGIN
+  IF EXISTS (SELECT 1 FROM information_schema.tables WHERE table_name = 'admins') THEN
+    IF NOT EXISTS (
+      SELECT 1 FROM information_schema.table_constraints 
+      WHERE constraint_name = 'invoice_history_performed_by_id_fkey' 
+        AND table_name = 'invoice_history'
+    ) THEN
+      ALTER TABLE invoice_history ADD CONSTRAINT invoice_history_performed_by_id_fkey 
+        FOREIGN KEY (performed_by_id) REFERENCES admins(id) ON DELETE SET NULL;
+      RAISE NOTICE '✓ Added foreign key constraint: invoice_history_performed_by_id_fkey';
+    END IF;
+  END IF;
+EXCEPTION
+  WHEN foreign_key_violation OR datatype_mismatch THEN
+    RAISE NOTICE '⚠ Could not add invoice_history foreign key - ID type mismatch';
+END $$;
 
 -- ============================================================
 -- SECTION 3: CREATE INDEXES FOR PERFORMANCE
