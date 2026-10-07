@@ -494,3 +494,166 @@ Complete admin panel for managing all aspects of the VeyraTech business includin
 7. Enhanced email system
 
 All features are fully integrated with the database, authenticated, and ready for production use.
+
+
+---
+
+### 17. Invoice Generator (`/admin/invoices`) **NEW!**
+**Files:**
+- `app/admin/invoices/page.tsx` - Invoice creation interface
+- `app/api/admin/invoices/generate/route.ts` - Invoice generation API
+- `lib/invoices/generator.ts` - Professional invoice HTML generator
+
+**Function:**
+- Generate professional invoices with VeyraTech branding and logo
+- Automatically calculate 16% VAT (Kenya standard tax rate)
+- Support multiple line items with quantity and unit pricing
+- Auto-generate unique invoice numbers (Format: INV-YYYYMM-XXXX)
+- Format currency in KSH with proper locale formatting
+- Send invoices directly via email to clients
+- Preview invoices before sending
+- Include payment information (M-Pesa and Bank Transfer)
+- Add custom notes and payment terms
+
+**Invoice Features:**
+- VeyraTech SVG logo in header
+- Professional gradient design with brand colors
+- Client information section (name, company, email, address)
+- Itemized services/products table with:
+  - Description
+  - Quantity
+  - Unit Price (KSH)
+  - Total (KSH)
+- Financial calculations:
+  - Subtotal
+  - VAT at 16%
+  - Grand Total
+- Payment Information box with:
+  - M-Pesa number
+  - Bank transfer details
+  - 30-day payment terms
+- Additional notes section
+- Professional footer with company details
+- Print-friendly layout
+- Responsive design for all devices
+
+**Email Delivery:**
+- Sends invoice as HTML attachment
+- Beautiful branded email template
+- Payment instructions included
+- Professional formatting
+
+**Use Cases:**
+- Billing clients for consulting services
+- Project milestone invoicing
+- Retainer invoices
+- One-time service charges
+- Multi-item project billing
+
+---
+
+### 18. Enhanced Proposal Generator (Updated)
+**Files:**
+- `app/admin/proposals/[id]/page.tsx` - Enhanced with Send button
+- `app/api/admin/proposals/[id]/send/route.ts` - Email sending API **NEW!**
+- `app/api/admin/proposals/[id]/preview/route.ts` - Preview API **NEW!**
+- `lib/proposals/generator.ts` - Updated with logo and improved design
+
+**New Enhancements:**
+- **Send Proposal Button:** Directly email proposals to clients from the detail page
+- **Preview Functionality:** View proposals in browser before sending
+- **VeyraTech SVG Logo:** Professional logo integrated into proposal header
+- **Improved Design:** 
+  - Gradient backgrounds for headers
+  - Professional color scheme
+  - Better typography and spacing
+  - Investment highlight box
+  - Call-to-action section
+- **Email Integration:**
+  - Branded email templates
+  - Proposal attached as HTML
+  - Professional message to client
+  - Tracking when proposals are sent
+- **Status Updates:** Automatically updates proposal status to "SENT" after emailing
+
+**Proposal Sections:**
+- Executive Summary
+- Understanding Your Challenge (Problem Statement)
+- Our Proposed Solution
+- Our Methodology (Optional)
+- Scope of Work
+- Deliverables (with bullet list)
+- Project Timeline
+- Your Team (Optional)
+- Relevant Experience/Case Studies (Optional)
+- Investment (highlighted in gradient box)
+- Terms & Conditions (Optional)
+- Next Steps (Optional)
+- Call to Action with contact button
+
+**Technical Improvements:**
+- Responsive design for mobile and desktop
+- Print-optimized CSS
+- Professional PDF-like appearance
+- SEO-friendly structure
+- Accessibility compliant
+
+---
+
+## Email System
+**Integration:** Resend API
+**Template System:** Custom branded templates with VeyraTech colors and logo
+
+**Capabilities:**
+- Send professional branded emails
+- Attach HTML documents (invoices, proposals)
+- Track email delivery
+- Beautiful responsive templates
+- Company branding throughout
+- Reply-to configuration
+
+**Email Templates Used For:**
+- Proposal delivery
+- Invoice delivery
+- Consultation confirmations
+- General client communications
+
+---
+
+## Design System
+**Brand Colors:**
+- Primary: #0D2340 (Navy Blue)
+- Secondary: #FC8436 (Orange)
+- Text Primary: #FFFFFF (White)
+- Text Secondary: #E5E5E5 (Light Gray)
+- Background: #081A30 (Dark Blue)
+
+**Logo:**
+- SVG-based vector logo
+- Responsive sizing
+- Used in proposals, invoices, and emails
+- Orange accent box with white checkmark/arrow symbol
+
+**Typography:**
+- Font Family: Inter, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto
+- Professional and modern styling
+- Optimized for readability
+
+---
+
+## Recent Updates
+
+**December 2024:**
+- ✅ Added Invoice Generator with email sending
+- ✅ Enhanced Proposal Generator with send functionality
+- ✅ Integrated VeyraTech SVG logo in documents
+- ✅ Improved email templates
+- ✅ Added preview capabilities for proposals
+- ✅ Professional document designs with branding
+- ✅ VAT calculation for Kenya (16%)
+- ✅ M-Pesa payment information integration
+
+---
+
+*Document last updated: December 2024*
+*For support: admin@veyratech.co.ke | +254 745 247 211*
