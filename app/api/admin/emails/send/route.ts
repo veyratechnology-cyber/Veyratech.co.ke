@@ -5,6 +5,9 @@ import { sendEmail } from '@/lib/email/resend-client';
 import { customBusinessEmail, proposalEmail, followUpEmail } from '@/lib/email/templates';
 import { z } from 'zod';
 
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 /**
  * Send Email from Admin Panel
  * POST /api/admin/emails/send
