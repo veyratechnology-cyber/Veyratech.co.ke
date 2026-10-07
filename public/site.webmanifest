@@ -1,0 +1,25 @@
+{
+  "name": "VeyraTech - Technology Consulting Kenya",
+  "short_name": "VeyraTech",
+  "description": "Enterprise technology consulting, cloud solutions, and digital transformation services in Kenya",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0a0f1e",
+  "theme_color": "#f97316",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": [
+    "business",
+    "technology",
+    "consulting"
+  ],
+  "lang": "en-US",
+  "dir": "ltr"
+}
