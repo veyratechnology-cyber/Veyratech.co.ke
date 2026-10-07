@@ -302,7 +302,12 @@ export function generateInvoiceHTML(data: InvoiceData): string {
     <!-- Header -->
     <div class="header">
       <div class="company-info">
-        <h1>VeyraTech</h1>
+        <!-- VeyraTech Logo -->
+        <svg width="160" height="45" viewBox="0 0 160 45" xmlns="http://www.w3.org/2000/svg" style="margin-bottom: 12px;">
+          <rect x="0" y="7" width="36" height="28" fill="#FC8436" rx="4"/>
+          <path d="M 7 17 L 18 30 L 29 17" stroke="white" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+          <text x="44" y="28" font-family="Arial, sans-serif" font-size="20" font-weight="bold" fill="#FC8436">VeyraTech</text>
+        </svg>
         <p class="tagline">Technology Consulting & AI Strategy</p>
         <p><strong>Location:</strong> Nairobi, Kenya</p>
         <p><strong>Phone:</strong> +254 745 247 211</p>

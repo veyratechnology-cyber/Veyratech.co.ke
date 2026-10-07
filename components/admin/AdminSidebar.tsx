@@ -21,6 +21,7 @@ import {
   Newspaper,
   UsersRound,
   DollarSign,
+  Receipt,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -71,6 +72,11 @@ const navItems: NavItem[] = [
     label: "Proposals",
     href: "/admin/proposals",
     icon: <FileText size={20} />,
+  },
+  {
+    label: "Invoices",
+    href: "/admin/invoices",
+    icon: <Receipt size={20} />,
   },
   {
     label: "Projects",
