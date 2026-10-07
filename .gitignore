@@ -43,6 +43,15 @@ next-env.d.ts
 # sql files
 *.sql
 
+# sensitive files
+*secret*
+*password*
+*credential*
+*auth*.txt
+*token*
+*.key
+*.pem
+
 # uploads
 /uploads
 
