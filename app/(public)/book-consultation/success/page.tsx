@@ -215,7 +215,10 @@ export default async function ConsultationSuccessPage({ searchParams }: PageProp
                   </div>
                   <p className="text-text-primary">
                     <strong>Confirmation Email:</strong> You'll receive a detailed confirmation
-                    email with all meeting information{consultation.googleMeetLink ? " and the Google Meet link" : ""}.
+                    email with all meeting information
+                    {isScheduled && consultation.meetingType === "GOOGLE_MEET"
+                      ? " and the Google Meet link"
+                      : ""}.
                   </p>
                 </div>
                 <div className="flex items-start gap-3">
@@ -223,8 +226,10 @@ export default async function ConsultationSuccessPage({ searchParams }: PageProp
                     <span className="text-secondary font-bold">2</span>
                   </div>
                   <p className="text-text-primary">
-                    <strong>Calendar Invite:</strong> The meeting has been added to your calendar
-                    automatically.
+                    <strong>Calendar Invite:</strong>{" "}
+                    {isScheduled
+                      ? "Your calendar invite is being prepared and will arrive by email."
+                      : "We'll coordinate a suitable time with you."}
                   </p>
                 </div>
                 <div className="flex items-start gap-3">
