@@ -28,6 +28,7 @@
     "@prisma/client": "^5.12.1",
     "@react-email/components": "^1.0.12",
     "@react-email/render": "^1.0.0",
+    "@vercel/functions": "^3.9.11",
     "bcryptjs": "^2.4.3",
     "clsx": "^2.1.1",
     "daraja-kit": "^1.2.0",

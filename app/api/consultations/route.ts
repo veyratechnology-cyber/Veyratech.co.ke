@@ -12,6 +12,7 @@
  */
 
 import { NextRequest, NextResponse } from "next/server";
+import { waitUntil } from "@vercel/functions";
 import prisma from "@/lib/db/prisma";
 import { z } from "zod";
 import { reserveTimeSlot } from "@/lib/scheduling";
@@ -130,11 +131,13 @@ function getClientIp(request: NextRequest): string {
 const consultationSchema = z.object({
   // Personal Information - REQUIRED & VALIDATED
   name: z.string()
+    .trim()
     .min(2, "Name must be at least 2 characters")
     .max(100, "Name is too long")
-    .regex(/^[a-zA-Z\s'-]+$/, "Name contains invalid characters"),
+    .regex(/^[\p{L}\p{M}\s'-]+$/u, "Name contains invalid characters"),
   
   email: z.string()
+    .trim()
     .email("Invalid email address")
     .max(254, "Email is too long")
     .toLowerCase()
@@ -143,10 +146,14 @@ const consultationSchema = z.object({
     }),
   
   phone: z.string()
+    .trim()
+    .min(7, "Phone number must contain at least 7 digits")
     .max(20, "Phone number is too long")
-    .regex(/^[\d\s+()-]+$/, "Phone number contains invalid characters")
-    .optional()
-    .nullable(),
+    .regex(/^\+?[0-9][0-9\s()-]*$/, "Phone number contains invalid characters")
+    .refine(phone => {
+      const digitCount = phone.replace(/\D/g, "").length;
+      return digitCount >= 7 && digitCount <= 15;
+    }, "Phone number must contain 7 to 15 digits"),
   
   jobTitle: z.string()
     .max(100, "Job title is too long")
@@ -169,14 +176,14 @@ const consultationSchema = z.object({
     .optional()
     .nullable(),
   
-  industry: z.enum([
+  industry: z.preprocess(value => value === "" ? undefined : value, z.enum([
     'REAL_ESTATE', 'CONSTRUCTION', 'FINANCE', 'BANKING', 'INSURANCE',
     'RETAIL', 'HEALTHCARE', 'HOSPITALITY', 'EDUCATION', 'MANUFACTURING',
     'LOGISTICS_TRANSPORT', 'AGRICULTURE', 'PROFESSIONAL_SERVICES',
     'TECHNOLOGY', 'MEDIA_ENTERTAINMENT', 'ECOMMERCE', 'GOVERNMENT_NGO', 'OTHER'
   ])
     .optional()
-    .nullable(),
+    .nullable()),
   
   companySize: z.enum([
     'SIZE_1_10', 'SIZE_11_50', 'SIZE_51_100', 'SIZE_101_500', 'SIZE_500_PLUS'
@@ -196,18 +203,20 @@ const consultationSchema = z.object({
   
   // Consultation Information - VALIDATED
   consultationTypes: z.array(z.enum([
-    'TECHNOLOGY_STRATEGY', 'AI_CONSULTING', 'AUTOMATION',
-    'DIGITAL_TRANSFORMATION', 'SOFTWARE_SYSTEMS', 'TECHNOLOGY_ADVISORY',
-    'CLOUD_SOLUTIONS', 'CYBERSECURITY', 'DATA_ANALYTICS'
+    'AI_ADOPTION', 'AI_STRATEGY', 'BUSINESS_AUTOMATION',
+    'DIGITAL_TRANSFORMATION', 'TECHNOLOGY_STRATEGY',
+    'SOFTWARE_DEVELOPMENT', 'TECHNOLOGY_AUDIT', 'DATA_ANALYTICS',
+    'CYBERSECURITY', 'BUSINESS_PROCESS_OPTIMIZATION',
+    'CUSTOM_SOLUTION', 'OTHER'
   ]))
     .max(5, "Too many consultation types selected")
     .optional()
     .nullable(),
   
   businessChallenge: z.string()
-    .max(2000, "Business challenge is too long")
-    .optional()
-    .nullable(),
+    .trim()
+    .min(10, "Please describe your main challenge in at least 10 characters")
+    .max(2000, "Business challenge is too long"),
   
   desiredOutcome: z.string()
     .max(2000, "Desired outcome is too long")
@@ -225,11 +234,11 @@ const consultationSchema = z.object({
     .nullable(),
   
   // Meeting Information - VALIDATED
-  meetingType: z.enum(['GOOGLE_MEET', 'PHONE', 'IN_PERSON', 'ZOOM', 'TEAMS'])
+  meetingType: z.enum(['GOOGLE_MEET', 'PHONE', 'IN_PERSON'])
     .optional()
     .nullable(),
   
-  preferredDate: z.string()
+  preferredDate: z.preprocess(value => value === "" ? undefined : value, z.string()
     .regex(/^\d{4}-\d{2}-\d{2}$/, "Invalid date format (use YYYY-MM-DD)")
     .refine(date => {
       const selectedDate = new Date(date);
@@ -238,17 +247,25 @@ const consultationSchema = z.object({
       return selectedDate >= today;
     }, "Preferred date cannot be in the past")
     .optional()
-    .nullable(),
+    .nullable()),
   
-  preferredTime: z.string()
+  preferredTime: z.preprocess(value => value === "" ? undefined : value, z.string()
     .regex(/^([01]\d|2[0-3]):([0-5]\d)$/, "Invalid time format (use HH:MM)")
     .optional()
-    .nullable(),
+    .nullable()),
   
   meetingLocation: z.string()
     .max(500, "Meeting location is too long")
     .optional()
     .nullable(),
+}).superRefine((data, context) => {
+  if (Boolean(data.preferredDate) !== Boolean(data.preferredTime)) {
+    context.addIssue({
+      code: z.ZodIssueCode.custom,
+      path: [data.preferredDate ? "preferredTime" : "preferredDate"],
+      message: "Preferred date and time must be provided together",
+    });
+  }
 });
 
 /**
@@ -450,6 +467,7 @@ export async function POST(request: NextRequest) {
       wasRescheduled,
     });
     
+    waitUntil((async () => {
     // ==========================================================================
     // INTEGRATION: GOOGLE CALENDAR
     // ==========================================================================
@@ -590,6 +608,9 @@ export async function POST(request: NextRequest) {
       console.error(`[${requestId}] Multi-channel notification failed:`, notificationError);
       // Don't fail booking if notifications fail
     }
+    })().catch((followUpError) => {
+      console.error(`[${requestId}] Post-booking follow-up failed:`, followUpError);
+    }));
     
     // ==========================================================================
     // SUCCESS RESPONSE
@@ -602,7 +623,6 @@ export async function POST(request: NextRequest) {
         scheduled: !!actualScheduledAt,
         actualScheduledAt: actualScheduledAt?.toISOString(),
         wasRescheduled,
-        googleMeetLink,
       },
       { status: 201 }
     );

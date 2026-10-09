@@ -168,34 +168,46 @@ export default function BookConsultationPage() {
                     <Input
                       label="Full Name *"
                       name="name"
+                      autoComplete="name"
                       value={formData.name}
                       onChange={handleChange}
                       required
+                      minLength={2}
+                      maxLength={100}
                       placeholder="John Doe"
                     />
                     <Input
                       label="Email Address *"
                       name="email"
                       type="email"
+                      autoComplete="email"
                       value={formData.email}
                       onChange={handleChange}
                       required
+                      maxLength={254}
                       placeholder="john@company.com"
                     />
                     <Input
                       label="Phone Number *"
                       name="phone"
                       type="tel"
+                      autoComplete="tel"
                       value={formData.phone}
                       onChange={handleChange}
                       required
+                      minLength={7}
+                      maxLength={20}
+                      pattern="(?=(?:\D*\d){7,15}\D*$)\+?[0-9][0-9\s()-]{6,19}"
+                      title="Enter a phone number with 7 to 15 digits."
                       placeholder="+254 712 345 678"
                     />
                     <Input
                       label="Company Name"
                       name="company"
+                      autoComplete="organization"
                       value={formData.company}
                       onChange={handleChange}
+                      maxLength={200}
                       placeholder="Your Company Ltd"
                     />
                   </div>
@@ -234,11 +246,16 @@ export default function BookConsultationPage() {
                             key={type.value}
                             type="button"
                             onClick={() => handleConsultationTypeToggle(type.value)}
+                            aria-pressed={formData.consultationTypes.includes(type.value)}
+                            disabled={
+                              !formData.consultationTypes.includes(type.value) &&
+                              formData.consultationTypes.length >= 5
+                            }
                             className={`p-3 rounded-lg border-2 text-left transition-all text-sm ${
                               formData.consultationTypes.includes(type.value)
                                 ? "border-secondary bg-secondary/10 text-secondary font-semibold"
                                 : "border-border hover:border-secondary/50"
-                            }`}
+                            } disabled:opacity-50 disabled:cursor-not-allowed`}
                           >
                             {type.label}
                           </button>
@@ -252,6 +269,8 @@ export default function BookConsultationPage() {
                       value={formData.businessChallenge}
                       onChange={handleChange}
                       required
+                      minLength={10}
+                      maxLength={2000}
                       rows={4}
                       placeholder="Tell us briefly about the challenge you're facing or what you're hoping to achieve..."
                     />
@@ -301,6 +320,7 @@ export default function BookConsultationPage() {
                         type="date"
                         value={formData.preferredDate}
                         onChange={handleChange}
+                        required={Boolean(formData.preferredTime)}
                         min={new Date().toISOString().split("T")[0]}
                       />
                       <Input
@@ -309,6 +329,7 @@ export default function BookConsultationPage() {
                         type="time"
                         value={formData.preferredTime}
                         onChange={handleChange}
+                        required={Boolean(formData.preferredDate)}
                       />
                     </div>
 
