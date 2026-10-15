@@ -79,28 +79,28 @@ export default function PortfolioPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#0a0a0a] via-[#111111] to-[#0a0a0a]">
+    <div className="min-h-screen bg-gradient-to-br from-primary via-primary-dark to-primary">
       {/* Animated Background Elements */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-20 left-10 w-72 h-72 bg-secondary/5 rounded-full blur-3xl animate-pulse"></div>
-        <div className="absolute bottom-20 right-10 w-96 h-96 bg-blue-500/5 rounded-full blur-3xl animate-pulse delay-1000"></div>
-        <div className="absolute top-1/2 left-1/2 w-80 h-80 bg-purple-500/5 rounded-full blur-3xl animate-pulse delay-500"></div>
+        <div className="absolute top-20 left-10 w-72 h-72 bg-secondary/10 rounded-full blur-3xl animate-pulse"></div>
+        <div className="absolute bottom-20 right-10 w-96 h-96 bg-secondary/5 rounded-full blur-3xl animate-pulse delay-1000"></div>
+        <div className="absolute top-1/2 left-1/2 w-80 h-80 bg-secondary/8 rounded-full blur-3xl animate-pulse delay-500"></div>
       </div>
 
       {/* Floating Navigation */}
       <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        scrolled ? 'bg-[#0a0a0a]/80 backdrop-blur-xl border-b border-white/5 py-4' : 'py-6'
+        scrolled ? 'bg-primary/90 backdrop-blur-xl border-b border-white/5 py-4' : 'py-6'
       }`}>
         <div className="container-custom flex justify-between items-center">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-full bg-gradient-to-br from-secondary to-blue-500 flex items-center justify-center font-bold text-white">
+            <div className="w-10 h-10 rounded-full bg-secondary flex items-center justify-center font-bold text-white shadow-secondary-glow">
               AG
             </div>
             <span className="font-sora font-bold text-white hidden sm:block">Aggrey Ogeto</span>
           </div>
           <a 
             href="mailto:aggrey@veyratech.co.ke"
-            className="px-6 py-2.5 bg-gradient-to-r from-secondary to-blue-500 hover:from-secondary/90 hover:to-blue-500/90 rounded-full text-white font-medium transition-all duration-300 flex items-center gap-2 shadow-lg shadow-secondary/20"
+            className="px-6 py-2.5 bg-secondary hover:bg-secondary-hover rounded-full text-white font-medium transition-all duration-300 flex items-center gap-2 shadow-secondary-glow"
           >
             <span>Get In Touch</span>
             <ArrowRight size={16} />
@@ -113,40 +113,8 @@ export default function PortfolioPage() {
         <div className="container-custom">
           <div className="max-w-6xl mx-auto">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-              {/* Left: Profile Image */}
-              <div className="relative order-2 lg:order-1">
-                <div className="relative w-full aspect-square max-w-md mx-auto">
-                  {/* Animated Border */}
-                  <div className="absolute inset-0 bg-gradient-to-r from-secondary via-blue-500 to-purple-500 rounded-3xl animate-spin-slow blur-xl opacity-30"></div>
-                  
-                  {/* Profile Picture Container */}
-                  <div className="relative bg-gradient-to-br from-[#1a1a1a] to-[#0f0f0f] rounded-3xl p-2 border border-white/10">
-                    <div className="relative w-full h-full rounded-2xl overflow-hidden bg-gradient-to-br from-secondary/20 to-blue-500/20">
-                      {/* Placeholder - Replace with actual image */}
-                      <div className="w-full h-full flex items-center justify-center">
-                        <div className="text-8xl font-bold bg-gradient-to-r from-secondary to-blue-500 bg-clip-text text-transparent">
-                          AG
-                        </div>
-                      </div>
-                      {/* When you have the image, replace above div with: */}
-                      {/* <Image 
-                        src="/images/profile.jpg" 
-                        alt="Aggrey Gisemba Ogeto" 
-                        fill
-                        className="object-cover"
-                      /> */}
-                    </div>
-                  </div>
-
-                  {/* Floating Badge */}
-                  <div className="absolute -bottom-4 -right-4 bg-gradient-to-r from-secondary to-blue-500 rounded-2xl p-4 shadow-2xl shadow-secondary/30 animate-float">
-                    <Award className="text-white" size={32} />
-                  </div>
-                </div>
-              </div>
-
-              {/* Right: Intro Content */}
-              <div className="order-1 lg:order-2 text-center lg:text-left">
+              {/* Left: Intro Content */}
+              <div className="order-1 lg:order-1 text-center lg:text-left">
                 <div className="inline-flex items-center gap-2 px-4 py-2 bg-secondary/10 border border-secondary/20 rounded-full text-secondary text-sm font-medium mb-6">
                   <Sparkles size={16} />
                   <span>Available for Consulting</span>
@@ -155,7 +123,7 @@ export default function PortfolioPage() {
                 <h1 className="text-5xl md:text-7xl font-sora font-bold text-white mb-6 leading-tight">
                   Aggrey Gisemba
                   <br />
-                  <span className="bg-gradient-to-r from-secondary via-blue-500 to-purple-500 bg-clip-text text-transparent">
+                  <span className="text-secondary">
                     Ogeto
                   </span>
                 </h1>
@@ -191,7 +159,7 @@ export default function PortfolioPage() {
                     <Button 
                       variant="primary" 
                       size="lg"
-                      className="bg-gradient-to-r from-secondary to-blue-500 hover:from-secondary/90 hover:to-blue-500/90 text-white border-0 shadow-lg shadow-secondary/30"
+                      className="bg-secondary hover:bg-secondary-hover text-white border-0 shadow-secondary-lg"
                     >
                       <Send size={20} />
                       <span>Start a Project</span>
@@ -240,6 +208,38 @@ export default function PortfolioPage() {
                   </a>
                 </div>
               </div>
+
+              {/* Right: Profile Image */}
+              <div className="relative order-2 lg:order-2">
+                <div className="relative w-full aspect-square max-w-md mx-auto">
+                  {/* Animated Border */}
+                  <div className="absolute inset-0 bg-secondary rounded-3xl animate-spin-slow blur-xl opacity-20"></div>
+                  
+                  {/* Profile Picture Container */}
+                  <div className="relative bg-gradient-to-br from-primary-dark to-primary rounded-3xl p-2 border border-secondary/20">
+                    <div className="relative w-full h-full rounded-2xl overflow-hidden bg-gradient-to-br from-secondary/20 to-secondary/10">
+                      {/* Placeholder - Replace with actual image */}
+                      <div className="w-full h-full flex items-center justify-center">
+                        <div className="text-8xl font-bold text-secondary">
+                          AG
+                        </div>
+                      </div>
+                      {/* When you have the image, replace above div with: */}
+                      {/* <Image 
+                        src="/images/profile.jpg" 
+                        alt="Aggrey Gisemba Ogeto" 
+                        fill
+                        className="object-cover"
+                      /> */}
+                    </div>
+                  </div>
+
+                  {/* Floating Badge */}
+                  <div className="absolute -bottom-4 -right-4 bg-secondary rounded-2xl p-4 shadow-secondary-lg animate-float">
+                    <Award className="text-white" size={32} />
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -270,8 +270,8 @@ export default function PortfolioPage() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-7xl mx-auto">
             {/* AI Strategy */}
-            <div className="group relative bg-gradient-to-br from-white/5 to-white/0 backdrop-blur-sm rounded-2xl p-6 border border-white/10 hover:border-secondary/50 transition-all duration-300 hover:scale-105">
-              <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-secondary/20 to-secondary/5 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
+            <div className="group relative bg-gradient-to-br from-white/5 to-white/0 backdrop-blur-sm rounded-2xl p-6 border border-white/10 hover:border-secondary hover:shadow-secondary-glow transition-all duration-300 hover:scale-105">
+              <div className="w-14 h-14 rounded-xl bg-secondary/20 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
                 <Brain className="text-secondary" size={28} />
               </div>
               <h3 className="text-xl font-sora font-bold text-white mb-3">
@@ -283,9 +283,9 @@ export default function PortfolioPage() {
             </div>
 
             {/* Automation */}
-            <div className="group relative bg-gradient-to-br from-white/5 to-white/0 backdrop-blur-sm rounded-2xl p-6 border border-white/10 hover:border-blue-500/50 transition-all duration-300 hover:scale-105">
-              <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-blue-500/20 to-blue-500/5 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
-                <Zap className="text-blue-400" size={28} />
+            <div className="group relative bg-gradient-to-br from-white/5 to-white/0 backdrop-blur-sm rounded-2xl p-6 border border-white/10 hover:border-secondary hover:shadow-secondary-glow transition-all duration-300 hover:scale-105">
+              <div className="w-14 h-14 rounded-xl bg-secondary/20 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
+                <Zap className="text-secondary" size={28} />
               </div>
               <h3 className="text-xl font-sora font-bold text-white mb-3">
                 Automation
@@ -296,9 +296,9 @@ export default function PortfolioPage() {
             </div>
 
             {/* Development */}
-            <div className="group relative bg-gradient-to-br from-white/5 to-white/0 backdrop-blur-sm rounded-2xl p-6 border border-white/10 hover:border-purple-500/50 transition-all duration-300 hover:scale-105">
-              <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-purple-500/20 to-purple-500/5 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
-                <Code2 className="text-purple-400" size={28} />
+            <div className="group relative bg-gradient-to-br from-white/5 to-white/0 backdrop-blur-sm rounded-2xl p-6 border border-white/10 hover:border-secondary hover:shadow-secondary-glow transition-all duration-300 hover:scale-105">
+              <div className="w-14 h-14 rounded-xl bg-secondary/20 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
+                <Code2 className="text-secondary" size={28} />
               </div>
               <h3 className="text-xl font-sora font-bold text-white mb-3">
                 Development
@@ -309,9 +309,9 @@ export default function PortfolioPage() {
             </div>
 
             {/* Consulting */}
-            <div className="group relative bg-gradient-to-br from-white/5 to-white/0 backdrop-blur-sm rounded-2xl p-6 border border-white/10 hover:border-green-500/50 transition-all duration-300 hover:scale-105">
-              <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-green-500/20 to-green-500/5 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
-                <Users className="text-green-400" size={28} />
+            <div className="group relative bg-gradient-to-br from-white/5 to-white/0 backdrop-blur-sm rounded-2xl p-6 border border-white/10 hover:border-secondary hover:shadow-secondary-glow transition-all duration-300 hover:scale-105">
+              <div className="w-14 h-14 rounded-xl bg-secondary/20 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
+                <Users className="text-secondary" size={28} />
               </div>
               <h3 className="text-xl font-sora font-bold text-white mb-3">
                 Consulting
@@ -325,12 +325,12 @@ export default function PortfolioPage() {
       </section>
 
       {/* VeyraTech Showcase */}
-      <section className="section relative bg-gradient-to-br from-secondary/5 to-blue-500/5">
+      <section className="section relative bg-gradient-to-br from-secondary/5 to-secondary/10">
         <div className="container-custom">
           <div className="max-w-5xl mx-auto">
-            <div className="bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-xl rounded-3xl p-8 md:p-12 border border-white/10 shadow-2xl">
+            <div className="bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-xl rounded-3xl p-8 md:p-12 border border-secondary/20 shadow-secondary-lg">
               <div className="flex items-start gap-6 mb-8">
-                <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-secondary to-blue-500 flex items-center justify-center flex-shrink-0 shadow-lg shadow-secondary/30">
+                <div className="w-20 h-20 rounded-2xl bg-secondary flex items-center justify-center flex-shrink-0 shadow-secondary-lg">
                   <Briefcase size={36} className="text-white" />
                 </div>
                 <div className="flex-1">
@@ -375,7 +375,7 @@ export default function PortfolioPage() {
                 href="https://veyratech.co.ke" 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-secondary to-blue-500 hover:from-secondary/90 hover:to-blue-500/90 rounded-xl text-white font-medium transition-all duration-300 shadow-lg shadow-secondary/20"
+                className="inline-flex items-center gap-2 px-6 py-3 bg-secondary hover:bg-secondary-hover rounded-xl text-white font-medium transition-all duration-300 shadow-secondary-lg"
               >
                 <span>Visit VeyraTech</span>
                 <ArrowRight size={18} />
@@ -500,7 +500,7 @@ export default function PortfolioPage() {
                   <Button 
                     type="submit" 
                     size="lg" 
-                    className="w-full bg-gradient-to-r from-secondary to-blue-500 hover:from-secondary/90 hover:to-blue-500/90 text-white border-0 shadow-lg shadow-secondary/30 text-lg"
+                    className="w-full bg-secondary hover:bg-secondary-hover text-white border-0 shadow-secondary-lg text-lg"
                     disabled={isSubmitting}
                   >
                     {isSubmitting ? (
