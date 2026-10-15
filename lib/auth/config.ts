@@ -3,6 +3,12 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import { compare } from "bcryptjs";
 import { safePrismaQuery } from "@/lib/prisma";
 import prisma from "@/lib/db/prisma";
+import { 
+  checkRateLimit, 
+  recordFailedLogin, 
+  clearLoginAttempts,
+  getClientIP 
+} from "@/lib/auth/security";
 
 /**
  * NextAuth Configuration - Production Ready
@@ -16,11 +22,23 @@ export const authOptions: NextAuthOptions = {
         email: { label: "Email", type: "email" },
         password: { label: "Password", type: "password" },
       },
-      async authorize(credentials) {
+      async authorize(credentials, req) {
         console.log("[AUTH] Login attempt started");
+
+        // Get client IP for rate limiting
+        const ip = req?.headers ? getClientIP(new Headers(req.headers as Record<string, string>)) : 'unknown';
+        
+        // Check rate limit
+        const rateLimit = checkRateLimit(ip);
+        if (!rateLimit.allowed) {
+          console.log(`[AUTH] Rate limit exceeded for IP: ${ip}`);
+          recordFailedLogin(ip);
+          throw new Error('Too many login attempts. Please try again later.');
+        }
 
         if (!credentials?.email || !credentials?.password) {
           console.log("[AUTH] Missing credentials");
+          recordFailedLogin(ip);
           return null;
         }
 
@@ -43,11 +61,13 @@ export const authOptions: NextAuthOptions = {
 
           if (!admin) {
             console.log("[AUTH] User not found");
+            recordFailedLogin(ip);
             return null;
           }
 
           if (admin.status !== "ACTIVE") {
             console.log("[AUTH] Account inactive");
+            recordFailedLogin(ip);
             return null;
           }
 
@@ -61,10 +81,14 @@ export const authOptions: NextAuthOptions = {
 
           if (!isPasswordValid) {
             console.log("[AUTH] Invalid password");
+            recordFailedLogin(ip);
             return null;
           }
 
           console.log("[AUTH] Login successful:", email);
+          
+          // Clear rate limit on successful login
+          clearLoginAttempts(ip);
 
           // Non-blocking: Update last login
           prisma.admin
@@ -94,6 +118,7 @@ export const authOptions: NextAuthOptions = {
           };
         } catch (error) {
           console.error("[AUTH] Database error:", error instanceof Error ? error.message : String(error));
+          recordFailedLogin(ip);
           return null;
         }
       },
