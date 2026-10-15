@@ -2,7 +2,7 @@ import React from "react";
 import Link from "next/link";
 import { Button, Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/shared";
 import { METHODOLOGY, PRINCIPLES, SERVICE_AREAS } from "@/lib/constants";
-import { ArrowRight, CheckCircle, Target, Lightbulb, Code, TrendingUp, Shield, Users, Clock, Award } from "lucide-react";
+import { ArrowRight, CheckCircle, Target, Lightbulb, Code, TrendingUp, Shield, Users, Clock } from "lucide-react";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -24,11 +24,6 @@ export default function HomePage() {
         
         <div className="container-custom relative z-10 py-20 md:py-28">
           <div className="max-w-4xl mx-auto text-center">
-            <div className="inline-flex items-center gap-2 bg-secondary/10 border border-secondary/30 rounded-full px-4 py-2 mb-6">
-              <Award size={16} className="text-secondary" />
-              <span className="text-secondary font-semibold text-sm">Trusted by 50+ Businesses Across Africa</span>
-            </div>
-            
             <h1 className="text-4xl md:text-6xl lg:text-7xl font-sora font-bold mb-6 leading-tight text-text-primary">
               Technology Solutions
               <br />
@@ -44,7 +39,7 @@ export default function HomePage() {
               No buzzwords. No unnecessary complexity. Just practical technology and AI consulting that helps your business grow.
             </p>
             
-            <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link href="/book-consultation">
                 <Button variant="primary" size="lg" className="text-lg px-8 py-6 shadow-lg hover:shadow-xl transition-all">
                   Book Free Consultation
@@ -56,22 +51,6 @@ export default function HomePage() {
                   Explore Services
                 </Button>
               </Link>
-            </div>
-
-            {/* Trust Indicators */}
-            <div className="grid grid-cols-3 gap-6 max-w-2xl mx-auto pt-8 border-t border-border/50">
-              <div className="text-center">
-                <div className="text-3xl font-bold text-secondary mb-1">50+</div>
-                <div className="text-sm text-text-muted">Happy Clients</div>
-              </div>
-              <div className="text-center">
-                <div className="text-3xl font-bold text-secondary mb-1">95%</div>
-                <div className="text-sm text-text-muted">Success Rate</div>
-              </div>
-              <div className="text-center">
-                <div className="text-3xl font-bold text-secondary mb-1">24/7</div>
-                <div className="text-sm text-text-muted">Support Available</div>
-              </div>
             </div>
           </div>
         </div>
