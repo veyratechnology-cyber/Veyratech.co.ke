@@ -79,28 +79,26 @@ export default function PortfolioPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-primary via-primary-dark to-primary">
-      {/* Animated Background Elements */}
-      <div className="fixed inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-20 left-10 w-72 h-72 bg-secondary/10 rounded-full blur-3xl animate-pulse"></div>
-        <div className="absolute bottom-20 right-10 w-96 h-96 bg-secondary/5 rounded-full blur-3xl animate-pulse delay-1000"></div>
-        <div className="absolute top-1/2 left-1/2 w-80 h-80 bg-secondary/8 rounded-full blur-3xl animate-pulse delay-500"></div>
+    <div className="min-h-screen bg-primary">
+      {/* Subtle Background Accent */}
+      <div className="fixed inset-0 overflow-hidden pointer-events-none opacity-5">
+        <div className="absolute top-20 right-20 w-96 h-96 bg-secondary rounded-full filter blur-3xl"></div>
       </div>
 
-      {/* Floating Navigation */}
+      {/* Navigation */}
       <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        scrolled ? 'bg-primary/90 backdrop-blur-xl border-b border-white/5 py-4' : 'py-6'
+        scrolled ? 'bg-primary border-b border-border py-4' : 'py-6'
       }`}>
         <div className="container-custom flex justify-between items-center">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-full bg-secondary flex items-center justify-center font-bold text-white shadow-secondary-glow">
+            <div className="w-10 h-10 rounded-full bg-secondary flex items-center justify-center font-bold text-white">
               AG
             </div>
-            <span className="font-sora font-bold text-white hidden sm:block">Aggrey Ogeto</span>
+            <span className="font-sora font-bold text-text-primary hidden sm:block">Aggrey Ogeto</span>
           </div>
           <a 
             href="mailto:aggrey@veyratech.co.ke"
-            className="px-6 py-2.5 bg-secondary hover:bg-secondary-hover rounded-full text-white font-medium transition-all duration-300 flex items-center gap-2 shadow-secondary-glow"
+            className="px-6 py-2.5 bg-secondary hover:bg-secondary-hover rounded-lg text-white font-medium transition-colors duration-200 flex items-center gap-2"
           >
             <span>Connect With Me</span>
             <ArrowRight size={16} />
@@ -109,18 +107,18 @@ export default function PortfolioPage() {
       </nav>
 
       {/* Hero Section with Profile Picture */}
-      <section className="relative min-h-screen flex items-center justify-center pt-24 pb-16">
+      <section className="relative min-h-screen flex items-center justify-center pt-24 pb-16 bg-primary">
         <div className="container-custom">
           <div className="max-w-6xl mx-auto">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
               {/* Left: Intro Content */}
               <div className="order-1 lg:order-1 text-center lg:text-left">
-                <div className="inline-flex items-center gap-2 px-4 py-2 bg-secondary/10 border border-secondary/20 rounded-full text-secondary text-sm font-medium mb-6">
+                <div className="inline-flex items-center gap-2 px-4 py-2 bg-secondary/10 border border-secondary/20 rounded-lg text-secondary text-sm font-medium mb-6">
                   <Sparkles size={16} />
                   <span>Building VeyraTech</span>
                 </div>
 
-                <h1 className="text-5xl md:text-7xl font-sora font-bold text-white mb-6 leading-tight">
+                <h1 className="text-5xl md:text-7xl font-sora font-bold text-text-primary mb-6 leading-tight">
                   Aggrey Gisemba
                   <br />
                   <span className="text-secondary">
@@ -128,11 +126,11 @@ export default function PortfolioPage() {
                   </span>
                 </h1>
                 
-                <p className="text-2xl md:text-3xl text-white/60 mb-6 font-light">
+                <p className="text-2xl md:text-3xl text-text-secondary mb-6 font-light">
                   Technology Entrepreneur
                 </p>
                 
-                <p className="text-lg text-white/50 mb-8 leading-relaxed max-w-xl">
+                <p className="text-lg text-text-muted mb-8 leading-relaxed max-w-xl">
                   Passionate about building technology that empowers African businesses. 
                   Currently building VeyraTech—let's connect and share ideas.
                 </p>
@@ -140,16 +138,16 @@ export default function PortfolioPage() {
                 {/* Stats */}
                 <div className="grid grid-cols-3 gap-6 mb-8 max-w-xl">
                   <div className="text-center lg:text-left">
-                    <div className="text-3xl font-bold text-white mb-1">5+</div>
-                    <div className="text-sm text-white/50">Years Experience</div>
+                    <div className="text-3xl font-bold text-text-primary mb-1">5+</div>
+                    <div className="text-sm text-text-muted">Years Experience</div>
                   </div>
                   <div className="text-center lg:text-left">
-                    <div className="text-3xl font-bold text-white mb-1">50+</div>
-                    <div className="text-sm text-white/50">Projects Delivered</div>
+                    <div className="text-3xl font-bold text-text-primary mb-1">50+</div>
+                    <div className="text-sm text-text-muted">Projects Delivered</div>
                   </div>
                   <div className="text-center lg:text-left">
-                    <div className="text-3xl font-bold text-white mb-1">100%</div>
-                    <div className="text-sm text-white/50">Client Satisfaction</div>
+                    <div className="text-3xl font-bold text-text-primary mb-1">100%</div>
+                    <div className="text-sm text-text-muted">Client Satisfaction</div>
                   </div>
                 </div>
 
@@ -159,7 +157,6 @@ export default function PortfolioPage() {
                     <Button 
                       variant="primary" 
                       size="lg"
-                      className="bg-secondary hover:bg-secondary-hover text-white border-0 shadow-secondary-lg"
                     >
                       <Briefcase size={20} />
                       <span>What I'm Building</span>
@@ -167,7 +164,7 @@ export default function PortfolioPage() {
                   </a>
                   <a 
                     href="#contact"
-                    className="px-6 py-3 bg-white/5 hover:bg-white/10 backdrop-blur-sm border border-white/10 rounded-lg text-white font-medium transition-all duration-300 flex items-center gap-2"
+                    className="px-6 py-3 bg-primary-dark hover:bg-primary border border-border rounded-lg text-text-primary font-medium transition-colors duration-200 flex items-center gap-2"
                   >
                     <span>Let's Connect</span>
                     <ArrowRight size={16} />
@@ -180,7 +177,7 @@ export default function PortfolioPage() {
                     href="https://linkedin.com/in/aggrey-ogeto" 
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="w-12 h-12 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 flex items-center justify-center text-white/70 hover:text-white transition-all duration-300 hover:scale-110"
+                    className="w-12 h-12 rounded-lg bg-primary-dark hover:bg-secondary border border-border hover:border-secondary flex items-center justify-center text-text-muted hover:text-white transition-colors duration-200"
                   >
                     <Linkedin size={20} />
                   </a>
@@ -188,7 +185,7 @@ export default function PortfolioPage() {
                     href="https://github.com/aggreyogeto" 
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="w-12 h-12 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 flex items-center justify-center text-white/70 hover:text-white transition-all duration-300 hover:scale-110"
+                    className="w-12 h-12 rounded-lg bg-primary-dark hover:bg-secondary border border-border hover:border-secondary flex items-center justify-center text-text-muted hover:text-white transition-colors duration-200"
                   >
                     <Github size={20} />
                   </a>
@@ -196,13 +193,13 @@ export default function PortfolioPage() {
                     href="https://veyratech.co.ke" 
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="w-12 h-12 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 flex items-center justify-center text-white/70 hover:text-white transition-all duration-300 hover:scale-110"
+                    className="w-12 h-12 rounded-lg bg-primary-dark hover:bg-secondary border border-border hover:border-secondary flex items-center justify-center text-text-muted hover:text-white transition-colors duration-200"
                   >
                     <Globe size={20} />
                   </a>
                   <a 
                     href="mailto:aggrey@veyratech.co.ke"
-                    className="w-12 h-12 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 flex items-center justify-center text-white/70 hover:text-white transition-all duration-300 hover:scale-110"
+                    className="w-12 h-12 rounded-lg bg-primary-dark hover:bg-secondary border border-border hover:border-secondary flex items-center justify-center text-text-muted hover:text-white transition-colors duration-200"
                   >
                     <Mail size={20} />
                   </a>
@@ -212,12 +209,9 @@ export default function PortfolioPage() {
               {/* Right: Profile Image */}
               <div className="relative order-2 lg:order-2">
                 <div className="relative w-full aspect-square max-w-md mx-auto">
-                  {/* Animated Border */}
-                  <div className="absolute inset-0 bg-secondary rounded-3xl animate-spin-slow blur-xl opacity-20"></div>
-                  
                   {/* Profile Picture Container */}
-                  <div className="relative bg-gradient-to-br from-primary-dark to-primary rounded-3xl p-2 border border-secondary/20">
-                    <div className="relative w-full h-full rounded-2xl overflow-hidden bg-gradient-to-br from-secondary/20 to-secondary/10">
+                  <div className="relative bg-primary-dark rounded-2xl p-2 border border-border">
+                    <div className="relative w-full h-full rounded-xl overflow-hidden bg-primary-dark">
                       {/* Placeholder - Replace with actual image */}
                       <div className="w-full h-full flex items-center justify-center">
                         <div className="text-8xl font-bold text-secondary">
@@ -234,8 +228,8 @@ export default function PortfolioPage() {
                     </div>
                   </div>
 
-                  {/* Floating Badge */}
-                  <div className="absolute -bottom-4 -right-4 bg-secondary rounded-2xl p-4 shadow-secondary-lg animate-float">
+                  {/* Badge */}
+                  <div className="absolute -bottom-4 -right-4 bg-secondary rounded-xl p-4">
                     <Award className="text-white" size={32} />
                   </div>
                 </div>
