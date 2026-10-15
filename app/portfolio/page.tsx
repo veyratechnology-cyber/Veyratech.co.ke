@@ -108,127 +108,125 @@ export default function PortfolioPage() {
         </div>
       </nav>
 
-      {/* Hero Section with Profile Picture */}
-      <section className="relative min-h-screen flex items-center justify-center pt-24 pb-16 bg-primary">
+      {/* Hero Section - Mobile First: Picture on Top */}
+      <section className="relative min-h-screen flex items-center justify-center pt-20 pb-16 bg-primary">
         <div className="container-custom">
-          <div className="max-w-6xl mx-auto">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-              {/* Left: Intro Content */}
-              <div className="order-1 lg:order-1 text-center lg:text-left">
-                <h1 className="text-5xl md:text-7xl font-sora font-bold text-text-primary mb-6 leading-tight">
-                  Aggrey Gisemba
-                  <br />
-                  <span className="text-secondary">
-                    Ogeto
-                  </span>
-                </h1>
-                
-                <p className="text-2xl md:text-3xl text-text-secondary mb-6 font-light">
-                  Technology Entrepreneur
-                </p>
-                
-                <p className="text-lg text-text-muted mb-8 leading-relaxed max-w-xl">
-                  Founder of VeyraTech, helping African businesses leverage technology for growth. 
-                  Based in Nairobi, working with clients across Kenya and beyond.
-                </p>
-
-                {/* Stats */}
-                <div className="grid grid-cols-3 gap-6 mb-8 max-w-xl">
-                  <div className="text-center lg:text-left">
-                    <div className="text-3xl font-bold text-text-primary mb-1">2+</div>
-                    <div className="text-sm text-text-muted">Years Experience</div>
-                  </div>
-                  <div className="text-center lg:text-left">
-                    <div className="text-3xl font-bold text-text-primary mb-1">34+</div>
-                    <div className="text-sm text-text-muted">Projects Delivered</div>
-                  </div>
-                  <div className="text-center lg:text-left">
-                    <div className="text-3xl font-bold text-text-primary mb-1">100%</div>
-                    <div className="text-sm text-text-muted">Client Satisfaction</div>
-                  </div>
-                </div>
-
-                {/* CTA Buttons */}
-                <div className="flex flex-wrap gap-4 justify-center lg:justify-start">
-                  <a href="#veyratech">
-                    <Button 
-                      variant="primary" 
-                      size="lg"
-                    >
-                      <Briefcase size={20} />
-                      <span>What I'm Building</span>
-                    </Button>
-                  </a>
-                  <a 
-                    href="#contact"
-                    className="px-6 py-3 bg-primary-dark hover:bg-primary border border-border rounded-lg text-text-primary font-medium transition-colors duration-200 flex items-center gap-2"
-                  >
-                    <span>Let's Connect</span>
-                    <ArrowRight size={16} />
-                  </a>
-                </div>
-
-                {/* Social Links */}
-                <div className="flex gap-4 mt-8 justify-center lg:justify-start">
-                  <a 
-                    href="https://linkedin.com/in/aggrey-ogeto" 
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="w-12 h-12 rounded-lg bg-primary-dark hover:bg-secondary border border-border hover:border-secondary flex items-center justify-center text-text-muted hover:text-white transition-colors duration-200"
-                  >
-                    <Linkedin size={20} />
-                  </a>
-                  <a 
-                    href="https://github.com/aggreyogeto" 
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="w-12 h-12 rounded-lg bg-primary-dark hover:bg-secondary border border-border hover:border-secondary flex items-center justify-center text-text-muted hover:text-white transition-colors duration-200"
-                  >
-                    <Github size={20} />
-                  </a>
-                  <a 
-                    href="https://veyratech.co.ke" 
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="w-12 h-12 rounded-lg bg-primary-dark hover:bg-secondary border border-border hover:border-secondary flex items-center justify-center text-text-muted hover:text-white transition-colors duration-200"
-                  >
-                    <Globe size={20} />
-                  </a>
-                  <a 
-                    href="mailto:aggrey@veyratech.co.ke"
-                    className="w-12 h-12 rounded-lg bg-primary-dark hover:bg-secondary border border-border hover:border-secondary flex items-center justify-center text-text-muted hover:text-white transition-colors duration-200"
-                  >
-                    <Mail size={20} />
-                  </a>
-                </div>
-              </div>
-
-              {/* Right: Profile Image */}
-              <div className="relative order-2 lg:order-2">
-                <div className="relative w-full aspect-square max-w-md mx-auto">
-                  {/* Profile Picture Container */}
-                  <div className="relative bg-primary-dark rounded-2xl p-2 border border-border">
-                    <div className="relative w-full h-full rounded-xl overflow-hidden bg-primary-dark">
-                      {/* Placeholder - Replace with actual image */}
-                      <div className="w-full h-full flex items-center justify-center">
-                        <div className="text-8xl font-bold text-secondary">
-                          AG
-                        </div>
-                      </div>
-                      {/* When you have the image, replace above div with: */}
-                      {/* <Image 
-                        src="/images/profile.jpg" 
-                        alt="Aggrey Gisemba Ogeto" 
-                        fill
-                        className="object-cover"
-                      /> */}
+          <div className="max-w-2xl mx-auto">
+            {/* Profile Picture - Top on Mobile */}
+            <div className="relative w-full max-w-sm mx-auto mb-8">
+              <div className="relative bg-primary-dark rounded-2xl p-2 border border-border overflow-hidden">
+                <div className="relative w-full aspect-square rounded-xl overflow-hidden bg-primary-dark">
+                  {/* Placeholder - Replace with actual image */}
+                  <div className="w-full h-full flex items-center justify-center">
+                    <div className="text-8xl font-bold text-secondary">
+                      AG
                     </div>
                   </div>
+                  {/* When you have the image, replace above div with: */}
+                  {/* <Image 
+                    src="/images/profile.jpg" 
+                    alt="Aggrey Gisemba Ogeto" 
+                    fill
+                    className="object-cover"
+                  /> */}
+                </div>
+              </div>
+              
+              {/* Badge */}
+              <div className="absolute -bottom-3 left-1/2 -translate-x-1/2 bg-secondary rounded-lg px-4 py-2">
+                <span className="text-white text-sm font-medium">veyratech.co.ke</span>
+              </div>
+            </div>
 
-                  {/* Badge */}
-                  <div className="absolute -bottom-4 -right-4 bg-secondary rounded-xl p-4">
-                    <Award className="text-white" size={32} />
-                  </div>
+            {/* Content Below Picture */}
+            <div className="text-center space-y-6 mt-12">
+              {/* Title */}
+              <div className="space-y-2">
+                <p className="text-secondary text-sm font-medium uppercase tracking-wider">
+                  Founder · Builder · Technology
+                </p>
+                <h1 className="text-5xl md:text-6xl font-sora font-bold text-text-primary">
+                  Aggrey Gisemba
+                </h1>
+              </div>
+
+              {/* Subtitle */}
+              <h2 className="text-2xl md:text-3xl text-text-secondary font-light">
+                Founder of VeyraTech
+              </h2>
+
+              {/* Description */}
+              <p className="text-lg text-text-muted leading-relaxed max-w-xl mx-auto">
+                Building technology and consulting solutions for a smarter tomorrow.
+              </p>
+
+              {/* Location */}
+              <div className="flex items-center justify-center gap-2 text-text-muted">
+                <MapPin size={18} className="text-secondary" />
+                <span>Kenya</span>
+              </div>
+
+              {/* Main CTA Buttons */}
+              <div className="space-y-4 pt-6">
+                <a href="#contact">
+                  <Button 
+                    variant="primary" 
+                    size="lg"
+                    className="w-full max-w-md mx-auto text-lg"
+                  >
+                    Connect with me 🔗
+                  </Button>
+                </a>
+                
+                <button 
+                  className="w-full max-w-md mx-auto px-6 py-3 bg-primary-dark hover:bg-primary border border-border rounded-lg text-text-primary font-medium transition-colors duration-200 flex items-center justify-center gap-2"
+                >
+                  ↓ Save my contact
+                </button>
+              </div>
+
+              {/* Social Links */}
+              <div className="flex gap-4 justify-center pt-4">
+                <a 
+                  href="https://linkedin.com/in/aggrey-ogeto" 
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-12 h-12 rounded-lg bg-primary-dark hover:bg-secondary border border-border hover:border-secondary flex items-center justify-center text-text-muted hover:text-white transition-colors duration-200"
+                  aria-label="LinkedIn"
+                >
+                  <Linkedin size={20} />
+                </a>
+                <a 
+                  href="https://github.com/aggreyogeto" 
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-12 h-12 rounded-lg bg-primary-dark hover:bg-secondary border border-border hover:border-secondary flex items-center justify-center text-text-muted hover:text-white transition-colors duration-200"
+                  aria-label="GitHub"
+                >
+                  <Github size={20} />
+                </a>
+                <a 
+                  href="mailto:gisembaaggrey@gmail.com"
+                  className="w-12 h-12 rounded-lg bg-primary-dark hover:bg-secondary border border-border hover:border-secondary flex items-center justify-center text-text-muted hover:text-white transition-colors duration-200"
+                  aria-label="Email"
+                >
+                  <Mail size={20} />
+                </a>
+              </div>
+
+              {/* Stats */}
+              <div className="grid grid-cols-3 gap-6 pt-8 max-w-md mx-auto border-t border-border mt-8">
+                <div className="text-center">
+                  <div className="text-3xl font-bold text-text-primary mb-1">2+</div>
+                  <div className="text-sm text-text-muted">Years</div>
+                </div>
+                <div className="text-center">
+                  <div className="text-3xl font-bold text-text-primary mb-1">34+</div>
+                  <div className="text-sm text-text-muted">Projects</div>
+                </div>
+                <div className="text-center">
+                  <div className="text-3xl font-bold text-text-primary mb-1">100%</div>
+                  <div className="text-sm text-text-muted">Satisfaction</div>
                 </div>
               </div>
             </div>
@@ -237,9 +235,7 @@ export default function PortfolioPage() {
 
         {/* Scroll Indicator */}
         <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce">
-          <div className="w-6 h-10 rounded-full border-2 border-white/20 flex justify-center pt-2">
-            <div className="w-1 h-2 bg-white/60 rounded-full"></div>
-          </div>
+          <ArrowRight size={24} className="text-text-muted rotate-90" />
         </div>
       </section>
 
