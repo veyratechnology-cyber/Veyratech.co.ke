@@ -1,5 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
-import { sendEmail } from "@/lib/email";
+import { Resend } from "resend";
+
+const resend = process.env.RESEND_API_KEY 
+  ? new Resend(process.env.RESEND_API_KEY)
+  : null;
+
+const FROM_EMAIL = process.env.EMAIL_FROM || "VeyraTech <noreply@veyratech.com>";
 
 /**
  * Portfolio Contact Form API
@@ -50,11 +56,16 @@ export async function POST(req: NextRequest) {
       </div>
     `;
 
-    await sendEmail({
-      to: "gisembaaggrey@gmail.com",
-      subject: `🤝 New Connection: ${name}${company ? ` from ${company}` : ""}`,
-      html: aggreyEmailContent,
-    });
+    if (resend) {
+      await resend.emails.send({
+        from: FROM_EMAIL,
+        to: "gisembaaggrey@gmail.com",
+        subject: `🤝 New Connection: ${name}${company ? ` from ${company}` : ""}`,
+        html: aggreyEmailContent,
+      });
+    } else {
+      console.log("[PORTFOLIO] Email not configured, skipping notification");
+    }
 
     // Confirmation email to the contact
     const contactEmailContent = `
@@ -84,11 +95,14 @@ export async function POST(req: NextRequest) {
       </div>
     `;
 
-    await sendEmail({
-      to: email,
-      subject: "Thanks for connecting! - Aggrey Gisemba",
-      html: contactEmailContent,
-    });
+    if (resend) {
+      await resend.emails.send({
+        from: FROM_EMAIL,
+        to: email,
+        subject: "Thanks for connecting! - Aggrey Gisemba",
+        html: contactEmailContent,
+      });
+    }
 
     // Log for WhatsApp integration (future)
     console.log("📱 WhatsApp notification needed for:", {
