@@ -102,7 +102,7 @@ export default function PortfolioPage() {
             href="mailto:aggrey@veyratech.co.ke"
             className="px-6 py-2.5 bg-secondary hover:bg-secondary-hover rounded-full text-white font-medium transition-all duration-300 flex items-center gap-2 shadow-secondary-glow"
           >
-            <span>Get In Touch</span>
+            <span>Connect With Me</span>
             <ArrowRight size={16} />
           </a>
         </div>
@@ -117,7 +117,7 @@ export default function PortfolioPage() {
               <div className="order-1 lg:order-1 text-center lg:text-left">
                 <div className="inline-flex items-center gap-2 px-4 py-2 bg-secondary/10 border border-secondary/20 rounded-full text-secondary text-sm font-medium mb-6">
                   <Sparkles size={16} />
-                  <span>Available for Consulting</span>
+                  <span>Building VeyraTech</span>
                 </div>
 
                 <h1 className="text-5xl md:text-7xl font-sora font-bold text-white mb-6 leading-tight">
@@ -133,8 +133,8 @@ export default function PortfolioPage() {
                 </p>
                 
                 <p className="text-lg text-white/50 mb-8 leading-relaxed max-w-xl">
-                  Building the future of technology in Africa. Founder of VeyraTech, 
-                  helping businesses leverage AI and automation to achieve extraordinary results.
+                  Passionate about building technology that empowers African businesses. 
+                  Currently building VeyraTech—let's connect and share ideas.
                 </p>
 
                 {/* Stats */}
@@ -155,21 +155,21 @@ export default function PortfolioPage() {
 
                 {/* CTA Buttons */}
                 <div className="flex flex-wrap gap-4 justify-center lg:justify-start">
-                  <a href="#contact">
+                  <a href="#veyratech">
                     <Button 
                       variant="primary" 
                       size="lg"
                       className="bg-secondary hover:bg-secondary-hover text-white border-0 shadow-secondary-lg"
                     >
-                      <Send size={20} />
-                      <span>Start a Project</span>
+                      <Briefcase size={20} />
+                      <span>What I'm Building</span>
                     </Button>
                   </a>
                   <a 
-                    href="#about"
+                    href="#contact"
                     className="px-6 py-3 bg-white/5 hover:bg-white/10 backdrop-blur-sm border border-white/10 rounded-lg text-white font-medium transition-all duration-300 flex items-center gap-2"
                   >
-                    <span>Learn More</span>
+                    <span>Let's Connect</span>
                     <ArrowRight size={16} />
                   </a>
                 </div>
@@ -261,10 +261,10 @@ export default function PortfolioPage() {
               <span>What I Do</span>
             </div>
             <h2 className="text-4xl md:text-5xl font-sora font-bold text-white mb-4">
-              Expertise & Services
+              My Focus Areas
             </h2>
             <p className="text-xl text-white/50 max-w-2xl mx-auto">
-              Transforming businesses through strategic technology implementation
+              Where technology meets real business impact
             </p>
           </div>
 
@@ -278,7 +278,7 @@ export default function PortfolioPage() {
                 AI Strategy
               </h3>
               <p className="text-white/60 text-sm leading-relaxed">
-                Practical AI implementation that delivers measurable ROI for your business
+                Helping businesses understand and implement AI in practical, meaningful ways
               </p>
             </div>
 
@@ -317,7 +317,7 @@ export default function PortfolioPage() {
                 Consulting
               </h3>
               <p className="text-white/60 text-sm leading-relaxed">
-                Strategic guidance to navigate your digital transformation journey
+                Working with businesses to chart their technology journey and transformation
               </p>
             </div>
           </div>
@@ -325,8 +325,21 @@ export default function PortfolioPage() {
       </section>
 
       {/* VeyraTech Showcase */}
-      <section className="section relative bg-gradient-to-br from-secondary/5 to-secondary/10">
+      <section id="veyratech" className="section relative bg-gradient-to-br from-secondary/5 to-secondary/10">
         <div className="container-custom">
+          <div className="text-center mb-12">
+            <div className="inline-flex items-center gap-2 px-4 py-2 bg-secondary/10 border border-secondary/20 rounded-full text-secondary text-sm font-medium mb-6">
+              <Briefcase size={16} />
+              <span>My Current Venture</span>
+            </div>
+            <h2 className="text-4xl md:text-5xl font-sora font-bold text-white mb-4">
+              Building VeyraTech
+            </h2>
+            <p className="text-xl text-white/50 max-w-2xl mx-auto">
+              A technology company focused on helping African businesses grow
+            </p>
+          </div>
+
           <div className="max-w-5xl mx-auto">
             <div className="bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-xl rounded-3xl p-8 md:p-12 border border-secondary/20 shadow-secondary-lg">
               <div className="flex items-start gap-6 mb-8">
@@ -339,47 +352,76 @@ export default function PortfolioPage() {
                       VeyraTech
                     </h3>
                     <span className="px-3 py-1 bg-green-500/20 border border-green-500/30 text-green-400 text-sm rounded-full font-medium">
-                      Active
+                      In Development
                     </span>
                   </div>
-                  <p className="text-xl text-white/70 mb-2">Technology & AI Solutions for African Businesses</p>
+                  <p className="text-xl text-white/70 mb-2">Practical Technology Solutions for African Businesses</p>
                 </div>
               </div>
 
-              <p className="text-lg text-white/60 leading-relaxed mb-8">
-                VeyraTech is my flagship venture—a technology consulting company dedicated to helping 
-                African businesses harness the power of AI, automation, and digital transformation. 
-                We deliver practical, no-nonsense solutions that drive real, measurable results.
+              <p className="text-lg text-white/60 leading-relaxed mb-6">
+                I'm building VeyraTech to bridge the gap between complex technology and real business needs 
+                in Africa. We focus on practical solutions—AI, automation, and digital tools that businesses 
+                can actually use and benefit from.
               </p>
 
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-8">
-                <div className="text-center">
-                  <div className="text-2xl font-bold text-white mb-1">AI Strategy</div>
-                  <div className="text-sm text-white/50">Implementation</div>
-                </div>
-                <div className="text-center">
-                  <div className="text-2xl font-bold text-white mb-1">Automation</div>
-                  <div className="text-sm text-white/50">Solutions</div>
-                </div>
-                <div className="text-center">
-                  <div className="text-2xl font-bold text-white mb-1">Digital</div>
-                  <div className="text-sm text-white/50">Transformation</div>
-                </div>
-                <div className="text-center">
-                  <div className="text-2xl font-bold text-white mb-1">Custom</div>
-                  <div className="text-sm text-white/50">Development</div>
+              <p className="text-lg text-white/60 leading-relaxed mb-8">
+                The vision is simple: make technology accessible, understandable, and valuable for African 
+                businesses. No buzzwords, no unnecessary complexity—just solutions that work.
+              </p>
+
+              <div className="space-y-4 mb-8">
+                <h4 className="text-lg font-semibold text-white">What We're Working On:</h4>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="flex items-start gap-3">
+                    <div className="w-2 h-2 rounded-full bg-secondary mt-2"></div>
+                    <div>
+                      <p className="text-white font-medium">AI Consultation Platform</p>
+                      <p className="text-white/50 text-sm">Helping businesses understand where AI fits</p>
+                    </div>
+                  </div>
+                  <div className="flex items-start gap-3">
+                    <div className="w-2 h-2 rounded-full bg-secondary mt-2"></div>
+                    <div>
+                      <p className="text-white font-medium">Automation Tools</p>
+                      <p className="text-white/50 text-sm">Streamlining business operations</p>
+                    </div>
+                  </div>
+                  <div className="flex items-start gap-3">
+                    <div className="w-2 h-2 rounded-full bg-secondary mt-2"></div>
+                    <div>
+                      <p className="text-white font-medium">Digital Transformation</p>
+                      <p className="text-white/50 text-sm">Guiding businesses through tech adoption</p>
+                    </div>
+                  </div>
+                  <div className="flex items-start gap-3">
+                    <div className="w-2 h-2 rounded-full bg-secondary mt-2"></div>
+                    <div>
+                      <p className="text-white font-medium">Technology Education</p>
+                      <p className="text-white/50 text-sm">Making tech concepts accessible</p>
+                    </div>
+                  </div>
                 </div>
               </div>
 
-              <a 
-                href="https://veyratech.co.ke" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-6 py-3 bg-secondary hover:bg-secondary-hover rounded-xl text-white font-medium transition-all duration-300 shadow-secondary-lg"
-              >
-                <span>Visit VeyraTech</span>
-                <ArrowRight size={18} />
-              </a>
+              <div className="flex flex-wrap gap-4">
+                <a 
+                  href="https://veyratech.co.ke" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 px-6 py-3 bg-secondary hover:bg-secondary-hover rounded-xl text-white font-medium transition-all duration-300 shadow-secondary-lg"
+                >
+                  <span>Visit VeyraTech</span>
+                  <ArrowRight size={18} />
+                </a>
+                <a 
+                  href="#contact"
+                  className="inline-flex items-center gap-2 px-6 py-3 bg-white/5 hover:bg-white/10 border border-white/10 rounded-xl text-white font-medium transition-all duration-300"
+                >
+                  <span>Let's Discuss</span>
+                  <Mail size={18} />
+                </a>
+              </div>
             </div>
           </div>
         </div>
@@ -395,10 +437,10 @@ export default function PortfolioPage() {
                 <span>Get In Touch</span>
               </div>
               <h2 className="text-4xl md:text-5xl font-sora font-bold text-white mb-4">
-                Let's Work Together
+                Let's Connect
               </h2>
               <p className="text-xl text-white/50">
-                Have a project in mind? Let's discuss how we can bring it to life.
+                Interested in what I'm building? Let's chat about technology, business, or opportunities to collaborate.
               </p>
             </div>
 
@@ -504,11 +546,11 @@ export default function PortfolioPage() {
                     disabled={isSubmitting}
                   >
                     {isSubmitting ? (
-                      <>Sending...</>
+                      <>Connecting...</>
                     ) : (
                       <>
                         <Send size={20} />
-                        Send Message
+                        Connect With Me
                       </>
                     )}
                   </Button>
