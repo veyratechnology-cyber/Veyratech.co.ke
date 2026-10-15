@@ -87,7 +87,7 @@ export async function POST(request: NextRequest) {
     `;
 
     await sendEmail({
-      to: "aggrey@veyratech.co.ke",
+      to: "gisembaaggrey@gmail.com",
       subject: `🤝 New Connection: ${name}${company ? ` from ${company}` : ''}`,
       html: emailContent,
       replyTo: email,
@@ -141,6 +141,13 @@ export async function POST(request: NextRequest) {
       to: email,
       subject: "Thanks for connecting - Aggrey Ogeto",
       html: confirmationContent,
+    });
+
+    // Send WhatsApp notification via API (optional - requires WhatsApp Business API)
+    // For now, log the connection details that should be sent via WhatsApp
+    console.log('WhatsApp Notification:', {
+      to: '+254745247211',
+      message: `New Connection!\n\nName: ${name}\nEmail: ${email}\nCompany: ${company || 'Not provided'}\nRole: ${role || 'Not provided'}\nWorking on: ${building || 'Not provided'}`
     });
 
     return NextResponse.json(
