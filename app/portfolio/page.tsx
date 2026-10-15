@@ -115,7 +115,7 @@ export default function PortfolioPage() {
               <div className="order-1 lg:order-1 text-center lg:text-left">
                 <div className="inline-flex items-center gap-2 px-4 py-2 bg-secondary/10 border border-secondary/20 rounded-lg text-secondary text-sm font-medium mb-6">
                   <Sparkles size={16} />
-                  <span>Building VeyraTech</span>
+                  <span>Founder of VeyraTech</span>
                 </div>
 
                 <h1 className="text-5xl md:text-7xl font-sora font-bold text-text-primary mb-6 leading-tight">
@@ -131,18 +131,18 @@ export default function PortfolioPage() {
                 </p>
                 
                 <p className="text-lg text-text-muted mb-8 leading-relaxed max-w-xl">
-                  Passionate about building technology that empowers African businesses. 
-                  Currently building VeyraTech—let's connect and share ideas.
+                  Founder of VeyraTech, helping African businesses leverage technology for growth. 
+                  Based in Nairobi, working with clients across Kenya and beyond.
                 </p>
 
                 {/* Stats */}
                 <div className="grid grid-cols-3 gap-6 mb-8 max-w-xl">
                   <div className="text-center lg:text-left">
-                    <div className="text-3xl font-bold text-text-primary mb-1">5+</div>
+                    <div className="text-3xl font-bold text-text-primary mb-1">2+</div>
                     <div className="text-sm text-text-muted">Years Experience</div>
                   </div>
                   <div className="text-center lg:text-left">
-                    <div className="text-3xl font-bold text-text-primary mb-1">50+</div>
+                    <div className="text-3xl font-bold text-text-primary mb-1">34+</div>
                     <div className="text-sm text-text-muted">Projects Delivered</div>
                   </div>
                   <div className="text-center lg:text-left">
@@ -324,13 +324,13 @@ export default function PortfolioPage() {
           <div className="text-center mb-12">
             <div className="inline-flex items-center gap-2 px-4 py-2 bg-secondary/10 border border-secondary/20 rounded-lg text-secondary text-sm font-medium mb-6">
               <Briefcase size={16} />
-              <span>My Current Venture</span>
+              <span>VeyraTech</span>
             </div>
             <h2 className="text-4xl md:text-5xl font-sora font-bold text-text-primary mb-4">
-              Building VeyraTech
+              The Company I Built
             </h2>
             <p className="text-xl text-text-secondary max-w-2xl mx-auto">
-              A technology company focused on helping African businesses grow
+              Practical technology solutions for African businesses
             </p>
           </div>
 
@@ -439,29 +439,28 @@ export default function PortfolioPage() {
             </div>
 
             {isSubmitted ? (
-              <div className="bg-gradient-to-br from-green-500/10 to-green-500/5 backdrop-blur-xl rounded-3xl p-12 border border-green-500/20 text-center">
-                <CheckCircle size={64} className="text-green-400 mx-auto mb-6" />
-                <h3 className="text-3xl font-sora font-bold text-white mb-4">
+              <div className="bg-success/10 border border-success/20 rounded-2xl p-12 text-center">
+                <CheckCircle size={64} className="text-success mx-auto mb-6" />
+                <h3 className="text-3xl font-sora font-bold text-text-primary mb-4">
                   Message Received!
                 </h3>
-                <p className="text-white/60 mb-8 text-lg">
+                <p className="text-text-secondary mb-8 text-lg">
                   Thank you for reaching out. I'll get back to you within 24 hours.
                 </p>
                 <Button 
                   variant="outline" 
                   onClick={() => setIsSubmitted(false)}
-                  className="border-white/20 text-white hover:bg-white/10"
                 >
                   Send Another Message
                 </Button>
               </div>
             ) : (
-              <div className="bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-xl rounded-3xl p-8 md:p-12 border border-white/10">
+              <div className="bg-primary-dark rounded-2xl p-8 md:p-12 border border-border">
                 <form onSubmit={handleSubmit} className="space-y-6">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     {/* Name */}
                     <div>
-                      <label htmlFor="name" className="block text-sm font-medium text-white/80 mb-2">
+                      <label htmlFor="name" className="block text-sm font-medium text-text-primary mb-2">
                         Your Name *
                       </label>
                       <input
@@ -471,14 +470,14 @@ export default function PortfolioPage() {
                         value={formData.name}
                         onChange={handleChange}
                         required
-                        className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-white/30 focus:ring-2 focus:ring-secondary focus:border-transparent transition-all"
+                        className="w-full px-4 py-3 bg-primary border border-border rounded-lg text-text-primary placeholder-text-muted focus:ring-2 focus:ring-secondary focus:border-transparent transition-all"
                         placeholder="John Doe"
                       />
                     </div>
 
                     {/* Email */}
                     <div>
-                      <label htmlFor="email" className="block text-sm font-medium text-white/80 mb-2">
+                      <label htmlFor="email" className="block text-sm font-medium text-text-primary mb-2">
                         Email Address *
                       </label>
                       <input
@@ -488,7 +487,7 @@ export default function PortfolioPage() {
                         value={formData.email}
                         onChange={handleChange}
                         required
-                        className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-white/30 focus:ring-2 focus:ring-secondary focus:border-transparent transition-all"
+                        className="w-full px-4 py-3 bg-primary border border-border rounded-lg text-text-primary placeholder-text-muted focus:ring-2 focus:ring-secondary focus:border-transparent transition-all"
                         placeholder="john@example.com"
                       />
                     </div>
@@ -583,32 +582,32 @@ export default function PortfolioPage() {
       </section>
 
       {/* Footer */}
-      <footer className="relative border-t border-white/5 py-12">
+      <footer className="relative border-t border-border py-12 bg-primary-dark">
         <div className="container-custom">
           <div className="flex flex-col md:flex-row justify-between items-center gap-6">
             <div className="text-center md:text-left">
-              <p className="text-white font-medium mb-1">Aggrey Gisemba Ogeto</p>
-              <p className="text-white/40 text-sm">Technology Entrepreneur | Founder, VeyraTech</p>
+              <p className="text-text-primary font-medium mb-1">Aggrey Gisemba Ogeto</p>
+              <p className="text-text-muted text-sm">Founder, VeyraTech</p>
             </div>
             
             <div className="flex gap-4">
-              <a href="https://linkedin.com/in/aggrey-ogeto" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 flex items-center justify-center text-white/70 hover:text-white transition-all">
+              <a href="https://linkedin.com/in/aggrey-ogeto" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-lg bg-primary hover:bg-secondary border border-border hover:border-secondary flex items-center justify-center text-text-muted hover:text-white transition-colors">
                 <Linkedin size={18} />
               </a>
-              <a href="https://github.com/aggreyogeto" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 flex items-center justify-center text-white/70 hover:text-white transition-all">
+              <a href="https://github.com/aggreyogeto" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-lg bg-primary hover:bg-secondary border border-border hover:border-secondary flex items-center justify-center text-text-muted hover:text-white transition-colors">
                 <Github size={18} />
               </a>
-              <a href="https://veyratech.co.ke" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 flex items-center justify-center text-white/70 hover:text-white transition-all">
+              <a href="https://veyratech.co.ke" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-lg bg-primary hover:bg-secondary border border-border hover:border-secondary flex items-center justify-center text-text-muted hover:text-white transition-colors">
                 <Globe size={18} />
               </a>
-              <a href="mailto:aggrey@veyratech.co.ke" className="w-10 h-10 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 flex items-center justify-center text-white/70 hover:text-white transition-all">
+              <a href="mailto:aggrey@veyratech.co.ke" className="w-10 h-10 rounded-lg bg-primary hover:bg-secondary border border-border hover:border-secondary flex items-center justify-center text-text-muted hover:text-white transition-colors">
                 <Mail size={18} />
               </a>
             </div>
           </div>
           
-          <div className="text-center mt-8 pt-8 border-t border-white/5">
-            <p className="text-white/30 text-sm">
+          <div className="text-center mt-8 pt-8 border-t border-border">
+            <p className="text-text-muted text-sm">
               © {new Date().getFullYear()} Aggrey Gisemba Ogeto. All rights reserved.
             </p>
           </div>
