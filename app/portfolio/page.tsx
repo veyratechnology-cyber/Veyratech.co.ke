@@ -247,70 +247,70 @@ export default function PortfolioPage() {
       </section>
 
       {/* Expertise Section */}
-      <section id="about" className="section relative">
+      <section id="about" className="section relative bg-primary-dark">
         <div className="container-custom">
           <div className="text-center mb-16">
-            <div className="inline-flex items-center gap-2 px-4 py-2 bg-secondary/10 border border-secondary/20 rounded-full text-secondary text-sm font-medium mb-6">
+            <div className="inline-flex items-center gap-2 px-4 py-2 bg-secondary/10 border border-secondary/20 rounded-lg text-secondary text-sm font-medium mb-6">
               <Sparkles size={16} />
               <span>What I Do</span>
             </div>
-            <h2 className="text-4xl md:text-5xl font-sora font-bold text-white mb-4">
+            <h2 className="text-4xl md:text-5xl font-sora font-bold text-text-primary mb-4">
               My Focus Areas
             </h2>
-            <p className="text-xl text-white/50 max-w-2xl mx-auto">
+            <p className="text-xl text-text-secondary max-w-2xl mx-auto">
               Where technology meets real business impact
             </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-7xl mx-auto">
             {/* AI Strategy */}
-            <div className="group relative bg-gradient-to-br from-white/5 to-white/0 backdrop-blur-sm rounded-2xl p-6 border border-white/10 hover:border-secondary hover:shadow-secondary-glow transition-all duration-300 hover:scale-105">
-              <div className="w-14 h-14 rounded-xl bg-secondary/20 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
+            <div className="group relative bg-primary rounded-xl p-6 border border-border hover:border-secondary transition-colors duration-200">
+              <div className="w-14 h-14 rounded-xl bg-secondary/10 flex items-center justify-center mb-4">
                 <Brain className="text-secondary" size={28} />
               </div>
-              <h3 className="text-xl font-sora font-bold text-white mb-3">
+              <h3 className="text-xl font-sora font-bold text-text-primary mb-3">
                 AI Strategy
               </h3>
-              <p className="text-white/60 text-sm leading-relaxed">
+              <p className="text-text-muted text-sm leading-relaxed">
                 Helping businesses understand and implement AI in practical, meaningful ways
               </p>
             </div>
 
             {/* Automation */}
-            <div className="group relative bg-gradient-to-br from-white/5 to-white/0 backdrop-blur-sm rounded-2xl p-6 border border-white/10 hover:border-secondary hover:shadow-secondary-glow transition-all duration-300 hover:scale-105">
-              <div className="w-14 h-14 rounded-xl bg-secondary/20 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
+            <div className="group relative bg-primary rounded-xl p-6 border border-border hover:border-secondary transition-colors duration-200">
+              <div className="w-14 h-14 rounded-xl bg-secondary/10 flex items-center justify-center mb-4">
                 <Zap className="text-secondary" size={28} />
               </div>
-              <h3 className="text-xl font-sora font-bold text-white mb-3">
+              <h3 className="text-xl font-sora font-bold text-text-primary mb-3">
                 Automation
               </h3>
-              <p className="text-white/60 text-sm leading-relaxed">
+              <p className="text-text-muted text-sm leading-relaxed">
                 Streamline operations and eliminate repetitive tasks with smart automation
               </p>
             </div>
 
             {/* Development */}
-            <div className="group relative bg-gradient-to-br from-white/5 to-white/0 backdrop-blur-sm rounded-2xl p-6 border border-white/10 hover:border-secondary hover:shadow-secondary-glow transition-all duration-300 hover:scale-105">
-              <div className="w-14 h-14 rounded-xl bg-secondary/20 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
+            <div className="group relative bg-primary rounded-xl p-6 border border-border hover:border-secondary transition-colors duration-200">
+              <div className="w-14 h-14 rounded-xl bg-secondary/10 flex items-center justify-center mb-4">
                 <Code2 className="text-secondary" size={28} />
               </div>
-              <h3 className="text-xl font-sora font-bold text-white mb-3">
+              <h3 className="text-xl font-sora font-bold text-text-primary mb-3">
                 Development
               </h3>
-              <p className="text-white/60 text-sm leading-relaxed">
+              <p className="text-text-muted text-sm leading-relaxed">
                 Custom software solutions built with cutting-edge technologies
               </p>
             </div>
 
             {/* Consulting */}
-            <div className="group relative bg-gradient-to-br from-white/5 to-white/0 backdrop-blur-sm rounded-2xl p-6 border border-white/10 hover:border-secondary hover:shadow-secondary-glow transition-all duration-300 hover:scale-105">
-              <div className="w-14 h-14 rounded-xl bg-secondary/20 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
+            <div className="group relative bg-primary rounded-xl p-6 border border-border hover:border-secondary transition-colors duration-200">
+              <div className="w-14 h-14 rounded-xl bg-secondary/10 flex items-center justify-center mb-4">
                 <Users className="text-secondary" size={28} />
               </div>
-              <h3 className="text-xl font-sora font-bold text-white mb-3">
+              <h3 className="text-xl font-sora font-bold text-text-primary mb-3">
                 Consulting
               </h3>
-              <p className="text-white/60 text-sm leading-relaxed">
+              <p className="text-text-muted text-sm leading-relaxed">
                 Working with businesses to chart their technology journey and transformation
               </p>
             </div>
@@ -319,25 +319,25 @@ export default function PortfolioPage() {
       </section>
 
       {/* VeyraTech Showcase */}
-      <section id="veyratech" className="section relative bg-gradient-to-br from-secondary/5 to-secondary/10">
+      <section id="veyratech" className="section relative bg-primary">
         <div className="container-custom">
           <div className="text-center mb-12">
-            <div className="inline-flex items-center gap-2 px-4 py-2 bg-secondary/10 border border-secondary/20 rounded-full text-secondary text-sm font-medium mb-6">
+            <div className="inline-flex items-center gap-2 px-4 py-2 bg-secondary/10 border border-secondary/20 rounded-lg text-secondary text-sm font-medium mb-6">
               <Briefcase size={16} />
               <span>My Current Venture</span>
             </div>
-            <h2 className="text-4xl md:text-5xl font-sora font-bold text-white mb-4">
+            <h2 className="text-4xl md:text-5xl font-sora font-bold text-text-primary mb-4">
               Building VeyraTech
             </h2>
-            <p className="text-xl text-white/50 max-w-2xl mx-auto">
+            <p className="text-xl text-text-secondary max-w-2xl mx-auto">
               A technology company focused on helping African businesses grow
             </p>
           </div>
 
           <div className="max-w-5xl mx-auto">
-            <div className="bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-xl rounded-3xl p-8 md:p-12 border border-secondary/20 shadow-secondary-lg">
+            <div className="bg-primary-dark rounded-2xl p-8 md:p-12 border border-border">
               <div className="flex items-start gap-6 mb-8">
-                <div className="w-20 h-20 rounded-2xl bg-secondary flex items-center justify-center flex-shrink-0 shadow-secondary-lg">
+                <div className="w-20 h-20 rounded-xl bg-secondary flex items-center justify-center flex-shrink-0">
                   <Briefcase size={36} className="text-white" />
                 </div>
                 <div className="flex-1">
