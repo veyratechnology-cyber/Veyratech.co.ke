@@ -331,7 +331,7 @@ export default function PortfolioPage() {
                       VeyraTech
                     </h3>
                     <span className="px-3 py-1 bg-green-500/20 border border-green-500/30 text-green-400 text-sm rounded-full font-medium">
-                      In Development
+                      Live & Operating
                     </span>
                   </div>
                   <p className="text-xl text-white/70 mb-2">Practical Technology Solutions for African Businesses</p>
@@ -339,18 +339,18 @@ export default function PortfolioPage() {
               </div>
 
               <p className="text-lg text-white/60 leading-relaxed mb-6">
-                I'm building VeyraTech to bridge the gap between complex technology and real business needs 
+                VeyraTech bridges the gap between complex technology and real business needs 
                 in Africa. We focus on practical solutions—AI, automation, and digital tools that businesses 
                 can actually use and benefit from.
               </p>
 
               <p className="text-lg text-white/60 leading-relaxed mb-8">
-                The vision is simple: make technology accessible, understandable, and valuable for African 
+                Our vision is simple: make technology accessible, understandable, and valuable for African 
                 businesses. No buzzwords, no unnecessary complexity—just solutions that work.
               </p>
 
               <div className="space-y-4 mb-8">
-                <h4 className="text-lg font-semibold text-white">What We're Working On:</h4>
+                <h4 className="text-lg font-semibold text-white">What We Do:</h4>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div className="flex items-start gap-3">
                     <div className="w-2 h-2 rounded-full bg-secondary mt-2"></div>
@@ -480,7 +480,7 @@ export default function PortfolioPage() {
 
                   {/* Phone */}
                   <div>
-                    <label htmlFor="phone" className="block text-sm font-medium text-white/80 mb-2">
+                    <label htmlFor="phone" className="block text-sm font-medium text-text-primary mb-2">
                       Phone Number
                     </label>
                     <input
@@ -489,25 +489,58 @@ export default function PortfolioPage() {
                       name="phone"
                       value={formData.phone}
                       onChange={handleChange}
-                      className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-white/30 focus:ring-2 focus:ring-secondary focus:border-transparent transition-all"
+                      className="w-full px-4 py-3 bg-primary border border-border rounded-lg text-text-primary placeholder-text-muted focus:ring-2 focus:ring-secondary focus:border-transparent transition-all"
                       placeholder="+254 700 000 000"
                     />
                   </div>
 
-                  {/* Message */}
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    {/* Company */}
+                    <div>
+                      <label htmlFor="company" className="block text-sm font-medium text-text-primary mb-2">
+                        Company
+                      </label>
+                      <input
+                        type="text"
+                        id="company"
+                        name="company"
+                        value={formData.company}
+                        onChange={handleChange}
+                        className="w-full px-4 py-3 bg-primary border border-border rounded-lg text-text-primary placeholder-text-muted focus:ring-2 focus:ring-secondary focus:border-transparent transition-all"
+                        placeholder="Your Company"
+                      />
+                    </div>
+
+                    {/* Role */}
+                    <div>
+                      <label htmlFor="role" className="block text-sm font-medium text-text-primary mb-2">
+                        Your Role
+                      </label>
+                      <input
+                        type="text"
+                        id="role"
+                        name="role"
+                        value={formData.role}
+                        onChange={handleChange}
+                        className="w-full px-4 py-3 bg-primary border border-border rounded-lg text-text-primary placeholder-text-muted focus:ring-2 focus:ring-secondary focus:border-transparent transition-all"
+                        placeholder="CEO, Developer, etc."
+                      />
+                    </div>
+                  </div>
+
+                  {/* What you're working on */}
                   <div>
-                    <label htmlFor="message" className="block text-sm font-medium text-white/80 mb-2">
-                      Message *
+                    <label htmlFor="building" className="block text-sm font-medium text-text-primary mb-2">
+                      What you're working on
                     </label>
-                    <textarea
-                      id="message"
-                      name="message"
-                      value={formData.message}
+                    <input
+                      type="text"
+                      id="building"
+                      name="building"
+                      value={formData.building}
                       onChange={handleChange}
-                      required
-                      rows={6}
-                      className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-white/30 focus:ring-2 focus:ring-secondary focus:border-transparent transition-all resize-none"
-                      placeholder="Tell me about your project..."
+                      className="w-full px-4 py-3 bg-primary border border-border rounded-lg text-text-primary placeholder-text-muted focus:ring-2 focus:ring-secondary focus:border-transparent transition-all"
+                      placeholder="Tell me about your project or business"
                     />
                   </div>
 
@@ -541,11 +574,11 @@ export default function PortfolioPage() {
                   </p>
                   <div className="flex flex-wrap justify-center gap-6">
                     <a 
-                      href="mailto:aggrey@veyratech.co.ke"
+                      href="mailto:gisembaaggrey@gmail.com"
                       className="flex items-center gap-2 text-white/70 hover:text-white transition-colors"
                     >
                       <Mail size={16} />
-                      <span className="text-sm">aggrey@veyratech.co.ke</span>
+                      <span className="text-sm">gisembaaggrey@gmail.com</span>
                     </a>
                     <a 
                       href="tel:+254745247211"
