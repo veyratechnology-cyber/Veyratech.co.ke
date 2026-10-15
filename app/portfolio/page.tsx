@@ -80,6 +80,43 @@ export default function PortfolioPage() {
     }));
   };
 
+  // Download vCard function
+  const downloadVCard = () => {
+    const vCard = `BEGIN:VCARD
+VERSION:3.0
+FN:Aggrey Gisemba Ogeto
+N:Ogeto;Aggrey;Gisemba;;
+ORG:VeyraTech
+TITLE:Founder & CEO
+EMAIL;TYPE=INTERNET:gisembaaggrey@gmail.com
+TEL;TYPE=CELL:+254745247211
+URL:https://veyratech.co.ke/portfolio
+URL:https://veyratech.co.ke
+URL:https://linkedin.com/in/aggrey-ogeto
+URL:https://github.com/aggreyogeto
+ADR;TYPE=WORK:;;Nairobi;Kenya;;;Kenya
+NOTE:Founder of VeyraTech - Building technology and consulting solutions for a smarter tomorrow. Specializing in AI Strategy, Automation, Development, and Consulting.
+END:VCARD`;
+
+    const blob = new Blob([vCard], { type: 'text/vcard;charset=utf-8' });
+    const url = window.URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = 'Aggrey_Gisemba_VeyraTech.vcf';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    window.URL.revokeObjectURL(url);
+  };
+
+  // Smooth scroll to contact section
+  const scrollToContact = () => {
+    const contactSection = document.getElementById('contact');
+    if (contactSection) {
+      contactSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  };
+
   return (
     <div className="min-h-screen bg-primary">
       {/* Subtle Background Accent */}
@@ -99,7 +136,7 @@ export default function PortfolioPage() {
             <span className="font-sora font-bold text-text-primary hidden sm:block">Aggrey Ogeto</span>
           </div>
           <a 
-            href="mailto:aggrey@veyratech.co.ke"
+            href="mailto:gisembaaggrey@gmail.com"
             className="px-6 py-2.5 bg-secondary hover:bg-secondary-hover rounded-lg text-white font-medium transition-colors duration-200 flex items-center gap-2"
           >
             <span>Connect With Me</span>
@@ -168,7 +205,7 @@ export default function PortfolioPage() {
 
               {/* Main CTA Buttons */}
               <div className="space-y-4 pt-6">
-                <a href="#contact">
+                <button onClick={scrollToContact}>
                   <Button 
                     variant="primary" 
                     size="lg"
@@ -176,9 +213,10 @@ export default function PortfolioPage() {
                   >
                     Connect with me 🔗
                   </Button>
-                </a>
+                </button>
                 
                 <button 
+                  onClick={downloadVCard}
                   className="w-full max-w-md mx-auto px-6 py-3 bg-primary-dark hover:bg-primary border border-border rounded-lg text-text-primary font-medium transition-colors duration-200 flex items-center justify-center gap-2"
                 >
                   ↓ Save my contact
