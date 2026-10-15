@@ -31,7 +31,9 @@ export default function PortfolioPage() {
     name: "",
     email: "",
     phone: "",
-    message: ""
+    company: "",
+    role: "",
+    building: ""
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -60,7 +62,7 @@ export default function PortfolioPage() {
 
       if (response.ok) {
         setIsSubmitted(true);
-        setFormData({ name: "", email: "", phone: "", message: "" });
+        setFormData({ name: "", email: "", phone: "", company: "", role: "", building: "" });
       } else {
         setError("Failed to send message. Please try email instead.");
       }

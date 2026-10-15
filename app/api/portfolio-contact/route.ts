@@ -8,93 +8,143 @@ interface ContactFormData {
   name: string;
   email: string;
   phone?: string;
-  message: string;
+  company?: string;
+  role?: string;
+  building?: string;
 }
 
 export async function POST(request: NextRequest) {
   try {
     const body: ContactFormData = await request.json();
-    const { name, email, phone, message } = body;
+    const { name, email, phone, company, role, building } = body;
 
     // Validation
-    if (!name || !email || !message) {
+    if (!name || !email) {
       return NextResponse.json(
-        { error: "Name, email, and message are required" },
+        { error: "Name and email are required" },
         { status: 400 }
       );
     }
 
-    // Send notification email to Aggrey
+    // Send notification email to Aggrey with all networking details
     const emailContent = `
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-        <h2 style="color: #2563eb;">New Portfolio Contact Message</h2>
-        <div style="background-color: #f3f4f6; padding: 20px; border-radius: 8px; margin: 20px 0;">
-          <p><strong>From:</strong> ${name}</p>
-          <p><strong>Email:</strong> <a href="mailto:${email}">${email}</a></p>
-          ${phone ? `<p><strong>Phone:</strong> ${phone}</p>` : ''}
+        <div style="background: linear-gradient(135deg, #0D2340 0%, #FC8436 100%); padding: 30px; border-radius: 12px 12px 0 0;">
+          <h2 style="color: #ffffff; margin: 0; font-size: 24px;">🤝 New Portfolio Connection</h2>
         </div>
         
-        <div style="margin: 20px 0;">
-          <h3>Message:</h3>
-          <p style="white-space: pre-wrap;">${message}</p>
+        <div style="background-color: #f8f9fa; padding: 30px; border-radius: 0 0 12px 12px;">
+          <div style="background: white; padding: 25px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+            <h3 style="color: #0D2340; margin-top: 0;">Contact Information</h3>
+            <table style="width: 100%; border-collapse: collapse;">
+              <tr>
+                <td style="padding: 10px 0; color: #666; font-weight: 600; width: 120px;">Name:</td>
+                <td style="padding: 10px 0; color: #333;">${name}</td>
+              </tr>
+              <tr>
+                <td style="padding: 10px 0; color: #666; font-weight: 600;">Email:</td>
+                <td style="padding: 10px 0;"><a href="mailto:${email}" style="color: #FC8436; text-decoration: none;">${email}</a></td>
+              </tr>
+              ${phone ? `
+              <tr>
+                <td style="padding: 10px 0; color: #666; font-weight: 600;">Phone:</td>
+                <td style="padding: 10px 0;"><a href="tel:${phone}" style="color: #FC8436; text-decoration: none;">${phone}</a></td>
+              </tr>
+              ` : ''}
+              ${company ? `
+              <tr>
+                <td style="padding: 10px 0; color: #666; font-weight: 600;">Company:</td>
+                <td style="padding: 10px 0; color: #333;">${company}</td>
+              </tr>
+              ` : ''}
+              ${role ? `
+              <tr>
+                <td style="padding: 10px 0; color: #666; font-weight: 600;">Role:</td>
+                <td style="padding: 10px 0; color: #333;">${role}</td>
+              </tr>
+              ` : ''}
+              ${building ? `
+              <tr>
+                <td style="padding: 10px 0; color: #666; font-weight: 600;">Working On:</td>
+                <td style="padding: 10px 0; color: #333;">${building}</td>
+              </tr>
+              ` : ''}
+            </table>
+          </div>
+
+          <div style="margin-top: 20px; padding: 20px; background: #fff3e0; border-left: 4px solid #FC8436; border-radius: 4px;">
+            <p style="margin: 0; color: #666; font-size: 14px;">
+              <strong style="color: #FC8436;">💡 Quick Action:</strong> 
+              This person connected through your portfolio page. Consider following up within 24 hours to make a strong impression!
+            </p>
+          </div>
         </div>
 
-        <hr style="border: 1px solid #e5e7eb; margin: 20px 0;" />
-        
-        <p style="color: #6b7280; font-size: 14px;">
-          This message was sent through your portfolio contact form at veyratech.co.ke/portfolio
-        </p>
+        <div style="text-align: center; padding: 20px; color: #999; font-size: 12px;">
+          <p>Received via veyratech.co.ke/portfolio</p>
+        </div>
       </div>
     `;
 
     await sendEmail({
       to: "aggrey@veyratech.co.ke",
-      subject: `Portfolio Contact from ${name}`,
+      subject: `🤝 New Connection: ${name}${company ? ` from ${company}` : ''}`,
       html: emailContent,
       replyTo: email,
     });
 
-    // Send confirmation email to the sender
+    // Send confirmation email to the contact
     const confirmationContent = `
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-        <h2 style="color: #2563eb;">Thank You for Reaching Out!</h2>
-        
-        <p>Hi ${name},</p>
-        
-        <p>Thank you for your message. I've received it and will get back to you as soon as possible.</p>
-        
-        <div style="background-color: #f3f4f6; padding: 20px; border-radius: 8px; margin: 20px 0;">
-          <h3 style="margin-top: 0;">Your Message:</h3>
-          <p style="white-space: pre-wrap;">${message}</p>
+        <div style="background: linear-gradient(135deg, #0D2340 0%, #FC8436 100%); padding: 30px; border-radius: 12px 12px 0 0; text-align: center;">
+          <h2 style="color: #ffffff; margin: 0; font-size: 24px;">Thanks for Connecting!</h2>
         </div>
         
-        <p>If you need immediate assistance, feel free to reach me directly at:</p>
-        <ul>
-          <li>Email: <a href="mailto:aggrey@veyratech.co.ke">aggrey@veyratech.co.ke</a></li>
-          <li>Phone: <a href="tel:+254745247211">+254 745 247 211</a></li>
-        </ul>
-        
-        <p>Best regards,<br/>
-        <strong>Aggrey Gisemba Ogeto</strong><br/>
-        Founder, VeyraTech</p>
-        
-        <hr style="border: 1px solid #e5e7eb; margin: 20px 0;" />
-        
-        <p style="color: #6b7280; font-size: 14px;">
-          VeyraTech | Practical Technology Solutions for African Businesses<br/>
-          <a href="https://veyratech.co.ke">veyratech.co.ke</a>
-        </p>
+        <div style="background-color: #f8f9fa; padding: 30px; border-radius: 0 0 12px 12px;">
+          <div style="background: white; padding: 25px; border-radius: 8px;">
+            <p style="color: #333; font-size: 16px; line-height: 1.6;">Hi ${name},</p>
+            
+            <p style="color: #333; font-size: 16px; line-height: 1.6;">
+              Great to connect! I've received your info and will get back to you within 24 hours.
+            </p>
+
+            <div style="background: #f0f7ff; padding: 20px; border-radius: 8px; margin: 20px 0;">
+              <p style="color: #0D2340; font-size: 15px; margin: 0; line-height: 1.6;">
+                <strong>In the meantime:</strong><br/>
+                Check out <a href="https://veyratech.co.ke" style="color: #FC8436; text-decoration: none;">VeyraTech</a> 
+                to learn more about what we're building, or connect with me on 
+                <a href="https://linkedin.com/in/aggrey-ogeto" style="color: #FC8436; text-decoration: none;">LinkedIn</a>.
+              </p>
+            </div>
+
+            <p style="color: #333; font-size: 16px; line-height: 1.6;">
+              Looking forward to chatting!
+            </p>
+
+            <p style="color: #333; font-size: 16px; line-height: 1.6; margin-bottom: 0;">
+              Best,<br/>
+              <strong style="color: #0D2340;">Aggrey Gisemba Ogeto</strong><br/>
+              <span style="color: #FC8436;">Founder, VeyraTech</span>
+            </p>
+          </div>
+
+          <div style="text-align: center; margin-top: 20px;">
+            <a href="mailto:aggrey@veyratech.co.ke" style="color: #FC8436; text-decoration: none; font-size: 14px;">aggrey@veyratech.co.ke</a>
+            <span style="color: #ccc; margin: 0 10px;">|</span>
+            <a href="tel:+254745247211" style="color: #FC8436; text-decoration: none; font-size: 14px;">+254 745 247 211</a>
+          </div>
+        </div>
       </div>
     `;
 
     await sendEmail({
       to: email,
-      subject: "Thanks for reaching out - VeyraTech",
+      subject: "Thanks for connecting - Aggrey Ogeto",
       html: confirmationContent,
     });
 
     return NextResponse.json(
-      { success: true, message: "Message sent successfully" },
+      { success: true, message: "Connection received successfully" },
       { status: 200 }
     );
   } catch (error) {
