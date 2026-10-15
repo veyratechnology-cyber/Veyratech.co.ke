@@ -113,11 +113,6 @@ export default function PortfolioPage() {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
               {/* Left: Intro Content */}
               <div className="order-1 lg:order-1 text-center lg:text-left">
-                <div className="inline-flex items-center gap-2 px-4 py-2 bg-secondary/10 border border-secondary/20 rounded-lg text-secondary text-sm font-medium mb-6">
-                  <Sparkles size={16} />
-                  <span>Founder of VeyraTech</span>
-                </div>
-
                 <h1 className="text-5xl md:text-7xl font-sora font-bold text-text-primary mb-6 leading-tight">
                   Aggrey Gisemba
                   <br />
@@ -250,10 +245,6 @@ export default function PortfolioPage() {
       <section id="about" className="section relative bg-primary-dark">
         <div className="container-custom">
           <div className="text-center mb-16">
-            <div className="inline-flex items-center gap-2 px-4 py-2 bg-secondary/10 border border-secondary/20 rounded-lg text-secondary text-sm font-medium mb-6">
-              <Sparkles size={16} />
-              <span>What I Do</span>
-            </div>
             <h2 className="text-4xl md:text-5xl font-sora font-bold text-text-primary mb-4">
               My Focus Areas
             </h2>
@@ -322,10 +313,6 @@ export default function PortfolioPage() {
       <section id="veyratech" className="section relative bg-primary">
         <div className="container-custom">
           <div className="text-center mb-12">
-            <div className="inline-flex items-center gap-2 px-4 py-2 bg-secondary/10 border border-secondary/20 rounded-lg text-secondary text-sm font-medium mb-6">
-              <Briefcase size={16} />
-              <span>VeyraTech</span>
-            </div>
             <h2 className="text-4xl md:text-5xl font-sora font-bold text-text-primary mb-4">
               The Company I Built
             </h2>
