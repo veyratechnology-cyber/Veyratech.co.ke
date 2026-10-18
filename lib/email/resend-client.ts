@@ -18,8 +18,10 @@ function getResendClient() {
 // Email configuration
 const EMAIL_CONFIG = {
   from: process.env.EMAIL_FROM || 'VeyraTech <noreply@veyratech.co.ke>',
-  adminEmail: process.env.ADMIN_EMAIL || 'admin@veyratech.co.ke',
-  replyTo: process.env.ADMIN_EMAIL || 'admin@veyratech.co.ke',
+  adminEmail: process.env.ADMIN_EMAIL || 'hello@veyratech.co.ke', // General inquiries
+  consultingEmail: 'consulting@veyratech.co.ke', // Consultation bookings
+  supportEmail: 'support@veyratech.co.ke', // Client support
+  replyTo: process.env.ADMIN_EMAIL || 'hello@veyratech.co.ke',
 };
 
 /**

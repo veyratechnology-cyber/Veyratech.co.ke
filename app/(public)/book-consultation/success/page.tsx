@@ -261,8 +261,8 @@ export default async function ConsultationSuccessPage({ searchParams }: PageProp
               <div className="space-y-1 text-sm">
                 <p className="text-text-primary">
                   <Mail size={14} className="inline mr-2 text-secondary" />
-                  <a href="mailto:admin@veyratech.com" className="hover:text-secondary">
-                    admin@veyratech.com
+                  <a href="mailto:consulting@veyratech.co.ke" className="hover:text-secondary">
+                    consulting@veyratech.co.ke
                   </a>
                 </p>
                 <p className="text-text-primary">

@@ -182,7 +182,7 @@ export const COMPANY = {
   name: "VeyraTech",
   tagline: "Technology & AI Consulting",
   description: "VeyraTech partners with businesses to design and implement practical technology solutions that drive growth, efficiency, and competitive advantage.",
-  email: "contact@veyratech.com",
+  email: "hello@veyratech.co.ke",
   phone: "0745247211",
   address: "",
   website: "https://veyratech.com",

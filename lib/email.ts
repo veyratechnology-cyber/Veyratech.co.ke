@@ -6,8 +6,10 @@ const resend = process.env.RESEND_API_KEY
   ? new Resend(process.env.RESEND_API_KEY)
   : null;
 
-const FROM_EMAIL = process.env.EMAIL_FROM || "VeyraTech <noreply@veyratech.com>";
-const ADMIN_EMAIL = process.env.ADMIN_EMAIL || "admin@veyratech.com";
+const FROM_EMAIL = process.env.EMAIL_FROM || "VeyraTech <noreply@veyratech.co.ke>";
+const ADMIN_EMAIL = process.env.ADMIN_EMAIL || "hello@veyratech.co.ke";
+const CONSULTING_EMAIL = "consulting@veyratech.co.ke";
+const SUPPORT_EMAIL = "support@veyratech.co.ke";
 
 /**
  * Send consultation confirmation with meeting details to client
@@ -209,7 +211,7 @@ export async function sendConsultationNotification(data: {
 
     await resend.emails.send({
       from: FROM_EMAIL,
-      to: ADMIN_EMAIL,
+      to: CONSULTING_EMAIL, // Send consultation bookings to consulting@veyratech.co.ke
       subject: `New Consultation Request from ${data.name}`,
       html: `
         <!DOCTYPE html>
@@ -376,7 +378,7 @@ export async function sendContactNotification(data: {
 
     await resend.emails.send({
       from: FROM_EMAIL,
-      to: ADMIN_EMAIL,
+      to: ADMIN_EMAIL, // General inquiries go to hello@veyratech.co.ke
       subject: `Contact Form: ${data.subject}`,
       html: `
         <h2>New Contact Message</h2>

@@ -218,7 +218,7 @@ export function generateOrganizationSchema() {
       '@type': 'ContactPoint',
       telephone: '+254-XXX-XXX-XXX',
       contactType: 'Customer Service',
-      email: 'info@veyratech.co.ke',
+      email: 'hello@veyratech.co.ke',
       availableLanguage: ['English', 'Swahili'],
     },
     sameAs: [
