@@ -112,13 +112,44 @@ export default function ContactPage() {
                       <Mail className="text-secondary" size={24} />
                     </div>
                     <div>
-                      <h3 className="font-semibold mb-1">Email</h3>
+                      <h3 className="font-semibold mb-2">General Inquiries</h3>
                       <a
-                        href={`mailto:${COMPANY.email}`}
-                        className="text-secondary hover:underline"
+                        href="mailto:hello@veyratech.co.ke"
+                        className="text-secondary hover:underline block mb-1"
                       >
-                        {COMPANY.email}
+                        hello@veyratech.co.ke
                       </a>
+                      <p className="text-text-muted text-sm">For general questions and information</p>
+                    </div>
+                  </div>
+                  <div className="flex items-start gap-4">
+                    <div className="flex-shrink-0 w-12 h-12 rounded-lg bg-secondary/10 flex items-center justify-center">
+                      <Mail className="text-secondary" size={24} />
+                    </div>
+                    <div>
+                      <h3 className="font-semibold mb-2">Consulting</h3>
+                      <a
+                        href="mailto:consulting@veyratech.co.ke"
+                        className="text-secondary hover:underline block mb-1"
+                      >
+                        consulting@veyratech.co.ke
+                      </a>
+                      <p className="text-text-muted text-sm">For consultation requests</p>
+                    </div>
+                  </div>
+                  <div className="flex items-start gap-4">
+                    <div className="flex-shrink-0 w-12 h-12 rounded-lg bg-secondary/10 flex items-center justify-center">
+                      <Mail className="text-secondary" size={24} />
+                    </div>
+                    <div>
+                      <h3 className="font-semibold mb-2">Client Support</h3>
+                      <a
+                        href="mailto:support@veyratech.co.ke"
+                        className="text-secondary hover:underline block mb-1"
+                      >
+                        support@veyratech.co.ke
+                      </a>
+                      <p className="text-text-muted text-sm">For existing clients</p>
                     </div>
                   </div>
                   {COMPANY.phone && (
@@ -127,7 +158,7 @@ export default function ContactPage() {
                         <Phone className="text-secondary" size={24} />
                       </div>
                       <div>
-                        <h3 className="font-semibold mb-1">Phone</h3>
+                        <h3 className="font-semibold mb-2">Phone</h3>
                         <a
                           href={`tel:${COMPANY.phone}`}
                           className="text-secondary hover:underline"

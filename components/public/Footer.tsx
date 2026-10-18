@@ -103,25 +103,55 @@ export function Footer() {
           {/* Contact */}
           <div>
             <h3 className="font-sora font-bold text-lg mb-4 text-text-primary">Contact</h3>
-            <ul className="space-y-3">
-              <li className="flex items-center gap-3">
-                <Mail size={18} className="text-secondary flex-shrink-0" />
-                <a
-                  href={`mailto:${COMPANY.email}`}
-                  className="text-text-secondary hover:text-secondary transition-colors"
-                >
-                  {COMPANY.email}
-                </a>
+            <ul className="space-y-4">
+              <li>
+                <div className="text-text-primary text-sm font-medium mb-1">General Inquiries</div>
+                <div className="flex items-center gap-2">
+                  <Mail size={16} className="text-secondary flex-shrink-0" />
+                  <a
+                    href="mailto:hello@veyratech.co.ke"
+                    className="text-text-secondary hover:text-secondary transition-colors text-sm"
+                  >
+                    hello@veyratech.co.ke
+                  </a>
+                </div>
+              </li>
+              <li>
+                <div className="text-text-primary text-sm font-medium mb-1">Consulting</div>
+                <div className="flex items-center gap-2">
+                  <Mail size={16} className="text-secondary flex-shrink-0" />
+                  <a
+                    href="mailto:consulting@veyratech.co.ke"
+                    className="text-text-secondary hover:text-secondary transition-colors text-sm"
+                  >
+                    consulting@veyratech.co.ke
+                  </a>
+                </div>
+              </li>
+              <li>
+                <div className="text-text-primary text-sm font-medium mb-1">Client Support</div>
+                <div className="flex items-center gap-2">
+                  <Mail size={16} className="text-secondary flex-shrink-0" />
+                  <a
+                    href="mailto:support@veyratech.co.ke"
+                    className="text-text-secondary hover:text-secondary transition-colors text-sm"
+                  >
+                    support@veyratech.co.ke
+                  </a>
+                </div>
               </li>
               {COMPANY.phone && (
-                <li className="flex items-center gap-3">
-                  <Phone size={18} className="text-secondary flex-shrink-0" />
-                  <a
-                    href={`tel:${COMPANY.phone}`}
-                    className="text-text-secondary hover:text-secondary transition-colors"
-                  >
-                    {COMPANY.phone}
-                  </a>
+                <li>
+                  <div className="text-text-primary text-sm font-medium mb-1">Phone</div>
+                  <div className="flex items-center gap-2">
+                    <Phone size={16} className="text-secondary flex-shrink-0" />
+                    <a
+                      href={`tel:${COMPANY.phone}`}
+                      className="text-text-secondary hover:text-secondary transition-colors text-sm"
+                    >
+                      {COMPANY.phone}
+                    </a>
+                  </div>
                 </li>
               )}
             </ul>
