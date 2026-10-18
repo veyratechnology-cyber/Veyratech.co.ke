@@ -71,7 +71,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json(
         {
           error: "Database connection failed",
-          message: "Unable to save your message. Please try again or contact us directly at admin@veyratech.com",
+          message: "Unable to save your message. Please try again or contact us directly at hello@veyratech.co.ke",
           details: process.env.NODE_ENV === 'development' ? {
             errorMessage: dbError.message,
             errorCode: dbError.code
@@ -141,7 +141,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json(
       { 
         error: "Failed to send message",
-        message: "An unexpected error occurred. Please try again or contact us directly at admin@veyratech.com"
+        message: "An unexpected error occurred. Please try again or contact us directly at hello@veyratech.co.ke"
       },
       { status: 500 }
     );

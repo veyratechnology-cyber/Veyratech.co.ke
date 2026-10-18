@@ -71,7 +71,7 @@ export default function PrivacyPage() {
 
             <h2 className="text-2xl font-sora font-semibold mt-8 mb-4">Contact Us</h2>
             <p className="text-text-primary leading-relaxed mb-4">
-              If you have questions about this Privacy Policy, please contact us at contact@VeyraTech.com.
+              If you have questions about this Privacy Policy, please contact us at hello@veyratech.co.ke.
             </p>
           </div>
         </div>

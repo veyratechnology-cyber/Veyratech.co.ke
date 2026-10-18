@@ -311,7 +311,7 @@ export function generateInvoiceHTML(data: InvoiceData): string {
         <p class="tagline">Technology Consulting & AI Strategy</p>
         <p><strong>Location:</strong> Nairobi, Kenya</p>
         <p><strong>Phone:</strong> +254 745 247 211</p>
-        <p><strong>Email:</strong> info@veyratech.co.ke</p>
+        <p><strong>Email:</strong> support@veyratech.co.ke</p>
         <p><strong>Website:</strong> www.veyratech.co.ke</p>
       </div>
       <div class="invoice-info">
@@ -401,7 +401,7 @@ export function generateInvoiceHTML(data: InvoiceData): string {
       <p class="footer-thanks">Thank you for your business!</p>
       <div class="footer-contact">
         <p><strong>VeyraTech</strong> • Technology Consulting & AI Strategy</p>
-        <p>Nairobi, Kenya • +254 745 247 211 • info@veyratech.co.ke</p>
+        <p>Nairobi, Kenya • +254 745 247 211 • support@veyratech.co.ke</p>
         <p>www.veyratech.co.ke</p>
       </div>
       <p style="margin-top: 20px; color: #999;">

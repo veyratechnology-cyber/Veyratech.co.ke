@@ -116,7 +116,7 @@ export default function RootLayout({
     },
     contactPoint: {
       '@type': 'ContactPoint',
-      email: 'admin@veyratech.com',
+      email: 'hello@veyratech.co.ke',
       contactType: 'Customer Service',
       availableLanguage: ['English'],
       areaServed: 'KE',

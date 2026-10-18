@@ -388,10 +388,10 @@ export default function BookConsultationPage() {
                   Send us your requirements
                 </p>
                 <a
-                  href="mailto:admin@veyratech.com"
+                  href="mailto:consulting@veyratech.co.ke"
                   className="text-secondary hover:underline font-medium text-lg"
                 >
-                  admin@veyratech.com
+                  consulting@veyratech.co.ke
                 </a>
               </div>
             </div>

@@ -53,7 +53,7 @@ export default function TermsPage() {
 
             <h2 className="text-2xl font-sora font-semibold mt-8 mb-4">Contact Information</h2>
             <p className="text-text-primary leading-relaxed mb-4">
-              For questions about these Terms of Service, please contact us at contact@VeyraTech.com.
+              For questions about these Terms of Service, please contact us at hello@veyratech.co.ke.
             </p>
           </div>
         </div>
