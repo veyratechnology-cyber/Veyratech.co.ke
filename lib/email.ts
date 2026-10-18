@@ -370,13 +370,13 @@ export async function sendContactNotification(data: {
   subject: string;
   message: string;
 }) {
-  try {
-    if (!resend) {
-      console.log("[EMAIL] Resend not configured, skipping contact notification");
-      return;
-    }
+  if (!resend) {
+    console.error("[EMAIL] Resend not configured - API key missing!");
+    throw new Error("Email service not configured");
+  }
 
-    await resend.emails.send({
+  try {
+    const result = await resend.emails.send({
       from: FROM_EMAIL,
       to: ADMIN_EMAIL, // General inquiries go to hello@veyratech.co.ke
       subject: `Contact Form: ${data.subject}`,
@@ -410,9 +410,11 @@ export async function sendContactNotification(data: {
         <p style="color: #666; font-size: 12px;">This is an automated notification from VeyraTech.</p>
       `,
     });
-    console.log("[EMAIL] Contact notification sent to admin");
+    console.log("[EMAIL] Contact notification sent to admin:", result);
+    return result;
   } catch (error) {
     console.error("[EMAIL] Failed to send contact notification:", error);
+    throw error; // Re-throw so caller knows it failed
   }
 }
 
@@ -423,13 +425,13 @@ export async function sendContactConfirmation(data: {
   name: string;
   email: string;
 }) {
-  try {
-    if (!resend) {
-      console.log("[EMAIL] Resend not configured, skipping contact confirmation");
-      return;
-    }
+  if (!resend) {
+    console.error("[EMAIL] Resend not configured - API key missing!");
+    throw new Error("Email service not configured");
+  }
 
-    await resend.emails.send({
+  try {
+    const result = await resend.emails.send({
       from: FROM_EMAIL,
       to: data.email,
       subject: "We've Received Your Message",
@@ -456,8 +458,10 @@ export async function sendContactConfirmation(data: {
         </p>
       `,
     });
-    console.log("[EMAIL] Contact confirmation sent to customer");
+    console.log("[EMAIL] Contact confirmation sent to customer:", result);
+    return result;
   } catch (error) {
     console.error("[EMAIL] Failed to send contact confirmation:", error);
+    throw error; // Re-throw so caller knows it failed
   }
 }
