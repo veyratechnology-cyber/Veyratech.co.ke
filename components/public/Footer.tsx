@@ -80,6 +80,14 @@ export function Footer() {
                   Contact
                 </Link>
               </li>
+              <li>
+                <Link
+                  href="/support"
+                  className="text-text-secondary hover:text-secondary transition-colors"
+                >
+                  Client Support
+                </Link>
+              </li>
             </ul>
           </div>
 
