@@ -256,7 +256,7 @@ export default function SimpleBooking() {
                             key={type.value}
                             type="button"
                             onClick={() =>
-                              setFormData((prev) => ({ ...prev, meetingType: type.value }))
+                              setFormData((prev) => ({ ...prev, meetingType: type.value as 'GOOGLE_MEET' | 'PHONE' | 'IN_PERSON' }))
                             }
                             className={`p-4 rounded-lg border-2 text-center transition-all ${
                               formData.meetingType === type.value
