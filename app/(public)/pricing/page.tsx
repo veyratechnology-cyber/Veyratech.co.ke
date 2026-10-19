@@ -91,7 +91,7 @@ export default function PricingPage() {
                 </ul>
 
                 {/* CTA Button */}
-                <Link href="/book-consultation" className="block">
+                <Link href={`/book-consultation?package=${pkg.id}`} className="block">
                   <Button
                     className={`w-full group ${
                       index === 1 ? 'bg-primary hover:bg-primary/90' : ''
@@ -180,7 +180,7 @@ export default function PricingPage() {
             <p className="text-text-secondary mb-8 text-lg">
               Book a free consultation and we'll help you find the perfect solution
             </p>
-            <Link href="/book-consultation">
+            <Link href="/book-consultation?package=consultation-comprehensive">
               <Button size="lg">
                 Book Free Consultation
                 <ArrowRight className="ml-2" size={18} />

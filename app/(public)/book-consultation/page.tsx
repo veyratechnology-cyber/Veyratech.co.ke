@@ -1,20 +1,15 @@
 "use client";
 
-import React, { useState } from "react";
-import { useRouter } from "next/navigation";
-import { Button, Input, Textarea, Select, Alert } from "@/components/shared";
-import { 
-  INDUSTRIES, 
-  CONSULTATION_TYPES, 
-  MEETING_TYPES,
-} from "@/lib/constants";
-import { Calendar, Send, CheckCircle, Phone, Mail } from "lucide-react";
+import React from "react";
+import MultiStepBooking from "./multi-step-booking";
 
 /**
- * Simplified Consultation Booking - Single Page
- * User-friendly, streamlined booking experience
+ * Consultation Booking Page - Multi-Step Wizard
+ * Includes package selection, payment integration, and meeting scheduling
  */
 export default function BookConsultationPage() {
+  return <MultiStepBooking />;
+}
   const router = useRouter();
   const [formData, setFormData] = useState({
     // Essential Information Only

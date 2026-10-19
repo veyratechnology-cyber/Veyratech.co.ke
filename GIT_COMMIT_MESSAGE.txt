@@ -1,0 +1,50 @@
+feat: Multi-step booking wizard with payment integration
+
+MAJOR FEATURES:
+- 6-step booking wizard with visual progress indicator
+- Package preselection from pricing page (?package=xxx)
+- Meeting scheduling (Google Meet, Phone, In-Person)
+- Payment integration (M-Pesa STK Push, Bank Transfer, Invoice)
+- Automatic invoice generation with VAT calculation
+- M-Pesa webhook callback handler
+- Form state persistence (localStorage)
+- Email confirmations (client + admin)
+
+DATABASE CHANGES:
+- Added packageId, quotedAmount, paymentStatus, invoiceId to consultations
+- Added consultationId to invoices
+- Added indexes for performance
+
+NEW FILES:
+- app/(public)/book-consultation/multi-step-booking.tsx
+- app/api/consultations/book-with-payment/route.ts
+- app/api/mpesa/callback/route.ts
+- DATABASE_SCHEMA_UPDATE.sql
+- BOOKING_FLOW_GUIDE.md
+- QUICK_START_DEPLOYMENT.md
+
+MODIFIED FILES:
+- prisma/schema.prisma (added payment fields)
+- app/(public)/book-consultation/page.tsx (use multi-step component)
+- app/(public)/pricing/page.tsx (add package URL params)
+
+TECHNICAL DETAILS:
+- Uses Zod for validation
+- Prisma ORM for database
+- Resend for email notifications
+- M-Pesa Daraja API for payments
+- Google Calendar API for meeting scheduling
+- LocalStorage for progress saving
+
+DEPLOYMENT:
+1. Run DATABASE_SCHEMA_UPDATE.sql in Supabase
+2. npx prisma generate
+3. git push (Vercel auto-deploys)
+4. Configure M-Pesa credentials (optional)
+
+TESTING:
+- Visit /pricing → click any package → complete booking wizard
+- Check consultations and invoices tables in database
+- Verify emails sent to customer and admin
+
+Closes #booking-payment-integration
