@@ -23,12 +23,14 @@ const STEPS = [
   { id: 1, title: 'Your Information' },
   { id: 2, title: 'Business Needs' },
   { id: 3, title: 'Schedule Meeting' },
+  { id: 4, title: 'Review & Pricing' },
 ];
 
 export default function SimpleBooking() {
   const router = useRouter();
   const [currentStep, setCurrentStep] = useState(1);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [acceptedTerms, setAcceptedTerms] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<{
     type: "success" | "error";
     message: string;
@@ -66,7 +68,7 @@ export default function SimpleBooking() {
   };
 
   const nextStep = () => {
-    if (currentStep < 3) {
+    if (currentStep < 4) {
       setCurrentStep(currentStep + 1);
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
@@ -82,7 +84,7 @@ export default function SimpleBooking() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    if (currentStep < 3) {
+    if (currentStep < 4) {
       nextStep();
       return;
     }
@@ -144,7 +146,7 @@ export default function SimpleBooking() {
               Book Your Consultation
             </h1>
             <p className="text-xl md:text-2xl text-text-secondary leading-relaxed">
-              Free 30-minute consultation. No commitment required.
+              Professional consultation services. Pricing based on your needs.
             </p>
           </div>
         </div>
@@ -360,6 +362,98 @@ export default function SimpleBooking() {
                   </div>
                 )}
 
+                {/* Step 4: Review & Pricing */}
+                {currentStep === 4 && (
+                  <div>
+                    <h2 className="text-2xl font-sora font-bold mb-6">Review Your Booking</h2>
+                    
+                    <div className="space-y-6">
+                      {/* Summary */}
+                      <div className="bg-primary-light rounded-lg p-6 space-y-4">
+                        <div>
+                          <h3 className="font-semibold text-text-primary mb-2">Contact Information</h3>
+                          <p className="text-sm text-text-secondary">{formData.name}</p>
+                          <p className="text-sm text-text-secondary">{formData.email}</p>
+                          <p className="text-sm text-text-secondary">{formData.phone}</p>
+                          {formData.company && <p className="text-sm text-text-secondary">{formData.company}</p>}
+                        </div>
+
+                        <div className="border-t border-border pt-4">
+                          <h3 className="font-semibold text-text-primary mb-2">Meeting Details</h3>
+                          <p className="text-sm text-text-secondary">
+                            Format: {MEETING_TYPES.find(t => t.value === formData.meetingType)?.label}
+                          </p>
+                          {formData.preferredDate && (
+                            <p className="text-sm text-text-secondary">
+                              Preferred: {new Date(formData.preferredDate).toLocaleDateString()} 
+                              {formData.preferredTime && ` at ${formData.preferredTime}`}
+                            </p>
+                          )}
+                        </div>
+                      </div>
+
+                      {/* Pricing Information */}
+                      <div className="bg-secondary/5 border-2 border-secondary/20 rounded-lg p-6">
+                        <h3 className="font-sora font-bold text-xl text-text-primary mb-4">Consultation Pricing</h3>
+                        
+                        <div className="space-y-3">
+                          <div className="flex justify-between items-center pb-3 border-b border-border">
+                            <span className="text-text-secondary">Initial Consultation (60 min)</span>
+                            <span className="font-semibold text-text-primary">KSH 15,000</span>
+                          </div>
+                          
+                          <div className="pt-2">
+                            <p className="text-sm text-text-secondary mb-3">
+                              <strong>What's included:</strong>
+                            </p>
+                            <ul className="text-sm text-text-secondary space-y-2">
+                              <li className="flex items-start">
+                                <span className="text-secondary mr-2">•</span>
+                                <span>In-depth analysis of your business challenge</span>
+                              </li>
+                              <li className="flex items-start">
+                                <span className="text-secondary mr-2">•</span>
+                                <span>Expert recommendations and strategic guidance</span>
+                              </li>
+                              <li className="flex items-start">
+                                <span className="text-secondary mr-2">•</span>
+                                <span>Actionable next steps and implementation roadmap</span>
+                              </li>
+                              <li className="flex items-start">
+                                <span className="text-secondary mr-2">•</span>
+                                <span>Follow-up summary document</span>
+                              </li>
+                            </ul>
+                          </div>
+
+                          <div className="bg-primary-light rounded p-3 mt-4">
+                            <p className="text-sm text-text-secondary">
+                              <strong>Payment:</strong> Invoice will be sent after booking confirmation. 
+                              Payment is required before the scheduled consultation.
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Terms Acceptance */}
+                      <div className="flex items-start gap-3 bg-primary-light p-4 rounded-lg">
+                        <input
+                          type="checkbox"
+                          id="acceptTerms"
+                          checked={acceptedTerms}
+                          onChange={(e) => setAcceptedTerms(e.target.checked)}
+                          className="mt-1"
+                          required
+                        />
+                        <label htmlFor="acceptTerms" className="text-sm text-text-secondary cursor-pointer">
+                          I understand that this is a paid consultation service (KSH 15,000) and agree to receive 
+                          an invoice. Payment is required before the scheduled consultation date.
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                )}
+
                 {/* Navigation Buttons */}
                 <div className="flex justify-between pt-6 border-t border-border">
                   <Button
@@ -378,8 +472,9 @@ export default function SimpleBooking() {
                     variant="primary"
                     size="lg"
                     isLoading={isSubmitting}
+                    disabled={currentStep === 4 && !acceptedTerms}
                   >
-                    {currentStep < 3 ? (
+                    {currentStep < 4 ? (
                       <>
                         Continue
                         <ArrowRight size={20} />
@@ -388,16 +483,16 @@ export default function SimpleBooking() {
                       "Submitting..."
                     ) : (
                       <>
-                        Submit Booking
+                        Confirm Booking
                         <Send size={20} />
                       </>
                     )}
                   </Button>
                 </div>
 
-                {currentStep === 3 && (
+                {currentStep === 4 && (
                   <p className="text-center text-sm text-text-muted">
-                    By booking, you agree to our consultation terms. We'll never share your information.
+                    Your payment invoice will be sent via email after booking confirmation.
                   </p>
                 )}
               </form>
