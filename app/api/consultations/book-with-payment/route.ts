@@ -14,7 +14,7 @@ import prisma from "@/lib/db/prisma";
 import { z } from "zod";
 import { generateInvoiceNumber } from "@/lib/invoices/generator";
 import { initiateSTKPush } from "@/lib/mpesa";
-import { sendEmail } from "@/lib/email";
+import { sendConsultationConfirmation, sendConsultationNotification } from "@/lib/email";
 import { reserveTimeSlot } from "@/lib/scheduling";
 import { createConsultationEvent, isGoogleCalendarConfigured } from "@/lib/google-calendar";
 
