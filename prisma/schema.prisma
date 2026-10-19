@@ -209,7 +209,7 @@ enum Priority {
 // ============================================================
 
 model Consultation {
-  id                    String              @id @default(dbgenerated("uuid_generate_v4()"))
+  id                    String              @id @default(uuid())
   leadId                String? @map("lead_id")
   lead                  Lead?               @relation(fields: [leadId], references: [id])
   
@@ -844,7 +844,7 @@ enum AuditAction {
 // ============================================================
 
 model Invoice {
-  id                  String          @id @default(dbgenerated("uuid_generate_v4()"))
+  id                  String          @id @default(uuid())
   invoiceNumber       String          @unique @map("invoice_number")
   
   // Links to other entities
