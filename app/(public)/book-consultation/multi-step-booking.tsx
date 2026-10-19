@@ -788,7 +788,7 @@ function Step5Payment({
           onChange={(e) => updateField('mpesaPhone', e.target.value)}
           required
           placeholder="+254 712 345 678"
-          helpText="You'll receive an STK push prompt on this number"
+          helperText="You'll receive an STK push prompt on this number"
         />
       )}
 
