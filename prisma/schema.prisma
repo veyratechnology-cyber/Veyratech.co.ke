@@ -209,7 +209,7 @@ enum Priority {
 // ============================================================
 
 model Consultation {
-  id                    String              @id @default(uuid())
+  id                    String              @id @default(dbgenerated("uuid_generate_v4()"))
   leadId                String? @map("lead_id")
   lead                  Lead?               @relation(fields: [leadId], references: [id])
   
@@ -219,6 +219,16 @@ model Consultation {
   phone                 String?
   jobTitle              String? @map("job_title")
   preferredContactMethod String? @map("preferred_contact_method")
+  
+  // Package & Payment Information
+  packageId             String? @map("package_id")
+  packageName           String? @map("package_name")
+  quotedAmount          Decimal? @map("quoted_amount") @db.Decimal(12, 2)
+  paymentStatus         String @default("PENDING") @map("payment_status")
+  paymentMethod         String? @map("payment_method")
+  
+  // Relations
+  invoices              Invoice[]
   
   // Company Information
   company               String?
@@ -834,8 +844,12 @@ enum AuditAction {
 // ============================================================
 
 model Invoice {
-  id                  String          @id @default(uuid())
+  id                  String          @id @default(dbgenerated("uuid_generate_v4()"))
   invoiceNumber       String          @unique @map("invoice_number")
+  
+  // Links to other entities
+  consultationId      String? @map("consultation_id")
+  consultation        Consultation? @relation(fields: [consultationId], references: [id])
   
   // Client Information
   clientName          String @map("client_name")
