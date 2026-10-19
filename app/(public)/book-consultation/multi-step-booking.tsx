@@ -230,7 +230,7 @@ export default function MultiStepBooking() {
   };
 
   const selectedPackage = formData.packageId
-    ? packages[formData.packageCategory].find(p => p.id === formData.packageId)
+    ? packages[formData.packageCategory].find(p => p.id === formData.packageId) ?? null
     : null;
 
   return (
