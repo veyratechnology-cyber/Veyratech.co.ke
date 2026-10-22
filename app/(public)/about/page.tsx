@@ -4,6 +4,8 @@ import { Button, Card, CardContent } from "@/components/shared";
 import { PRINCIPLES } from "@/lib/constants";
 import { ArrowRight, CheckCircle } from "lucide-react";
 import type { Metadata } from "next";
+import StructuredData from "@/components/seo/StructuredData";
+import { generateOrganizationSchema } from "@/lib/seo/structured-data";
 
 export const metadata: Metadata = {
   title: "About Us | VeyraTech - Real People, Not Corporate Robots",
@@ -11,8 +13,13 @@ export const metadata: Metadata = {
 };
 
 export default function AboutPage() {
+  const organizationSchema = generateOrganizationSchema();
+
   return (
     <>
+      {/* SEO Structured Data */}
+      <StructuredData data={organizationSchema} />
+
       {/* Hero Section */}
       <section className="section bg-primary text-white">
         <div className="container-custom">
