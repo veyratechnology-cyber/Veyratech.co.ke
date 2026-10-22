@@ -4,6 +4,8 @@ import { Button, Card, CardContent } from "@/components/shared";
 import { getPublishedServices } from "@/lib/db/queries";
 import { ArrowRight } from "lucide-react";
 import type { Metadata } from "next";
+import StructuredData from "@/components/seo/StructuredData";
+import { generateServiceSchema } from "@/lib/seo/structured-data";
 
 export const metadata: Metadata = {
   title: "Services | VeyraTech",
@@ -36,8 +38,22 @@ export default async function ServicesPage() {
     console.error('Database error, using static services:', error);
   }
 
+  // Generate service schemas for each service
+  const serviceSchemas = services.map(service => 
+    generateServiceSchema({
+      name: service.name,
+      description: service.description,
+      url: `https://veyratech.co.ke/services/${service.slug}`,
+    })
+  );
+
   return (
     <>
+      {/* SEO Structured Data */}
+      {serviceSchemas.map((schema, index) => (
+        <StructuredData key={index} data={schema} />
+      ))}
+
       {/* Hero Section */}
       <section className="section bg-primary text-white">
         <div className="container-custom">

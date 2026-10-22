@@ -4,6 +4,8 @@ import { Button, Card, CardHeader, CardTitle, CardDescription, CardContent } fro
 import { METHODOLOGY, PRINCIPLES, SERVICE_AREAS } from "@/lib/constants";
 import { ArrowRight, CheckCircle, Target, Lightbulb, Code, TrendingUp, Shield, Users, Clock } from "lucide-react";
 import type { Metadata } from "next";
+import StructuredData from "@/components/seo/StructuredData";
+import { generateOrganizationSchema, generateWebSiteSchema, generateLocalBusinessSchema } from "@/lib/seo/structured-data";
 
 export const metadata: Metadata = {
   title: "VeyraTech | Technology & AI Consulting That Actually Makes Sense",
@@ -12,8 +14,18 @@ export const metadata: Metadata = {
 };
 
 export default function HomePage() {
+  // Generate structured data schemas for homepage
+  const organizationSchema = generateOrganizationSchema();
+  const websiteSchema = generateWebSiteSchema();
+  const localBusinessSchema = generateLocalBusinessSchema();
+
   return (
     <>
+      {/* SEO Structured Data */}
+      <StructuredData data={organizationSchema} />
+      <StructuredData data={websiteSchema} />
+      <StructuredData data={localBusinessSchema} />
+
       {/* Hero Section - Enhanced */}
       <section className="section bg-primary relative overflow-hidden">
         {/* Subtle orange gradient effect */}
