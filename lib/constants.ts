@@ -190,10 +190,49 @@ export const COMPANY = {
   website: "https://veyratech.com",
 };
 
+// Solutions Dropdown (for navigation)
+export const SOLUTIONS_DROPDOWN = [
+  { 
+    label: "Website Development", 
+    href: "/solutions/website-development",
+    description: "Professional websites and web applications"
+  },
+  { 
+    label: "Custom Software", 
+    href: "/solutions/custom-software",
+    description: "Tailored software for your business needs"
+  },
+  { 
+    label: "Business Systems", 
+    href: "/solutions/business-systems",
+    description: "Complete management and operational systems"
+  },
+  { 
+    label: "POS & Inventory", 
+    href: "/solutions/pos-inventory",
+    description: "Point-of-sale and inventory management"
+  },
+  { 
+    label: "Mobile Apps", 
+    href: "/solutions/mobile-apps",
+    description: "iOS and Android mobile applications"
+  },
+  { 
+    label: "System Integration", 
+    href: "/solutions/system-integration",
+    description: "Connect and automate your systems"
+  },
+  { 
+    label: "AI & Automation", 
+    href: "/solutions/ai-automation",
+    description: "Intelligent automation and AI features"
+  },
+];
+
 // Public Navigation
 export const PUBLIC_NAV_ITEMS = [
   { label: "Home", href: "/" },
-  { label: "Services", href: "/services" },
+  { label: "Solutions", href: "/solutions", hasDropdown: true }, // Changed from "Services" to "Solutions"
   { label: "Industries", href: "/industries" },
   { label: "Case Studies", href: "/case-studies" },
   { label: "Pricing", href: "/pricing" },
