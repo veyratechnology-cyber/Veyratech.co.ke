@@ -8,8 +8,8 @@ import StructuredData from "@/components/seo/StructuredData";
 import { generateOrganizationSchema } from "@/lib/seo/structured-data";
 
 export const metadata: Metadata = {
-  title: "About Us | VeyraTech - Real People, Not Corporate Robots",
-  description: "We started VeyraTech because we were tired of seeing businesses get burned by consultants who care more about billable hours than actual results. Here's our story.",
+  title: "About Us | VeyraTech - Software Developers Who Understand Business",
+  description: "We started VeyraTech to build software solutions that Kenyan businesses actually need—from websites and mobile apps to complete business management systems. Here's our story.",
 };
 
 export default function AboutPage() {
@@ -25,9 +25,9 @@ export default function AboutPage() {
         <div className="container-custom">
           <div className="max-w-4xl mx-auto text-center">
             <h1 className="text-4xl md:text-5xl font-sora font-bold mb-6">
-              We're Not Your Typical Consultants
+              Software Developers Who
               <br />
-              <span className="text-secondary">(And That's Intentional)</span>
+              <span className="text-secondary">Understand Your Business</span>
             </h1>
             <p className="text-xl text-text-secondary leading-relaxed">
               VeyraTech was born from frustration with an industry that cares more about PowerPoint decks than actual results.

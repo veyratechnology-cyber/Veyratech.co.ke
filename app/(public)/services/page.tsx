@@ -9,7 +9,7 @@ import { generateServiceSchema } from "@/lib/seo/structured-data";
 
 export const metadata: Metadata = {
   title: "Services | VeyraTech",
-  description: "Technology consulting services including Technology Strategy, AI Consulting, Business Automation, Digital Transformation, Software & Systems, and Technology Advisory.",
+  description: "Custom software development and technology consulting services including Website Development, Business Management Systems, POS Solutions, Mobile Apps, System Integration, and AI Automation.",
 };
 
 // Force dynamic rendering - disable all static generation
@@ -18,12 +18,14 @@ export const revalidate = 0;
 
 // Hardcoded services as fallback
 const STATIC_SERVICES = [
-  { id: '1', name: 'Technology Strategy & Planning', slug: 'technology-strategy', description: 'Strategic technology planning that aligns with your business objectives and creates competitive advantage.' },
-  { id: '2', name: 'AI Consulting & Implementation', slug: 'ai-consulting', description: 'Practical AI consulting focused on real business problems and measurable outcomes.' },
-  { id: '3', name: 'Business Process Automation', slug: 'business-automation', description: 'Intelligent automation that eliminates repetitive work and improves operational efficiency.' },
-  { id: '4', name: 'Digital Transformation', slug: 'digital-transformation', description: 'Comprehensive digital transformation that modernizes operations and creates new business capabilities.' },
-  { id: '5', name: 'Software & Systems Advisory', slug: 'software-systems', description: 'Expert guidance on software selection, implementation, and optimization.' },
-  { id: '6', name: 'Technology Advisory Services', slug: 'technology-advisory', description: 'Ongoing technology advisory and fractional CTO services for growing organizations.' },
+  { id: '1', name: 'Website Development', slug: 'website-development', description: 'Professional websites and web applications that showcase your brand and serve your business needs.' },
+  { id: '2', name: 'Custom Software Development', slug: 'custom-software', description: 'Tailored software solutions built specifically for your unique business processes and requirements.' },
+  { id: '3', name: 'Business Management Systems', slug: 'business-systems', description: 'Complete systems for managing operations, inventory, sales, customers, and business workflows.' },
+  { id: '4', name: 'POS & Inventory Systems', slug: 'pos-inventory', description: 'Point-of-sale and inventory management solutions that streamline retail and distribution operations.' },
+  { id: '5', name: 'Mobile Applications', slug: 'mobile-apps', description: 'Native and cross-platform mobile apps for iOS and Android that engage your customers.' },
+  { id: '6', name: 'System Integration', slug: 'system-integration', description: 'Connect your existing systems and automate data flow between different business applications.' },
+  { id: '7', name: 'AI & Automation', slug: 'ai-automation', description: 'Intelligent automation and AI-powered features that eliminate repetitive work and improve efficiency.' },
+  { id: '8', name: 'Technology Consulting', slug: 'technology-consulting', description: 'Strategic guidance on technology decisions, digital transformation, and software architecture.' },
 ];
 
 export default async function ServicesPage() {
@@ -59,10 +61,10 @@ export default async function ServicesPage() {
         <div className="container-custom">
           <div className="max-w-4xl mx-auto text-center">
             <h1 className="text-4xl md:text-5xl font-sora font-bold mb-6">
-              Our Services
+              Our Solutions
             </h1>
             <p className="text-xl text-text-secondary leading-relaxed">
-              We provide practical technology and AI consulting services designed to solve real business problems and create measurable value.
+              We build custom software solutions designed to solve real business problems and create measurable value for Kenyan businesses.
             </p>
           </div>
         </div>
@@ -99,10 +101,10 @@ export default async function ServicesPage() {
         <div className="container-custom">
           <div className="max-w-4xl mx-auto text-center">
             <h2 className="text-3xl md:text-4xl font-sora font-bold text-text-primary mb-6">
-              Problem First. Technology Second.
+              Software First. Strategy Second.
             </h2>
             <p className="text-lg text-text-secondary mb-8 leading-relaxed">
-              VeyraTech never recommends technology simply because it is new, fashionable, or technically interesting. Every recommendation begins with understanding your business problem, desired outcomes, and current situation.
+              VeyraTech believes in building practical software solutions that solve real business problems. We start by understanding your operations, then design and develop systems that fit your specific needs.
             </p>
             <div className="bg-primary-dark rounded-xl p-8 shadow-sm border border-border">
               <div className="space-y-4 text-left">
@@ -134,14 +136,14 @@ export default async function ServicesPage() {
         <div className="container-custom">
           <div className="max-w-3xl mx-auto text-center">
             <h2 className="text-3xl md:text-4xl font-sora font-bold mb-6">
-              Let's Discuss Your Technology Needs
+              Let's Discuss Your Software Needs
             </h2>
             <p className="text-xl mb-10 text-text-secondary">
-              Schedule a consultation to explore how we can help your organization.
+              Schedule a consultation to explore how we can build a solution for your business.
             </p>
             <Link href="/book-consultation">
               <Button variant="secondary" size="lg" className="bg-primary-dark text-secondary hover:bg-primary-dark">
-                Book a Consultation
+                Start Your Project
                 <ArrowRight size={20} />
               </Button>
             </Link>

@@ -76,7 +76,7 @@ export function Logo({ className, variant = "full", theme = "light" }: LogoProps
           VEYRA<span style={{ color: symbolColor }}>TECH</span>
         </span>
         <span className="text-xs font-inter" style={{ color: textColor, opacity: 0.7 }}>
-          Technology & AI Consulting
+          Software Development & Solutions
         </span>
       </div>
     </div>

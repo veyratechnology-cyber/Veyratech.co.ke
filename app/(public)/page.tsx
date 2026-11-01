@@ -8,9 +8,9 @@ import StructuredData from "@/components/seo/StructuredData";
 import { generateOrganizationSchema, generateWebSiteSchema, generateLocalBusinessSchema } from "@/lib/seo/structured-data";
 
 export const metadata: Metadata = {
-  title: "VeyraTech | Technology & AI Consulting That Actually Makes Sense",
-  description: "We help businesses cut through the tech hype and find solutions that actually work. No jargon, no fluff—just honest advice from people who've been in your shoes.",
-  keywords: ["technology consulting", "AI consulting", "digital transformation", "business automation", "technology strategy"],
+  title: "VeyraTech | Custom Software Development That Transforms Business Operations",
+  description: "We build custom software solutions for Kenyan businesses—from websites and mobile apps to complete business management systems. Transform your operations with technology that actually works.",
+  keywords: ["custom software development Kenya", "website development", "business management systems", "POS systems", "mobile app development", "system integration", "software solutions Nairobi"],
 };
 
 export default function HomePage() {
@@ -37,10 +37,10 @@ export default function HomePage() {
         <div className="container-custom relative z-10 py-20 md:py-28">
           <div className="max-w-4xl mx-auto text-center">
             <h1 className="text-4xl md:text-6xl lg:text-7xl font-sora font-bold mb-6 leading-tight text-text-primary">
-              Technology Solutions
+              Custom Software That
               <br />
               <span className="text-secondary relative inline-block">
-                That Actually Work
+                Transforms Your Business
                 <svg className="absolute -bottom-2 left-0 w-full" height="12" viewBox="0 0 200 12" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M2 10C60 2, 140 2, 198 10" stroke="currentColor" strokeWidth="3" strokeLinecap="round"/>
                 </svg>
@@ -48,19 +48,19 @@ export default function HomePage() {
             </h1>
             
             <p className="text-xl md:text-2xl text-text-secondary mb-10 max-w-3xl mx-auto leading-relaxed">
-              No buzzwords. No unnecessary complexity. Just practical technology and AI consulting that helps your business grow.
+              From websites and mobile apps to complete business management systems—we build software solutions that streamline operations and drive growth.
             </p>
             
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link href="/book-consultation">
                 <Button variant="primary" size="lg" className="text-lg px-8 py-6 shadow-lg hover:shadow-xl transition-all">
-                  Book Free Consultation
+                  Start Your Project
                   <ArrowRight size={20} />
                 </Button>
               </Link>
               <Link href="/services">
                 <Button variant="outline" size="lg" className="text-lg px-8 py-6">
-                  Explore Services
+                  View Solutions
                 </Button>
               </Link>
             </div>
@@ -74,10 +74,10 @@ export default function HomePage() {
           <div className="max-w-5xl mx-auto">
             <div className="text-center mb-12">
               <h2 className="text-3xl md:text-5xl font-sora font-bold text-text-primary mb-4">
-                Does This Sound Familiar?
+                Running a Business Without the Right Software?
               </h2>
               <p className="text-xl text-text-secondary">
-                You're not alone. Here's what we hear every day:
+                Here's what we see businesses struggling with every day:
               </p>
             </div>
             

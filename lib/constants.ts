@@ -47,17 +47,17 @@ export const CONSULTATION_STATUSES = [
 ];
 
 export const CONSULTATION_TYPES = [
-  { value: "AI_ADOPTION", label: "AI Adoption" },
-  { value: "AI_STRATEGY", label: "AI Strategy" },
-  { value: "BUSINESS_AUTOMATION", label: "Business Automation" },
+  { value: "WEBSITE_DEVELOPMENT", label: "Website Development" },
+  { value: "SOFTWARE_DEVELOPMENT", label: "Custom Software Development" },
+  { value: "BUSINESS_SYSTEM", label: "Business Management System" },
+  { value: "POS_SYSTEM", label: "POS & Inventory System" },
+  { value: "MOBILE_APP", label: "Mobile Application" },
+  { value: "SYSTEM_INTEGRATION", label: "System Integration" },
+  { value: "AI_AUTOMATION", label: "AI & Automation" },
+  { value: "TECHNOLOGY_CONSULTING", label: "Technology Consulting" },
   { value: "DIGITAL_TRANSFORMATION", label: "Digital Transformation" },
-  { value: "TECHNOLOGY_STRATEGY", label: "Technology Strategy" },
-  { value: "SOFTWARE_DEVELOPMENT", label: "Software / System Development" },
   { value: "TECHNOLOGY_AUDIT", label: "Technology Audit" },
-  { value: "DATA_ANALYTICS", label: "Data & Analytics" },
-  { value: "CYBERSECURITY", label: "Cybersecurity" },
-  { value: "BUSINESS_PROCESS_OPTIMIZATION", label: "Business Process Optimization" },
-  { value: "CUSTOM_SOLUTION", label: "Custom Technology Solution" },
+  { value: "CUSTOM_SOLUTION", label: "Custom Solution" },
   { value: "OTHER", label: "Other" },
 ];
 
@@ -150,12 +150,14 @@ export const COMPANY_SIZES = [
 ];
 
 export const SERVICE_AREAS = [
-  { value: "TECHNOLOGY_STRATEGY", label: "Technology Strategy" },
-  { value: "AI_CONSULTING", label: "AI Consulting" },
-  { value: "AUTOMATION", label: "Automation" },
-  { value: "DIGITAL_TRANSFORMATION", label: "Digital Transformation" },
-  { value: "SOFTWARE_SYSTEMS", label: "Software & Systems" },
-  { value: "TECHNOLOGY_ADVISORY", label: "Technology Advisory" },
+  { value: "WEBSITE_DEVELOPMENT", label: "Website Development" },
+  { value: "CUSTOM_SOFTWARE", label: "Custom Software Development" },
+  { value: "BUSINESS_SYSTEMS", label: "Business Management Systems" },
+  { value: "POS_INVENTORY", label: "POS & Inventory Systems" },
+  { value: "MOBILE_APPS", label: "Mobile Applications" },
+  { value: "SYSTEM_INTEGRATION", label: "System Integration" },
+  { value: "AI_AUTOMATION", label: "AI & Automation" },
+  { value: "TECHNOLOGY_CONSULTING", label: "Technology Consulting" },
   { value: "NOT_SURE", label: "Not Sure" },
 ];
 
@@ -180,8 +182,8 @@ export const INSIGHT_STATUSES = [
 // Company Information
 export const COMPANY = {
   name: "VeyraTech",
-  tagline: "Technology & AI Consulting",
-  description: "VeyraTech partners with businesses to design and implement practical technology solutions that drive growth, efficiency, and competitive advantage.",
+  tagline: "Software Development & Technology Solutions",
+  description: "VeyraTech builds custom software solutions that transform business operations. From websites and mobile apps to complete business management systems, we develop technology that drives growth and efficiency.",
   email: "hello@veyratech.co.ke",
   phone: "0745247211",
   address: "",

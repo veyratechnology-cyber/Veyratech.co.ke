@@ -91,9 +91,9 @@ export function Footer() {
             </ul>
           </div>
 
-          {/* Services */}
+          {/* Solutions */}
           <div>
-            <h3 className="font-sora font-bold text-lg mb-4 text-text-primary">Services</h3>
+            <h3 className="font-sora font-bold text-lg mb-4 text-text-primary">Solutions</h3>
             <ul className="space-y-3">
               {SERVICE_AREAS.slice(0, 6).map((service) => (
                 <li key={service.value}>
