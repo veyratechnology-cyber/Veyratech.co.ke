@@ -30,9 +30,9 @@ const nextConfig = {
   compress: true,
   poweredByHeader: false,
   
-  // Optimize for serverless
+  // Update Next.js config for Three.js optimization
   experimental: {
-    optimizePackageImports: ['lucide-react', '@/components/shared'],
+    optimizePackageImports: ['lucide-react', '@/components/shared', 'three', '@react-three/fiber', '@react-three/drei'],
   },
   
   // Reduce bundle size
