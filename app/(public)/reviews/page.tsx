@@ -15,41 +15,14 @@ export const metadata: Metadata = {
 export default function ReviewsPage() {
   const organizationSchema = generateOrganizationSchema();
 
-  const testimonials = [
-    {
-      author: "Sarah Chen",
-      role: "Operations Director",
-      company: "MidAtlantic Distribution",
-      rating: 5,
-      date: "2026-07-15",
-      text: "They didn't try to sell us on the latest tech trends. They listened, understood our bottlenecks, and recommended practical solutions that fit our budget. Six months later, our team is saving 15 hours a week on manual data entry.",
-      verified: true,
-    },
-    {
-      author: "Marcus Williams",
-      role: "CEO",
-      company: "Williams & Associates",
-      rating: 5,
-      date: "2026-06-22",
-      text: "Every consultant promises 'digital transformation.' VeyraTech actually delivered it. They mapped our entire workflow, identified the pain points, and built a system that our team actually uses. No shelf-ware, no disappointment.",
-      verified: true,
-    },
-    {
-      author: "Jennifer Rodriguez",
-      role: "CFO",
-      company: "TechCraft Manufacturing",
-      rating: 5,
-      date: "2026-08-05",
-      text: "We were drowning in AI hype and didn't know where to start. They cut through the noise, showed us three specific use cases where AI made sense for us, and helped us implement one that's already paying for itself.",
-      verified: true,
-    },
-  ];
+  // Testimonials removed - will be added when real client reviews are available
+  const testimonials: any[] = [];
 
   const reviewStats = {
-    averageRating: 4.9,
-    totalReviews: 24,
-    fiveStars: 22,
-    fourStars: 2,
+    averageRating: 0,
+    totalReviews: 0,
+    fiveStars: 0,
+    fourStars: 0,
     threeStars: 0,
     twoStars: 0,
     oneStars: 0,
@@ -82,17 +55,16 @@ export default function ReviewsPage() {
               What Our Clients Say
             </h1>
             <p className="text-xl text-text-secondary leading-relaxed mb-8">
-              Real reviews from real businesses we've helped transform with technology
+              We're building our review collection. Check back soon for client testimonials.
             </p>
             
-            {/* Overall Rating */}
+            {/* Overall Rating - Hidden until reviews available */}
             <div className="inline-flex flex-col items-center bg-primary-dark rounded-xl p-6 border border-border">
-              <div className="text-5xl font-sora font-bold text-secondary mb-2">
-                {reviewStats.averageRating}
+              <div className="text-text-secondary">
+                No reviews yet
               </div>
-              <StarRating rating={5} />
               <div className="text-text-muted mt-2">
-                Based on {reviewStats.totalReviews} reviews
+                Be our first reviewer!
               </div>
             </div>
           </div>
@@ -135,51 +107,21 @@ export default function ReviewsPage() {
         </div>
       </section>
 
-      {/* Testimonials */}
+      {/* Testimonials - Hidden until available */}
       <section className="section bg-primary">
         <div className="container-custom">
-          <div className="max-w-4xl mx-auto">
-            <h2 className="text-3xl font-sora font-bold mb-8 text-center text-text-primary">
-              Client Testimonials
+          <div className="max-w-4xl mx-auto text-center">
+            <h2 className="text-3xl font-sora font-bold mb-8 text-text-primary">
+              Client Testimonials Coming Soon
             </h2>
-            <div className="grid grid-cols-1 gap-6">
-              {testimonials.map((testimonial, index) => (
-                <Card key={index} hover>
-                  <CardContent className="p-6">
-                    <div className="flex items-start justify-between mb-4">
-                      <div>
-                        <div className="font-semibold text-text-primary text-lg">
-                          {testimonial.author}
-                        </div>
-                        <div className="text-sm text-text-muted">
-                          {testimonial.role} at {testimonial.company}
-                        </div>
-                      </div>
-                      {testimonial.verified && (
-                        <div className="flex items-center gap-1 text-xs text-success bg-success/10 px-2 py-1 rounded">
-                          <MessageSquare size={12} />
-                          Verified Client
-                        </div>
-                      )}
-                    </div>
-                    
-                    <div className="flex items-center gap-3 mb-4">
-                      <StarRating rating={testimonial.rating} />
-                      <span className="text-sm text-text-muted">
-                        {new Date(testimonial.date).toLocaleDateString('en-US', {
-                          year: 'numeric',
-                          month: 'long',
-                        })}
-                      </span>
-                    </div>
-
-                    <p className="text-text-secondary italic leading-relaxed">
-                      "{testimonial.text}"
-                    </p>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
+            <p className="text-lg text-text-secondary mb-8">
+              We're currently gathering feedback from our clients. Check back soon to see what they have to say about working with VeyraTech.
+            </p>
+            <Link href="/contact">
+              <Button variant="primary" size="lg">
+                Work With Us
+              </Button>
+            </Link>
           </div>
         </div>
       </section>

@@ -130,7 +130,7 @@ export default function PricingPage() {
                 What payment methods do you accept?
               </h3>
               <p className="text-text-secondary">
-                We accept M-Pesa, bank transfers, and credit/debit cards. All prices include 16% VAT.
+                We accept M-Pesa, bank transfers, and credit/debit cards. All prices exclude 16% VAT.
               </p>
             </CardContent>
           </Card>

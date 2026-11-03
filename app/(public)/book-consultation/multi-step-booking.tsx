@@ -700,7 +700,7 @@ function Step5Payment({
                 KSH {formData.quotedAmount.toLocaleString()}
               </span>
             </div>
-            <p className="text-xs text-text-muted mt-1">Includes 16% VAT</p>
+            <p className="text-xs text-text-muted mt-1">Excludes 16% VAT</p>
           </div>
         </div>
       </div>

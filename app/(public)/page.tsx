@@ -357,63 +357,8 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Testimonials Section */}
-      <section className="section bg-primary-dark">
-        <div className="container-custom">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-sora font-bold text-text-primary mb-4">
-              What Our Clients Say
-            </h2>
-            <p className="text-lg text-text-secondary max-w-3xl mx-auto">
-              Real feedback from real businesses we've helped
-            </p>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {[
-              {
-                quote: "They didn't try to sell us on the latest tech trends. They listened, understood our bottlenecks, and recommended practical solutions that fit our budget. Six months later, our team is saving 15 hours a week on manual data entry.",
-                author: "Sarah Chen",
-                role: "Operations Director",
-                company: "MidAtlantic Distribution",
-              },
-              {
-                quote: "Every consultant promises 'digital transformation.' VeyraTech actually delivered it. They mapped our entire workflow, identified the pain points, and built a system that our team actually uses. No shelf-ware, no disappointment.",
-                author: "Marcus Williams",
-                role: "CEO",
-                company: "Williams & Associates",
-              },
-              {
-                quote: "We were drowning in AI hype and didn't know where to start. They cut through the noise, showed us three specific use cases where AI made sense for us, and helped us implement one that's already paying for itself.",
-                author: "Jennifer Rodriguez",
-                role: "CFO",
-                company: "TechCraft Manufacturing",
-              },
-            ].map((testimonial, index) => (
-              <Card key={index} hover className="bg-primary">
-                <CardContent className="p-6">
-                  <div className="mb-4">
-                    <div className="text-secondary text-4xl font-serif">"</div>
-                  </div>
-                  <p className="text-text-secondary mb-6 italic leading-relaxed">
-                    {testimonial.quote}
-                  </p>
-                  <div className="border-t border-border pt-4">
-                    <p className="font-semibold text-text-primary">
-                      {testimonial.author}
-                    </p>
-                    <p className="text-sm text-text-muted">
-                      {testimonial.role}
-                    </p>
-                    <p className="text-sm text-secondary">
-                      {testimonial.company}
-                    </p>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </div>
-      </section>
+      {/* Testimonials Section - Removed */}
+      {/* Client testimonials will be added when real reviews are available */}
 
       {/* Real Talk Section */}
       <section className="section bg-primary">
