@@ -51,30 +51,35 @@ export default function HeroVisual() {
   );
 }
 
-/** CSS-only stand-in that mirrors the 3D scene's layout. */
+/** CSS-only stand-in: the finished system as stacked layers, matching the 3D scene. */
 function StaticSystem() {
   const modules = [
-    { icon: ShoppingCart, label: "Sales & POS", pos: "left-[6%] top-[22%]" },
-    { icon: Package, label: "Inventory", pos: "right-[4%] top-[18%]" },
-    { icon: Users, label: "Customers (CRM)", pos: "right-0 top-[56%]" },
-    { icon: Smartphone, label: "M-Pesa", pos: "left-[52%] bottom-[4%] -translate-x-1/2" },
-    { icon: BarChart3, label: "Reports", pos: "left-0 top-[60%]" },
-    { icon: Globe, label: "Web & Mobile", pos: "left-1/2 top-[2%] -translate-x-1/2" },
+    { icon: ShoppingCart, label: "Sales & POS" },
+    { icon: Package, label: "Inventory" },
+    { icon: Users, label: "Customers (CRM)" },
+    { icon: Smartphone, label: "M-Pesa Payments" },
   ];
+  const layer = "rounded-xl border border-secondary/40 bg-primary-dark/90 shadow-lg";
   return (
-    <div className="absolute inset-0">
-      <div className="absolute inset-[18%] rounded-full border border-secondary/30" />
-      <div className="absolute inset-[28%] rounded-full border border-dashed border-white/15" />
-      <div className="absolute left-1/2 top-1/2 h-24 w-24 -translate-x-1/2 -translate-y-1/2 rounded-full bg-secondary shadow-[0_0_60px_rgba(252,132,54,0.7)]" />
-      {modules.map(({ icon: Icon, label, pos }) => (
-        <div
-          key={label}
-          className={`absolute ${pos} flex items-center gap-2 rounded-full border border-white/10 bg-primary-dark/90 px-3 py-2 text-xs font-medium text-white/90 shadow-lg`}
-        >
-          <Icon size={14} className="text-secondary" />
-          {label}
-        </div>
-      ))}
+    <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 px-[10%]">
+      <div className="flex items-center gap-2 rounded-xl bg-secondary px-5 py-3 text-sm font-semibold text-white shadow-[0_0_40px_rgba(252,132,54,0.6)]">
+        <Globe size={16} /> Web &amp; Mobile App
+      </div>
+      <div className={`${layer} flex w-[70%] items-center justify-center gap-2 px-4 py-2.5 text-xs font-medium text-white/90`}>
+        <BarChart3 size={14} className="text-secondary" /> Reports
+      </div>
+      <div className="grid w-full grid-cols-2 gap-2">
+        {modules.map(({ icon: Icon, label }) => (
+          <div key={label} className={`${layer} flex items-center gap-2 px-3 py-3 text-xs font-medium text-white/90`}>
+            <Icon size={14} className="flex-shrink-0 text-secondary" />
+            {label}
+          </div>
+        ))}
+      </div>
+      <div className={`${layer} w-full px-4 py-3 text-center text-xs font-medium text-white/90`}>Database &amp; Cloud</div>
+      <div className="mt-2 flex items-center gap-2 rounded-full border border-white/15 bg-primary-dark px-3.5 py-1.5 text-xs font-semibold text-white">
+        <span className="h-2 w-2 rounded-full bg-success" /> System live
+      </div>
     </div>
   );
 }
