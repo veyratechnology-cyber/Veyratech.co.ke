@@ -11,6 +11,7 @@
  * ✅ Error Handling - No sensitive data exposure
  */
 
+import { linkLeadToConsultation } from "@/lib/journey";
 import { NextRequest, NextResponse } from "next/server";
 import { waitUntil } from "@vercel/functions";
 import prisma from "@/lib/db/prisma";
@@ -437,6 +438,16 @@ export async function POST(request: NextRequest) {
     });
     
     waitUntil((async () => {
+    // Pipeline: every booking becomes (or updates) a Lead in the admin
+    await linkLeadToConsultation({
+      consultationId: consultation.id,
+      name: sanitizedData.name,
+      email: sanitizedData.email,
+      phone: sanitizedData.phone,
+      company: sanitizedData.company,
+      businessChallenge: sanitizedData.businessChallenge,
+    });
+
     // ==========================================================================
     // INTEGRATION: GOOGLE CALENDAR
     // ==========================================================================

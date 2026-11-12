@@ -5,7 +5,7 @@ import { ArrowRight } from "lucide-react";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "How We Work | VeyraTech",
+  title: "How We Work",
   description: "Our five-stage consulting methodology: Discover, Diagnose, Design, Implement, and Optimize. A structured approach to solving technology problems.",
 };
 

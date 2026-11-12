@@ -9,6 +9,12 @@ import AdminHeader from "@/components/admin/AdminHeader";
 export const dynamic = 'force-dynamic';
 export const revalidate = 0;
 
+// Never index the admin panel
+export const metadata = {
+  title: { default: "Admin", template: "%s" },
+  robots: { index: false, follow: false },
+};
+
 /**
  * Admin Layout
  * Protected layout with sidebar navigation

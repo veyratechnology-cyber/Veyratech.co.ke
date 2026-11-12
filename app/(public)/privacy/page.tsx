@@ -2,7 +2,7 @@ import React from "react";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Privacy Policy | VeyraTech",
+  title: "Privacy Policy",
   description: "VeyraTech privacy policy and data protection practices.",
 };
 

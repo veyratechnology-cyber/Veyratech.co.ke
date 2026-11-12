@@ -9,6 +9,7 @@
  * - Google Calendar event creation
  */
 
+import { linkLeadToConsultation } from "@/lib/journey";
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/lib/db/prisma";
 import { z } from "zod";
@@ -191,6 +192,16 @@ export async function POST(request: NextRequest) {
 
     const consultation = reservation.consultation;
     const actualScheduledAt = reservation.actualScheduledAt;
+
+    // Pipeline: every booking becomes (or updates) a Lead in the admin
+    await linkLeadToConsultation({
+      consultationId: consultation.id,
+      name: data.name,
+      email: data.email,
+      phone: data.phone,
+      company: data.company,
+      businessChallenge: data.businessChallenge,
+    });
 
     // Update invoice with consultation link
     await prisma.invoice.update({

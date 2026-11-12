@@ -67,7 +67,6 @@ export async function POST(
           <li><strong>Timeline:</strong> ${escapeHtml(proposal.timeline)}</li>
         </ul>
       </div>
-      <p>You can also <a href="${process.env.NEXTAUTH_URL}/admin/proposals/${proposal.id}/preview" class="button" style="display: inline-block; padding: 12px 24px; background-color: #FC8436; color: #FFFFFF; text-decoration: none; border-radius: 6px; margin: 10px 0;">View Online</a></p>
       <div class="divider"></div>
       <h3>Next Steps</h3>
       <p>We would love to discuss this proposal with you in detail. Please feel free to:</p>

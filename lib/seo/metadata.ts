@@ -43,7 +43,7 @@ export function generateMetadata(config: SEOConfig): Metadata {
     title,
     description,
     keywords = [],
-    image = '/og-image.png',
+    image = '/opengraph-image',
     url,
     type = 'website',
     publishedTime,
@@ -207,7 +207,7 @@ export function generateOrganizationSchema() {
     '@type': 'Organization',
     name: siteConfig.name,
     url: siteConfig.url,
-    logo: `${siteConfig.url}/logo.png`,
+    logo: `${siteConfig.url}/apple-icon`,
     description: siteConfig.description,
     address: {
       '@type': 'PostalAddress',
@@ -275,7 +275,7 @@ export function generateArticleSchema(article: {
       name: siteConfig.name,
       logo: {
         '@type': 'ImageObject',
-        url: `${siteConfig.url}/logo.png`,
+        url: `${siteConfig.url}/apple-icon`,
       },
     },
     image: article.image ? `${siteConfig.url}${article.image}` : undefined,

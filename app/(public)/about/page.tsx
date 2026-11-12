@@ -7,7 +7,7 @@ import StructuredData from "@/components/seo/StructuredData";
 import { generateOrganizationSchema } from "@/lib/seo/structured-data";
 
 export const metadata: Metadata = {
-  title: "About Us | VeyraTech - Software Developers Who Understand Business",
+  title: "About Us - Software Developers Who Understand Business",
   description: "We started VeyraTech to build software solutions that Kenyan businesses actually need—from websites and mobile apps to complete business management systems. Here's our story.",
 };
 

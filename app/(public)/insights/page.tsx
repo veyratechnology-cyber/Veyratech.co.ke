@@ -19,7 +19,7 @@ import {
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Insights & Articles | VeyraTech",
+  title: "Insights & Articles",
   description: "Expert insights on technology strategy, AI consulting, automation, and digital transformation from VeyraTech's consulting team.",
   keywords: ["technology insights", "AI articles", "business automation", "digital transformation", "tech consulting"],
 };

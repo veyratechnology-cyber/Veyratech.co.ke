@@ -37,4 +37,14 @@ const customJestConfig = {
 }
 
 // createJestConfig is exported this way to ensure that next/jest can load the Next.js config which is async
-module.exports = createJestConfig(customJestConfig)
+// sanitize-html's parser dependencies ship as ES modules, so let Jest transform them.
+const ESM_PACKAGES = ['sanitize-html', 'htmlparser2', 'domhandler', 'domutils', 'dom-serializer', 'domelementtype', 'entities']
+
+module.exports = async () => {
+  const config = await createJestConfig(customJestConfig)()
+  config.transformIgnorePatterns = [
+    `/node_modules/(?!(${ESM_PACKAGES.join('|')})/)`,
+    '^.+\.module\.(css|sass|scss)$',
+  ]
+  return config
+}

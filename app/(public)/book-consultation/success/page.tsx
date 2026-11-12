@@ -159,7 +159,7 @@ export default async function ConsultationSuccessPage({ searchParams }: PageProp
                         </a>
                       )}
                       {consultation.meetingType === "IN_PERSON" && consultation.meetingLocation && (
-                        <div className="mt-3 p-3 bg-white rounded border border-border">
+                        <div className="mt-3 p-3 bg-primary rounded border border-border">
                           <p className="text-sm font-semibold text-text-secondary mb-1">
                             Meeting Location:
                           </p>

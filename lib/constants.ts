@@ -187,7 +187,7 @@ export const COMPANY = {
   email: "hello@veyratech.co.ke",
   phone: "0745247211",
   address: "",
-  website: "https://veyratech.com",
+  website: "https://veyratech.co.ke",
 };
 
 // Solutions Dropdown (for navigation)

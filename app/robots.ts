@@ -1,16 +1,17 @@
 import { MetadataRoute } from 'next'
 
-export default function robots(): MetadataRoute.Robots {
-  const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://veyratech.co.ke'
+const baseUrl = (process.env.NEXT_PUBLIC_APP_URL || 'https://veyratech.co.ke').replace(/\/$/, '')
 
+export default function robots(): MetadataRoute.Robots {
   return {
     rules: [
       {
         userAgent: '*',
         allow: '/',
-        disallow: ['/admin/', '/api/', '/_next/'],
+        disallow: ['/admin', '/admin-login', '/api/', '/book-consultation/success'],
       },
     ],
     sitemap: `${baseUrl}/sitemap.xml`,
+    host: baseUrl,
   }
 }

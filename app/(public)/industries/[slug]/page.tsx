@@ -23,12 +23,17 @@ export async function generateMetadata({ params }: IndustryPageProps): Promise<M
     });
     if (industry) {
       return {
-        title: `${industry.name} | VeyraTech`,
-        description: industry.description,
+        title: industry.seoTitle || `${industry.name} Software Solutions`,
+        description: industry.seoDescription || industry.description,
+        openGraph: {
+          title: industry.seoTitle || `${industry.name} Software Solutions`,
+          description: industry.seoDescription || industry.description,
+          url: `/industries/${industry.slug}`,
+        },
       };
     }
   } catch (error) {}
-  return { title: "Industry | VeyraTech" };
+  return { title: "Industry" };
 }
 
 export default async function IndustryDetailPage({ params }: IndustryPageProps) {
@@ -74,7 +79,7 @@ export default async function IndustryDetailPage({ params }: IndustryPageProps) 
       {/* Breadcrumb */}
       <section className="py-6 bg-gray-50">
         <div className="container-custom">
-          <div className="flex items-center gap-2 text-sm text-gray-600">
+          <div className="flex items-center gap-2 text-sm text-text-muted">
             <Link href="/" className="hover:text-secondary transition-colors">
               Home
             </Link>
@@ -122,7 +127,7 @@ export default async function IndustryDetailPage({ params }: IndustryPageProps) 
 
       {/* Industry Challenges */}
       {challengesList.length > 0 && (
-        <section className="section bg-white">
+        <section className="section bg-primary-dark">
           <div className="container-custom">
             <div className="max-w-4xl mx-auto">
               <h2 className="text-3xl md:text-4xl font-sora font-bold text-text-dark mb-6">
@@ -138,7 +143,7 @@ export default async function IndustryDetailPage({ params }: IndustryPageProps) 
                             <div className="w-3 h-3 rounded-full bg-red-500"></div>
                           </div>
                         </div>
-                        <p className="text-lg text-gray-700">{challenge}</p>
+                        <p className="text-lg text-text-secondary">{challenge}</p>
                       </div>
                     </CardContent>
                   </Card>
@@ -163,7 +168,7 @@ export default async function IndustryDetailPage({ params }: IndustryPageProps) 
                     <CardContent className="p-6">
                       <div className="flex items-start gap-4">
                         <CheckCircle className="text-green-500 flex-shrink-0 mt-1" size={24} />
-                        <p className="text-lg text-gray-700">{solution}</p>
+                        <p className="text-lg text-text-secondary">{solution}</p>
                       </div>
                     </CardContent>
                   </Card>
@@ -176,7 +181,7 @@ export default async function IndustryDetailPage({ params }: IndustryPageProps) 
 
       {/* Relevant Services */}
       {relevantServicesList.length > 0 && (
-        <section className="section bg-white">
+        <section className="section bg-primary-dark">
           <div className="container-custom">
             <div className="max-w-4xl mx-auto">
               <h2 className="text-3xl md:text-4xl font-sora font-bold text-text-dark mb-6">
@@ -188,7 +193,7 @@ export default async function IndustryDetailPage({ params }: IndustryPageProps) 
                     <CardContent className="p-6">
                       <div className="flex items-start gap-3">
                         <CheckCircle className="text-secondary flex-shrink-0 mt-1" size={20} />
-                        <p className="text-gray-700 font-medium">{service}</p>
+                        <p className="text-text-secondary font-medium">{service}</p>
                       </div>
                     </CardContent>
                   </Card>
@@ -220,7 +225,7 @@ export default async function IndustryDetailPage({ params }: IndustryPageProps) 
                     return (
                       <Card key={index}>
                         <CardContent className="p-6">
-                          <p className="text-gray-600">{item}</p>
+                          <p className="text-text-muted">{item}</p>
                         </CardContent>
                       </Card>
                     );
@@ -232,7 +237,7 @@ export default async function IndustryDetailPage({ params }: IndustryPageProps) 
                         <h3 className="font-sora font-semibold text-xl text-text-dark mb-3">
                           {item.question}
                         </h3>
-                        <p className="text-gray-600 leading-relaxed">{item.answer}</p>
+                        <p className="text-text-muted leading-relaxed">{item.answer}</p>
                       </CardContent>
                     </Card>
                   );
@@ -254,7 +259,7 @@ export default async function IndustryDetailPage({ params }: IndustryPageProps) 
               Let's discuss how technology and AI can create competitive advantage for your organization.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button href="/book-consultation" variant="primary" size="lg" className="bg-white text-primary hover:bg-gray-100">
+              <Button href="/book-consultation" variant="primary" size="lg">
                   Book a Consultation
                   <ArrowRight size={20} />
                 </Button>

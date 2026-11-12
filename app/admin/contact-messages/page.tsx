@@ -1,4 +1,5 @@
 // @ts-nocheck
+import MessageActions from "@/components/admin/MessageActions";
 import React from "react";
 import { Card, CardHeader, CardTitle, CardContent, Badge } from "@/components/shared";
 import { Mail, Phone, Building2, MessageSquare, Calendar } from "lucide-react";
@@ -146,6 +147,8 @@ export default async function ContactMessagesPage() {
                   <p className="text-sm font-semibold text-text-secondary mb-2">Message:</p>
                   <p className="text-text-primary whitespace-pre-wrap">{message.message}</p>
                 </div>
+
+                <MessageActions id={message.id} email={message.email} subject={message.subject} isRead={message.isRead} />
               </CardContent>
             </Card>
           ))

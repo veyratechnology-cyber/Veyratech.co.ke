@@ -49,7 +49,7 @@ export default function NewslettersPage() {
       total: subs.length,
       active: subs.filter(s => s.status === 'ACTIVE').length,
       pending: subs.filter(s => s.status === 'PENDING_PAYMENT').length,
-      cancelled: subs.filter(s => s.status === 'CANCELLED').length,
+      cancelled: subs.filter(s => s.status === 'UNSUBSCRIBED' || s.status === 'EXPIRED').length,
     });
   };
 
@@ -57,7 +57,9 @@ export default function NewslettersPage() {
     const csv = [
       ['Email', 'Phone', 'Status', 'Subscription Date'].join(','),
       ...subscribers.map(s => 
-        [s.email, s.phoneNumber || '', s.status, new Date(s.subscriptionDate).toLocaleDateString()].join(',')
+        [s.email, s.phoneNumber || '', s.status, new Date(s.subscriptionDate).toLocaleDateString()]
+          .map((v) => `"${String(v).replace(/"/g, '""').replace(/^[=+\-@]/, "'$&")}"`)
+          .join(',')
       )
     ].join('\n');
 
@@ -150,7 +152,7 @@ export default function NewslettersPage() {
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-text-secondary text-sm mb-1">Cancelled</p>
+                <p className="text-text-secondary text-sm mb-1">Unsubscribed / expired</p>
                 <p className="text-3xl font-bold text-red-600">{stats.cancelled}</p>
               </div>
               <XCircle className="w-8 h-8 text-red-600" />

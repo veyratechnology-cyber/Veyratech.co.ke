@@ -164,7 +164,7 @@ export async function sendConsultationConfirmation(data: {
           <div style="text-align: center; padding: 20px; color: #666; font-size: 12px;">
             <p style="margin: 0 0 8px 0;">VeyraTech | Technology & AI Consulting</p>
             <p style="margin: 0 0 8px 0;">
-              <a href="https://veyratech.com" style="color: #FC8436; text-decoration: none;">veyratech.com</a>
+              <a href="https://veyratech.co.ke" style="color: #FC8436; text-decoration: none;">veyratech.co.ke</a>
             </p>
             <p style="margin: 0;">Nairobi, Kenya</p>
           </div>
@@ -464,7 +464,7 @@ export async function sendContactConfirmation(data: {
 
         <hr style="margin: 24px 0; border: none; border-top: 1px solid #ddd;">
         <p style="color: #666; font-size: 12px;">
-          VeyraTech | <a href="https://veyratech.com">veyratech.com</a><br>
+          VeyraTech | <a href="https://veyratech.co.ke">veyratech.co.ke</a><br>
           Email: ${ADMIN_EMAIL} | Phone: 0745247211
         </p>
       `,

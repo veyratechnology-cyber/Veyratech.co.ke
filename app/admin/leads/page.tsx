@@ -11,22 +11,34 @@ export const metadata = {
   title: "Leads | VeyraTech Admin",
 };
 
-async function getLeads() {
+async function getLeads(q: string, status: string) {
+  const validStatus = LEAD_STATUSES.some((s) => s.value === status) ? status : "";
   return prisma.lead.findMany({
-    orderBy: { createdAt: "desc" },
-    include: {
-      assignedAdmin: {
-        select: {
-          name: true,
-          email: true,
-        },
-      },
+    where: {
+      ...(validStatus ? { status: validStatus as any } : {}),
+      ...(q
+        ? {
+            OR: [
+              { name: { contains: q, mode: "insensitive" } },
+              { company: { contains: q, mode: "insensitive" } },
+              { email: { contains: q, mode: "insensitive" } },
+            ],
+          }
+        : {}),
     },
+    orderBy: { createdAt: "desc" },
+    include: { assignedAdmin: { select: { name: true, email: true } } },
   });
 }
 
-export default async function LeadsPage() {
-  const leads = await getLeads();
+export default async function LeadsPage({
+  searchParams,
+}: {
+  searchParams?: { q?: string; status?: string };
+}) {
+  const q = (searchParams?.q || "").trim().slice(0, 100);
+  const status = searchParams?.status || "";
+  const leads = await getLeads(q, status);
 
   const getStatusColor = (status: string) => {
     const statusConfig = LEAD_STATUSES.find((s) => s.value === status);
@@ -54,7 +66,7 @@ export default async function LeadsPage() {
       {/* Filters */}
       <Card>
         <CardContent className="p-4">
-          <div className="flex flex-col md:flex-row gap-4">
+          <form method="get" action="/admin/leads" className="flex flex-col md:flex-row gap-4">
             <div className="flex-1">
               <div className="relative">
                 <Search
@@ -62,17 +74,37 @@ export default async function LeadsPage() {
                   size={20}
                 />
                 <input
-                  type="text"
-                  placeholder="Search leads..."
+                  type="search"
+                  name="q"
+                  defaultValue={q}
+                  placeholder="Search by name, company or email..."
                   className="w-full pl-10 pr-4 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-secondary"
                 />
               </div>
             </div>
-            <Button variant="outline" size="md">
+            <select
+              name="status"
+              defaultValue={status}
+              aria-label="Filter by status"
+              className="px-4 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-secondary"
+            >
+              <option value="">All statuses</option>
+              {LEAD_STATUSES.map((st) => (
+                <option key={st.value} value={st.value}>
+                  {st.label}
+                </option>
+              ))}
+            </select>
+            <Button type="submit" variant="outline" size="md">
               <Filter size={20} />
-              Filters
+              Apply
             </Button>
-          </div>
+            {(q || status) && (
+              <Button href="/admin/leads" variant="ghost" size="md">
+                Clear
+              </Button>
+            )}
+          </form>
         </CardContent>
       </Card>
 
@@ -155,7 +187,7 @@ export default async function LeadsPage() {
             </div>
           ) : (
             <div className="text-center py-12">
-              <p className="text-text-muted mb-4">No leads yet</p>
+              <p className="text-text-muted mb-4">{q || status ? "No leads match your search" : "No leads yet"}</p>
               <Button href="/admin/leads/new" variant="primary" size="md">
                   <Plus size={20} />
                   Add Your First Lead

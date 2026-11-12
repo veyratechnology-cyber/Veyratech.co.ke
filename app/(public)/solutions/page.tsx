@@ -5,7 +5,7 @@ import { ArrowRight, Code, Smartphone, ShoppingCart, Settings, Zap, Network, Bot
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Software Solutions | VeyraTech",
+  title: "Software Solutions",
   description: "Explore our software development solutions including Website Development, Custom Software, Business Systems, POS, Mobile Apps, System Integration, and AI Automation.",
   keywords: ["software solutions Kenya", "custom software", "website development", "mobile apps", "business systems"],
 };

@@ -16,13 +16,13 @@ export function getOrganizationSchema() {
     url: baseUrl,
     logo: {
       '@type': 'ImageObject',
-      url: `${baseUrl}/logo.png`,
+      url: `${baseUrl}/apple-icon`,
       width: 250,
       height: 60,
     },
     image: {
       '@type': 'ImageObject',
-      url: `${baseUrl}/og-image.png`,
+      url: `${baseUrl}/opengraph-image`,
       width: 1200,
       height: 630,
     },
@@ -226,7 +226,7 @@ export function getArticleSchema(article: {
     '@type': 'Article',
     headline: article.title,
     description: article.description,
-    image: article.image ? `${baseUrl}${article.image}` : `${baseUrl}/og-image.png`,
+    image: article.image ? `${baseUrl}${article.image}` : `${baseUrl}/opengraph-image`,
     datePublished: article.publishedAt.toISOString(),
     dateModified: (article.modifiedAt || article.publishedAt).toISOString(),
     author: {

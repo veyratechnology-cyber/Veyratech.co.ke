@@ -21,10 +21,6 @@ export function Header({ title, subtitle, actions }: HeaderProps) {
         </div>
         <div className="flex items-center gap-4">
           {actions}
-          <button className="relative p-2 hover:bg-primary-dark rounded-lg transition-colors">
-            <Bell size={20} className="text-text-secondary" />
-            <span className="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full"></span>
-          </button>
         </div>
       </div>
     </div>

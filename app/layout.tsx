@@ -19,6 +19,10 @@ const sora = Sora({
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://veyratech.co.ke'),
+  // Each page's canonical URL is its own path on the main domain
+  alternates: { canonical: './' },
+  applicationName: 'VeyraTech',
+  category: 'technology',
   title: {
     default: 'VeyraTech | Custom Software Development & Business Solutions Kenya',
     template: '%s | VeyraTech'
@@ -54,25 +58,16 @@ export const metadata: Metadata = {
   },
   openGraph: {
     type: 'website',
-    locale: 'en_US',
+    locale: 'en_KE',
     url: 'https://veyratech.co.ke',
     siteName: 'VeyraTech',
     title: 'VeyraTech | Custom Software Development & Business Solutions Kenya',
     description: 'Transform your business with custom software development, business management systems, POS solutions, and mobile applications in Kenya.',
-    images: [
-      {
-        url: '/og-image.png',
-        width: 1200,
-        height: 630,
-        alt: 'VeyraTech - Software Development Kenya',
-      },
-    ],
   },
   twitter: {
     card: 'summary_large_image',
     title: 'VeyraTech | Software Development Kenya',
     description: 'Custom software development and business solutions in Kenya',
-    images: ['/og-image.png'],
   },
   robots: {
     index: true,
@@ -87,7 +82,6 @@ export const metadata: Metadata = {
   },
   icons: {
     icon: '/favicon.svg',
-    apple: '/apple-touch-icon.png',
   },
   manifest: '/site.webmanifest',
   verification: {
@@ -110,7 +104,7 @@ export default function RootLayout({
     name: 'VeyraTech',
     alternateName: 'Veyra Technology',
     url: 'https://veyratech.co.ke',
-    logo: 'https://veyratech.co.ke/logo.png',
+    logo: 'https://veyratech.co.ke/apple-icon',
     description: 'Custom software development company in Kenya specializing in website development, business management systems, POS solutions, mobile applications, and system integration',
     address: {
       '@type': 'PostalAddress',
@@ -155,7 +149,7 @@ export default function RootLayout({
       <head>
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, '\u003c') }}
         />
       </head>
       <body>

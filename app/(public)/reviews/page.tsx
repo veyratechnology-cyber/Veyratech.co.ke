@@ -6,7 +6,7 @@ import StructuredData from "@/components/seo/StructuredData";
 import { generateOrganizationSchema } from "@/lib/seo/structured-data";
 
 export const metadata: Metadata = {
-  title: "Client Reviews & Testimonials | VeyraTech",
+  title: "Client Reviews & Testimonials",
   description: "See what our clients say about VeyraTech's technology consulting services. Real reviews from businesses across Kenya.",
   keywords: ["VeyraTech reviews", "VeyraTech testimonials", "technology consulting reviews Kenya"],
 };

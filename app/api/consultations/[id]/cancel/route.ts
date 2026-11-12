@@ -1,4 +1,5 @@
 // @ts-nocheck
+import { sendCancellationEmail } from "@/lib/journey";
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { requireAdmin } from "@/lib/security";
@@ -62,11 +63,16 @@ export async function POST(
     });
 
     // Send cancellation email to client
-    // TODO: Implement cancellation email notification
-    console.log("[CANCEL] Cancellation email skipped - email system not configured");
+    const emailResult = await sendCancellationEmail({
+      name: consultation.name,
+      email: consultation.email,
+      scheduledAt: consultation.actualScheduledAt,
+      reason,
+    });
 
     return NextResponse.json({
       success: true,
+      clientNotified: !!emailResult?.success,
       consultation: updated,
     });
   } catch (error) {

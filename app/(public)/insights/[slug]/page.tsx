@@ -1,4 +1,7 @@
 import React from "react";
+import StructuredData from "@/components/seo/StructuredData";
+import { generateArticleSchema, generateBreadcrumbSchema } from "@/lib/seo/structured-data";
+import { sanitizeRichHtml } from "@/lib/admin/sanitize";
 import { Button, Badge } from "@/components/shared";
 import { getPublishedInsightBySlug } from "@/lib/db/queries";
 import { INSIGHT_CATEGORIES } from "@/lib/constants";
@@ -16,12 +19,21 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     const insight = await getPublishedInsightBySlug(params.slug);
     if (insight) {
       return {
-        title: `${insight.title} | VeyraTech Insights`,
+        title: insight.seoTitle || insight.title,
         description: insight.seoDescription || insight.excerpt || insight.title,
+        openGraph: {
+          type: "article",
+          title: insight.seoTitle || insight.title,
+          description: insight.seoDescription || insight.excerpt || insight.title,
+          url: `/insights/${insight.slug}`,
+          publishedTime: insight.publishedAt?.toISOString(),
+          modifiedTime: insight.updatedAt?.toISOString(),
+          ...(insight.featuredImage ? { images: [insight.featuredImage] } : {}),
+        },
       };
     }
   } catch (error) {}
-  return { title: "Insight | VeyraTech" };
+  return { title: "Insight" };
 }
 
 export default async function InsightDetailPage({ params }: Props) {
@@ -42,8 +54,26 @@ export default async function InsightDetailPage({ params }: Props) {
 
   return (
     <>
+      <StructuredData
+        data={generateArticleSchema({
+          title: insight.title,
+          description: insight.seoDescription || insight.excerpt || insight.title,
+          url: `/insights/${insight.slug}`,
+          publishedAt: insight.publishedAt || insight.createdAt,
+          modifiedAt: insight.updatedAt,
+          author: insight.author?.name || "VeyraTech",
+          category: String(insight.category).replace(/_/g, " "),
+        })}
+      />
+      <StructuredData
+        data={generateBreadcrumbSchema([
+          { name: "Home", url: "/" },
+          { name: "Insights", url: "/insights" },
+          { name: insight.title, url: `/insights/${insight.slug}` },
+        ])}
+      />
       {/* Back Navigation */}
-      <section className="py-6 bg-white border-b border-gray-100">
+      <section className="py-6 border-b border-white/10">
         <div className="container-custom">
           <Button href="/insights" variant="ghost" size="sm">
               <ArrowLeft size={16} />
@@ -53,7 +83,7 @@ export default async function InsightDetailPage({ params }: Props) {
       </section>
 
       {/* Article Header */}
-      <section className="section bg-white">
+      <section className="section">
         <div className="container-custom">
           <article className="max-w-4xl mx-auto">
             <div className="mb-6">
@@ -63,11 +93,11 @@ export default async function InsightDetailPage({ params }: Props) {
               {insight.title}
             </h1>
             {insight.excerpt && (
-              <p className="text-xl text-gray-600 mb-6 leading-relaxed">
+              <p className="text-xl text-text-secondary mb-6 leading-relaxed">
                 {insight.excerpt}
               </p>
             )}
-            <div className="flex items-center gap-6 text-gray-600 pb-8 border-b border-gray-200">
+            <div className="flex items-center gap-6 text-text-secondary pb-8 border-b border-white/10">
               <div className="flex items-center gap-2">
                 <User size={20} />
                 <span className="font-medium">{insight.author.name}</span>
@@ -83,7 +113,7 @@ export default async function InsightDetailPage({ params }: Props) {
 
       {/* Featured Image */}
       {insight.featuredImage && (
-        <section className="bg-white">
+        <section>
           <div className="container-custom">
             <div className="max-w-4xl mx-auto">
               <div className="rounded-xl overflow-hidden">
@@ -99,12 +129,12 @@ export default async function InsightDetailPage({ params }: Props) {
       )}
 
       {/* Article Content */}
-      <section className="section bg-white">
+      <section className="section">
         <div className="container-custom">
           <article className="max-w-4xl mx-auto">
             <div
-              className="prose prose-lg max-w-none"
-              dangerouslySetInnerHTML={{ __html: insight.content }}
+              className="article-content"
+              dangerouslySetInnerHTML={{ __html: sanitizeRichHtml(insight.content) }}
             />
           </article>
         </div>
@@ -112,7 +142,7 @@ export default async function InsightDetailPage({ params }: Props) {
 
       {/* Tags */}
       {insight.tags && insight.tags.length > 0 && (
-        <section className="py-8 bg-background-light">
+        <section className="py-8 bg-primary-dark">
           <div className="container-custom">
             <div className="max-w-4xl mx-auto">
               <h3 className="font-semibold mb-4">Tags:</h3>
@@ -135,10 +165,10 @@ export default async function InsightDetailPage({ params }: Props) {
             <h2 className="text-3xl md:text-4xl font-sora font-bold mb-6">
               Need Help With Your Technology Strategy?
             </h2>
-            <p className="text-xl mb-8 text-gray-100">
+            <p className="text-xl mb-8 text-text-secondary">
               Let's discuss how RoyalTech can help your organization.
             </p>
-            <Button href="/book-consultation" variant="primary" size="lg" className="bg-white text-primary hover:bg-gray-100">
+            <Button href="/book-consultation" variant="primary" size="lg">
                 Book a Consultation
               </Button>
           </div>

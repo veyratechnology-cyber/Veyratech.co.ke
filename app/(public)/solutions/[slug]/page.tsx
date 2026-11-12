@@ -267,12 +267,12 @@ export async function generateMetadata({ params }: { params: { slug: string } })
   
   if (!solution) {
     return {
-      title: "Solution Not Found | VeyraTech",
+      title: "Solution Not Found",
     };
   }
 
   return {
-    title: `${solution.title} | VeyraTech`,
+    title: `${solution.title}`,
     description: solution.description,
     keywords: [`${solution.title} Kenya`, "custom software", "business solutions", ...solution.technologies],
   };

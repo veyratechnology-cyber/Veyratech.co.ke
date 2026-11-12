@@ -1,27 +1,20 @@
 /**
- * Structured Data Component
- * Easily add JSON-LD structured data to any page
+ * Structured Data (JSON-LD) for SEO.
+ *
+ * Rendered as plain <script> tags in the server HTML. (next/script de-duplicates
+ * by id, which previously dropped all but the first block on a page.)
  */
 
-import Script from 'next/script';
-
 interface StructuredDataProps {
-  data: Record<string, any> | Array<Record<string, any>>;
+  data: Record<string, any>;
 }
+
+// Escape "<" so a value can never close the script tag.
+const serialize = (data: unknown) => JSON.stringify(data).replace(/</g, "\u003c");
 
 export function StructuredData({ data }: StructuredDataProps) {
-  return (
-    <Script
-      id="structured-data"
-      type="application/ld+json"
-      dangerouslySetInnerHTML={{
-        __html: JSON.stringify(data, null, 2),
-      }}
-    />
-  );
+  return <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: serialize(data) }} />;
 }
-
-// Pre-built structured data components for common use cases
 
 interface SEOScriptsProps {
   schemas: Array<Record<string, any>>;
@@ -31,14 +24,7 @@ export function SEOScripts({ schemas }: SEOScriptsProps) {
   return (
     <>
       {schemas.map((schema, index) => (
-        <Script
-          key={index}
-          id={`structured-data-${index}`}
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify(schema, null, 2),
-          }}
-        />
+        <script key={index} type="application/ld+json" dangerouslySetInnerHTML={{ __html: serialize(schema) }} />
       ))}
     </>
   );

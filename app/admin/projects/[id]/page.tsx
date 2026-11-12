@@ -67,9 +67,14 @@ export default async function ProjectDetailPage({
             <p className="text-text-secondary">{project.company}</p>
           </div>
         </div>
+        <div className="flex items-center gap-3">
+        <Button href={`/admin/projects/${project.id}/edit`} variant="outline" size="sm">
+          Edit project
+        </Button>
         <Badge variant={getStatusColor(project.status) as any}>
           {project.status}
         </Badge>
+        </div>
       </div>
 
       {/* Main Content */}

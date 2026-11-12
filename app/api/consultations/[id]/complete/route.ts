@@ -1,3 +1,4 @@
+import { advanceLeadAfterConsultation } from "@/lib/journey";
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { requireAdmin } from "@/lib/security";
@@ -50,6 +51,9 @@ export async function POST(
         notes: `Outcome: ${outcome}${meetingNotes ? `. Notes: ${meetingNotes.substring(0, 100)}...` : ''}`,
       },
     });
+
+    // Move the linked lead forward in the pipeline
+    await advanceLeadAfterConsultation(consultation.leadId, outcome);
 
     return NextResponse.json({
       success: true,

@@ -6,7 +6,7 @@ import StructuredData from "@/components/seo/StructuredData";
 import { generateOrganizationSchema } from "@/lib/seo/structured-data";
 
 export const metadata: Metadata = {
-  title: "Media & Press | VeyraTech - Technology Consulting Leader in Kenya",
+  title: "Media & Press",
   description: "Learn about VeyraTech's impact in Kenya's technology sector. Press releases, media coverage, awards, and company news from VeyraTech.",
   keywords: ["VeyraTech media", "VeyraTech press", "VeyraTech news", "technology consulting Kenya news"],
 };

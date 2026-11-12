@@ -74,10 +74,12 @@ export default function ProposalPreviewPage() {
     
     setSending(true);
     try {
-      // TODO: Implement email sending
-      alert('Email sending feature will be implemented soon!');
-    } catch (error) {
-      alert('Failed to send email');
+      const res = await fetch(`/api/admin/proposals/${proposalId}/send`, { method: 'POST' });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) throw new Error(data.error || 'Failed to send email');
+      alert('Proposal sent to the client.');
+    } catch (error: any) {
+      alert(error?.message || 'Failed to send email');
     } finally {
       setSending(false);
     }

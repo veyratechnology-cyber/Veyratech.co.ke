@@ -211,6 +211,27 @@
   }
 }
 
+/* Long-form article body (insights). Replaces the missing typography plugin. */
+@layer components {
+  .article-content { @apply text-lg leading-relaxed text-text-secondary; }
+  .article-content > * + * { @apply mt-6; }
+  .article-content h2 { @apply mt-12 text-3xl text-text-primary; }
+  .article-content h3 { @apply mt-10 text-2xl text-text-primary; }
+  .article-content h4 { @apply mt-8 text-xl text-text-primary; }
+  .article-content a { @apply text-secondary underline underline-offset-4 hover:text-secondary-hover; }
+  .article-content strong { @apply text-text-primary; }
+  .article-content ul { @apply list-disc space-y-2 pl-6; }
+  .article-content ol { @apply list-decimal space-y-2 pl-6; }
+  .article-content blockquote { @apply rounded-r-xl border-l-4 border-secondary bg-secondary/5 px-6 py-4 italic text-text-primary; }
+  .article-content img { @apply rounded-2xl border border-white/10; }
+  .article-content code { @apply rounded bg-white/10 px-1.5 py-0.5 font-mono text-[0.9em] text-text-primary; }
+  .article-content pre { @apply overflow-x-auto rounded-xl border border-white/10 bg-primary-dark p-5 text-sm; }
+  .article-content pre code { @apply bg-transparent p-0; }
+  .article-content table { @apply w-full border-collapse text-base; }
+  .article-content th, .article-content td { @apply border border-white/10 px-4 py-2 text-left; }
+  .article-content hr { @apply border-white/10; }
+}
+
 @layer utilities {
   .text-balance {
     text-wrap: balance;

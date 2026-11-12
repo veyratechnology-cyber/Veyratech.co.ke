@@ -1,3 +1,5 @@
+import StructuredData from "@/components/seo/StructuredData";
+import { generateServiceSchema, generateBreadcrumbSchema } from "@/lib/seo/structured-data";
 import React from "react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -23,12 +25,17 @@ export async function generateMetadata({ params }: ServicePageProps): Promise<Me
     });
     if (service) {
       return {
-        title: `${service.name} | VeyraTech`,
-        description: service.description,
+        title: service.seoTitle || service.name,
+        description: service.seoDescription || service.description,
+        openGraph: {
+          title: service.seoTitle || service.name,
+          description: service.seoDescription || service.description,
+          url: `/services/${service.slug}`,
+        },
       };
     }
   } catch (error) {}
-  return { title: "Service | VeyraTech" };
+  return { title: "Service" };
 }
 
 export default async function ServiceDetailPage({ params }: ServicePageProps) {
@@ -84,6 +91,14 @@ export default async function ServiceDetailPage({ params }: ServicePageProps) {
 
   return (
     <>
+      <StructuredData data={generateServiceSchema({ name: service.name, description: service.description, url: `/services/${service.slug}` })} />
+      <StructuredData
+        data={generateBreadcrumbSchema([
+          { name: "Home", url: "/" },
+          { name: "Services", url: "/services" },
+          { name: service.name, url: `/services/${service.slug}` },
+        ])}
+      />
       {/* Hero Section */}
       <section className="relative py-20 md:py-24 bg-primary text-text-primary overflow-hidden">
         <div className="container-custom relative z-10">

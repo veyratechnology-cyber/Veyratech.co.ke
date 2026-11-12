@@ -5,6 +5,7 @@
  * Updates invoice and consultation status based on payment result
  */
 
+import { sendPaymentReceivedEmail } from "@/lib/journey";
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/lib/db/prisma";
 import { timingSafeEqual } from "crypto";
@@ -209,14 +210,14 @@ export async function POST(request: NextRequest) {
       console.log("[MPESA-CALLBACK] Payment processed successfully");
 
       // Send payment confirmation email (async, non-blocking)
-      (async () => {
-        try {
-          // TODO: Import and send payment confirmation email
-          console.log("[MPESA-CALLBACK] TODO: Send payment confirmation email");
-        } catch (error) {
-          console.error("[MPESA-CALLBACK] Email error:", error);
-        }
-      })();
+      await sendPaymentReceivedEmail({
+        name: consultation.name,
+        email: consultation.email,
+        amount: Number(Amount),
+        receipt: String(MpesaReceiptNumber),
+        invoiceNumber: invoice.invoiceNumber,
+        scheduledAt: consultation.actualScheduledAt,
+      });
 
       return NextResponse.json({ ResultCode: 0, ResultDesc: "Payment processed successfully" });
     } else {

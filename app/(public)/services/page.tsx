@@ -8,7 +8,7 @@ import StructuredData from "@/components/seo/StructuredData";
 import { generateServiceSchema } from "@/lib/seo/structured-data";
 
 export const metadata: Metadata = {
-  title: "Services | VeyraTech",
+  title: "Services",
   description: "Custom software development and technology consulting services including Website Development, Business Management Systems, POS Solutions, Mobile Apps, System Integration, and AI Automation.",
 };
 

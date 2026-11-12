@@ -14,7 +14,7 @@ import {
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Industries We Serve | VeyraTech",
+  title: "Industries We Serve",
   description: "VeyraTech provides technology and AI consulting services tailored to the unique challenges of specific industries including Real Estate, Construction, Logistics, Hospitality, Professional Services, and Growing Enterprises.",
   keywords: ["industry solutions", "technology consulting", "AI consulting by industry", "digital transformation"],
 };

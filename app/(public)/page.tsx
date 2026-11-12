@@ -24,7 +24,7 @@ import HeroVisual from "@/components/public/hero/HeroVisual";
 import QuickContactForm from "@/components/public/QuickContactForm";
 
 export const metadata: Metadata = {
-  title: "VeyraTech | Custom Software Development That Transforms Business Operations",
+  title: { absolute: "VeyraTech | Custom Software Development in Kenya" },
   description: "We build custom software solutions for Kenyan businesses—from websites and mobile apps to complete business management systems. Transform your operations with technology that actually works.",
   keywords: ["custom software development Kenya", "website development", "business management systems", "POS systems", "mobile app development", "system integration", "software solutions Nairobi"],
 };
@@ -66,7 +66,6 @@ const BOOKING_BENEFITS = [
 export default function HomePage() {
   return (
     <>
-      <StructuredData data={generateOrganizationSchema()} />
       <StructuredData data={generateWebSiteSchema()} />
       <StructuredData data={generateLocalBusinessSchema()} />
 
