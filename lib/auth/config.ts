@@ -1,6 +1,7 @@
 import { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
-import { compare } from "bcryptjs";
+import { compare, hashSync } from "bcryptjs";
+import { randomBytes } from "crypto";
 import { safePrismaQuery } from "@/lib/prisma";
 import prisma from "@/lib/db/prisma";
 import {
@@ -26,7 +27,8 @@ import {
  */
 
 // bcrypt hash of a random string; only used to equalise timing.
-const DUMMY_HASH = "***REMOVED_HASH***";
+// Generated once per server instance (cost 10, same as real admin hashes).
+const DUMMY_HASH = hashSync(randomBytes(24).toString("hex"), 10);
 
 const SESSION_MAX_AGE = 8 * 60 * 60; // 8 hours
 const VERIFY_CACHE_MS = 60 * 1000;
