@@ -230,17 +230,15 @@ export const SOLUTIONS_DROPDOWN = [
 ];
 
 // Public Navigation
-export const PUBLIC_NAV_ITEMS = [
+export const PUBLIC_NAV_ITEMS: { label: string; href: string }[] = [
   { label: "Home", href: "/" },
-  { label: "Solutions", href: "/solutions", hasDropdown: true }, // Changed from "Services" to "Solutions"
-  { label: "Industries", href: "/industries" },
-  { label: "Case Studies", href: "/case-studies" },
-  { label: "Pricing", href: "/pricing" },
-  { label: "About", href: "/about" },
-  { label: "How We Work", href: "/how-we-work" },
-  { label: "Insights", href: "/insights" },
+  { label: "About Us", href: "/about" },
+  { label: "Services", href: "/services" },
   { label: "Contact", href: "/contact" },
 ];
+
+// Primary call to action shown next to the navigation
+export const PRIMARY_CTA = { label: "Book Consultation", href: "/book-consultation" };
 
 // Company Principles
 export const PRINCIPLES = [
