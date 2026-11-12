@@ -5,6 +5,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { generateProposalHTML, generateProposalFromDB } from '@/lib/proposals/generator';
+import { requireAdmin } from '@/lib/security';
 
 export const dynamic = 'force-dynamic';
 
@@ -13,6 +14,9 @@ export async function GET(
   { params }: { params: { id: string } }
 ) {
   try {
+    const auth = await requireAdmin();
+    if (auth instanceof NextResponse) return auth;
+
     const { id } = params;
 
     // Fetch proposal with lead details
@@ -39,7 +43,9 @@ export async function GET(
     // Return HTML response
     return new NextResponse(proposalHTML, {
       headers: {
-        'Content-Type': 'text/html',
+        'Content-Type': 'text/html; charset=utf-8',
+        'Content-Security-Policy': "default-src 'none'; style-src 'unsafe-inline'; img-src data: https:; font-src https: data:",
+        'X-Content-Type-Options': 'nosniff',
       },
     });
   } catch (error: any) {

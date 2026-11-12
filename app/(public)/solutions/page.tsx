@@ -1,5 +1,4 @@
 import React from "react";
-import Link from "next/link";
 import { Button, Card, CardContent } from "@/components/shared";
 import { SOLUTIONS_DROPDOWN } from "@/lib/constants";
 import { ArrowRight, Code, Smartphone, ShoppingCart, Settings, Zap, Network, Bot } from "lucide-react";
@@ -58,12 +57,10 @@ export default function SolutionsPage() {
                     <p className="text-text-secondary mb-6 leading-relaxed flex-grow">
                       {solution.description}
                     </p>
-                    <Link href={solution.href}>
-                      <Button variant="outline" size="sm" className="w-full">
+                    <Button href={solution.href} variant="outline" size="sm" className="w-full">
                         Learn More
                         <ArrowRight size={16} />
                       </Button>
-                    </Link>
                   </CardContent>
                 </Card>
               );
@@ -127,12 +124,10 @@ export default function SolutionsPage() {
             <p className="text-xl mb-10 opacity-90">
               Schedule a consultation to discuss your software needs and explore how we can help.
             </p>
-            <Link href="/book-consultation">
-              <Button variant="secondary" size="lg" className="bg-primary-dark text-secondary hover:bg-primary">
+            <Button href="/book-consultation" variant="secondary" size="lg" className="bg-primary-dark text-secondary hover:bg-primary">
                 Start Your Project
                 <ArrowRight size={20} />
               </Button>
-            </Link>
           </div>
         </div>
       </section>

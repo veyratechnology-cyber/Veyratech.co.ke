@@ -28,12 +28,51 @@
     @apply border-border;
   }
   
+  html {
+    scroll-behavior: smooth;
+    -webkit-tap-highlight-color: transparent;
+  }
+
   body {
     @apply bg-primary text-text-secondary font-inter antialiased;
+    text-rendering: optimizeLegibility;
   }
-  
+
   h1, h2, h3, h4, h5, h6 {
     @apply font-sora font-bold text-text-primary;
+    letter-spacing: -0.02em;
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  ::selection {
+    background: rgba(252, 132, 54, 0.35);
+    color: #fff;
+  }
+
+  /* Visible keyboard focus everywhere (mouse clicks stay clean) */
+  :focus-visible {
+    outline: 2px solid var(--secondary-color);
+    outline-offset: 3px;
+    border-radius: 6px;
+  }
+
+  /* Thin branded scrollbar */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 255, 255, 0.18) transparent;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
   }
 }
 
@@ -134,6 +173,42 @@
   .glow-secondary {
     box-shadow: 0 0 20px var(--secondary-glow);
   }
+
+  /* Small uppercase label above section headings */
+  .eyebrow {
+    @apply inline-flex items-center gap-2 rounded-full border border-secondary/30 bg-secondary/10 px-3.5 py-1.5 text-xs font-semibold uppercase tracking-[0.14em] text-secondary;
+  }
+
+  /* Consistent section heading block */
+  .section-heading {
+    @apply text-3xl md:text-5xl font-sora font-bold text-text-primary leading-[1.1];
+  }
+
+  .section-lead {
+    @apply mt-5 text-lg md:text-xl text-text-secondary/90 leading-relaxed;
+  }
+
+  /* Soft glass panel */
+  .panel {
+    @apply rounded-2xl border border-white/10 bg-white/[0.03] backdrop-blur-sm;
+  }
+
+  /* Subtle grid pattern background (fades out toward the edges) */
+  .bg-grid {
+    background-image:
+      linear-gradient(rgba(255, 255, 255, 0.045) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.045) 1px, transparent 1px);
+    background-size: 56px 56px;
+    mask-image: radial-gradient(ellipse 80% 60% at 50% 30%, #000 40%, transparent 100%);
+    -webkit-mask-image: radial-gradient(ellipse 80% 60% at 50% 30%, #000 40%, transparent 100%);
+  }
+
+  /* Orange radial glow used behind hero / CTA */
+  .bg-glow {
+    background:
+      radial-gradient(600px circle at 75% 20%, rgba(252, 132, 54, 0.16), transparent 60%),
+      radial-gradient(500px circle at 10% 80%, rgba(59, 130, 246, 0.10), transparent 60%);
+  }
 }
 
 @layer utilities {
@@ -156,4 +231,8 @@
 
 .animate-fadeIn {
   animation: fadeIn 0.3s ease-out;
+}
+
+.animate-rise {
+  animation: fadeIn 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
 }

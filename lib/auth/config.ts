@@ -3,17 +3,63 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import { compare } from "bcryptjs";
 import { safePrismaQuery } from "@/lib/prisma";
 import prisma from "@/lib/db/prisma";
-import { 
-  checkRateLimit, 
-  recordFailedLogin, 
+import {
+  checkRateLimit,
+  recordFailedLogin,
   clearLoginAttempts,
-  getClientIP 
+  getClientIP,
 } from "@/lib/auth/security";
 
 /**
- * NextAuth Configuration - Production Ready
- * Secure authentication with proper session and cookie management
+ * NextAuth configuration (admin credentials login).
+ *
+ * Security notes:
+ * - Login attempts are limited per IP *and* per email (blocks credential
+ *   stuffing from many IPs against one account).
+ * - A dummy bcrypt comparison runs when the email does not exist, so response
+ *   timing does not reveal which emails are admins.
+ * - Every time a session is read, the JWT callback re-checks the admin in the
+ *   database (cached for 60s). Disabled/deleted admins lose access immediately,
+ *   and a token forged with a leaked NEXTAUTH_SECRET is rejected unless it
+ *   matches a real, ACTIVE admin's id and email.
+ * - Sessions last 8 hours instead of 30 days.
  */
+
+// bcrypt hash of a random string; only used to equalise timing.
+const DUMMY_HASH = "***REMOVED_HASH***";
+
+const SESSION_MAX_AGE = 8 * 60 * 60; // 8 hours
+const VERIFY_CACHE_MS = 60 * 1000;
+const verifiedAdmins = new Map<string, number>(); // `${id}:${email}` -> verifiedAt
+
+async function isActiveAdmin(id: string, email: string): Promise<boolean> {
+  const key = `${id}:${email}`;
+  const cachedAt = verifiedAdmins.get(key);
+  if (cachedAt && Date.now() - cachedAt < VERIFY_CACHE_MS) return true;
+
+  const admin = await prisma.admin.findUnique({
+    where: { id },
+    select: { email: true, status: true },
+  });
+
+  const ok = !!admin && admin.status === "ACTIVE" && admin.email === email;
+  if (ok) verifiedAdmins.set(key, Date.now());
+  else verifiedAdmins.delete(key);
+  return ok;
+}
+
+function headersFrom(req: unknown): Headers {
+  const raw = (req as { headers?: Record<string, string | string[] | undefined> })?.headers;
+  const headers = new Headers();
+  if (raw) {
+    for (const [k, v] of Object.entries(raw)) {
+      if (typeof v === "string") headers.set(k, v);
+      else if (Array.isArray(v)) headers.set(k, v.join(","));
+    }
+  }
+  return headers;
+}
+
 export const authOptions: NextAuthOptions = {
   providers: [
     CredentialsProvider({
@@ -23,82 +69,51 @@ export const authOptions: NextAuthOptions = {
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials, req) {
-        console.log("[AUTH] Login attempt started");
+        const ip = getClientIP(headersFrom(req)) || "unknown";
+        const email = (credentials?.email || "").trim().toLowerCase().slice(0, 255);
+        const password = credentials?.password || "";
 
-        // Get client IP for rate limiting
-        const ip = req?.headers ? getClientIP(new Headers(req.headers as Record<string, string>)) : 'unknown';
-        
-        // Check rate limit
-        const rateLimit = checkRateLimit(ip);
-        if (!rateLimit.allowed) {
-          console.log(`[AUTH] Rate limit exceeded for IP: ${ip}`);
-          recordFailedLogin(ip);
-          throw new Error('Too many login attempts. Please try again later.');
+        const ipKey = `ip:${ip}`;
+        const emailKey = `email:${email}`;
+
+        if (!checkRateLimit(ipKey).allowed || (email && !checkRateLimit(emailKey).allowed)) {
+          console.warn("[AUTH] Login rate limit exceeded");
+          throw new Error("Too many login attempts. Please try again later.");
         }
 
-        if (!credentials?.email || !credentials?.password) {
-          console.log("[AUTH] Missing credentials");
-          recordFailedLogin(ip);
+        const fail = () => {
+          recordFailedLogin(ipKey);
+          if (email) recordFailedLogin(emailKey);
           return null;
-        }
+        };
 
-        const email = credentials.email.trim().toLowerCase();
+        if (!email || !password || password.length > 200) return fail();
 
-        // Use safe Prisma query with auto-reconnect
         try {
-          const admin = await safePrismaQuery(async (client) => {
-            return client.admin.findUnique({
-              where: { email },
-              select: {
-                id: true,
-                email: true,
-                name: true,
-                passwordHash: true,
-                status: true,
-              },
-            });
-          }, 5); // 5 retries with exponential backoff
+          const admin = await safePrismaQuery(
+            (client) =>
+              client.admin.findUnique({
+                where: { email },
+                select: { id: true, email: true, name: true, passwordHash: true, status: true },
+              }),
+            3
+          );
 
-          if (!admin) {
-            console.log("[AUTH] User not found");
-            recordFailedLogin(ip);
-            return null;
+          // Always run bcrypt so timing is the same whether or not the user exists.
+          const passwordOk = await compare(password, admin?.passwordHash || DUMMY_HASH);
+
+          if (!admin || !passwordOk || admin.status !== "ACTIVE") {
+            console.warn("[AUTH] Failed login attempt");
+            return fail();
           }
 
-          if (admin.status !== "ACTIVE") {
-            console.log("[AUTH] Account inactive");
-            recordFailedLogin(ip);
-            return null;
-          }
+          clearLoginAttempts(ipKey);
+          clearLoginAttempts(emailKey);
 
-          // Verify password with timeout protection
-          const isPasswordValid = await Promise.race([
-            compare(credentials.password, admin.passwordHash),
-            new Promise<boolean>((_, reject) =>
-              setTimeout(() => reject(new Error("Password verification timeout")), 10000)
-            ),
-          ]);
-
-          if (!isPasswordValid) {
-            console.log("[AUTH] Invalid password");
-            recordFailedLogin(ip);
-            return null;
-          }
-
-          console.log("[AUTH] Login successful:", email);
-          
-          // Clear rate limit on successful login
-          clearLoginAttempts(ip);
-
-          // Non-blocking: Update last login
           prisma.admin
-            .update({
-              where: { id: admin.id },
-              data: { lastLoginAt: new Date() },
-            })
+            .update({ where: { id: admin.id }, data: { lastLoginAt: new Date() } })
             .catch((err) => console.error("[AUTH] Update last login failed:", err.message));
 
-          // Non-blocking: Create audit log
           prisma.auditLog
             .create({
               data: {
@@ -107,19 +122,15 @@ export const authOptions: NextAuthOptions = {
                 resource: "Admin",
                 resourceId: admin.id,
                 result: "SUCCESS",
+                ipAddress: ip,
               },
             })
             .catch((err) => console.error("[AUTH] Audit log failed:", err.message));
 
-          return {
-            id: admin.id,
-            email: admin.email,
-            name: admin.name,
-          };
+          return { id: admin.id, email: admin.email, name: admin.name };
         } catch (error) {
-          console.error("[AUTH] Database error:", error instanceof Error ? error.message : String(error));
-          recordFailedLogin(ip);
-          return null;
+          console.error("[AUTH] Login error:", error instanceof Error ? error.message : String(error));
+          return fail();
         }
       },
     }),
@@ -130,6 +141,15 @@ export const authOptions: NextAuthOptions = {
         token.id = user.id;
         token.email = user.email;
         token.name = user.name;
+        return token;
+      }
+
+      // Re-validate on every session read. Throwing makes next-auth drop the
+      // session and clear the cookie.
+      const id = token.id as string | undefined;
+      const email = token.email as string | undefined;
+      if (!id || !email || !(await isActiveAdmin(id, email))) {
+        throw new Error("Session no longer valid");
       }
       return token;
     },
@@ -148,14 +168,18 @@ export const authOptions: NextAuthOptions = {
   },
   session: {
     strategy: "jwt",
-    maxAge: 30 * 24 * 60 * 60, // 30 days
-    updateAge: 24 * 60 * 60, // Update session every 24 hours
+    maxAge: SESSION_MAX_AGE,
+    updateAge: 60 * 60,
+  },
+  jwt: {
+    maxAge: SESSION_MAX_AGE,
   },
   cookies: {
     sessionToken: {
-      name: process.env.NODE_ENV === "production" 
-        ? "__Secure-next-auth.session-token"
-        : "next-auth.session-token",
+      name:
+        process.env.NODE_ENV === "production"
+          ? "__Secure-next-auth.session-token"
+          : "next-auth.session-token",
       options: {
         httpOnly: true,
         sameSite: "lax",
@@ -165,5 +189,5 @@ export const authOptions: NextAuthOptions = {
     },
   },
   secret: process.env.NEXTAUTH_SECRET,
-  debug: process.env.NODE_ENV === "development",
+  debug: false,
 };

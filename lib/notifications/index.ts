@@ -4,6 +4,7 @@
  */
 
 import { sendEmail } from '../email/resend-client';
+import { escapeHtml, safeUrl } from '../security/html';
 import { meetingScheduledEmail } from '../email/templates';
 import { sendConsultationConfirmationSMS, sendMeetingReminderSMS, isTwilioConfigured } from './sms';
 import {
@@ -159,9 +160,9 @@ export async function sendMeetingReminders(params: {
       subject: `Reminder: Your meeting in ${params.hoursBeforeMeeting} hour(s) - VeyraTech`,
       html: `
         <h2>Meeting Reminder</h2>
-        <p>Hi ${params.name},</p>
+        <p>Hi ${escapeHtml(params.name)},</p>
         <p>Your VeyraTech consultation is in <strong>${params.hoursBeforeMeeting} hour(s)</strong> at ${timeStr}.</p>
-        <p><a href="${params.googleMeetLink}" style="background: #FC8436; color: white; padding: 12px 24px; text-decoration: none; border-radius: 8px; display: inline-block; margin: 16px 0;">Join Meeting</a></p>
+        <p><a href="${safeUrl(params.googleMeetLink)}" style="background: #FC8436; color: white; padding: 12px 24px; text-decoration: none; border-radius: 8px; display: inline-block; margin: 16px 0;">Join Meeting</a></p>
         <p>See you soon!<br><strong>The VeyraTech Team</strong></p>
       `,
     });

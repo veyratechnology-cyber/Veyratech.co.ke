@@ -1,20 +1,27 @@
 import { PrismaClient } from "@prisma/client";
 import * as bcrypt from "bcryptjs";
+import { randomBytes } from "crypto";
 
 const prisma = new PrismaClient();
 
 async function main() {
   console.log("🌱 Starting database seed...");
 
-  // Create default admin user
-  const hashedPassword = await bcrypt.hash("admin123", 10);
-  
+  // Create default admin user. Password comes from SEED_ADMIN_PASSWORD, or a
+  // random one is generated and printed once. Never hardcode it (public repo).
+  const seedEmail = (process.env.SEED_ADMIN_EMAIL || "admin@veyratech.com").toLowerCase();
+  const seedPassword = process.env.SEED_ADMIN_PASSWORD || randomBytes(18).toString("base64url");
+  const hashedPassword = await bcrypt.hash(seedPassword, 12);
+  if (!process.env.SEED_ADMIN_PASSWORD) {
+    console.log(`🔑 Generated admin password (shown once, only used if the admin is new): ${seedPassword}`);
+  }
+
   const admin = await prisma.admin.upsert({
-    where: { email: "admin@veyratech.com" },
+    where: { email: seedEmail },
     update: {},
     create: {
       name: "VeyraTech Admin",
-      email: "admin@veyratech.com",
+      email: seedEmail,
       passwordHash: hashedPassword,
       status: "ACTIVE",
     },

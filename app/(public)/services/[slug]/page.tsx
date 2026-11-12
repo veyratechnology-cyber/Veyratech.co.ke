@@ -105,21 +105,15 @@ export default async function ServiceDetailPage({ params }: ServicePageProps) {
             </p>
             
             <div className="flex flex-col sm:flex-row gap-4">
-              <Link href="/book-consultation">
-                <Button variant="primary" size="lg" className="w-full sm:w-auto">
+              <Button href="/book-consultation" variant="primary" size="lg" className="w-full sm:w-auto">
                   Book a Consultation
                   <ArrowRight size={18} />
                 </Button>
-              </Link>
-              <Link href="/contact">
-                <Button 
-                  variant="outline" 
+              <Button href="/contact" variant="outline" 
                   size="lg" 
-                  className="w-full sm:w-auto"
-                >
+                  className="w-full sm:w-auto">
                   Contact Us
                 </Button>
-              </Link>
             </div>
           </div>
         </div>
@@ -289,25 +283,17 @@ export default async function ServiceDetailPage({ params }: ServicePageProps) {
               Let's discuss how {service.name.toLowerCase()} can help your organization achieve its objectives.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link href="/book-consultation">
-                <Button 
-                  variant="primary" 
+              <Button href="/book-consultation" variant="primary" 
                   size="lg" 
-                  className="w-full sm:w-auto"
-                >
+                  className="w-full sm:w-auto">
                   Book a Consultation
                   <ArrowRight size={18} />
                 </Button>
-              </Link>
-              <Link href="/services">
-                <Button 
-                  variant="outline" 
+              <Button href="/services" variant="outline" 
                   size="lg" 
-                  className="w-full sm:w-auto"
-                >
+                  className="w-full sm:w-auto">
                   View All Services
                 </Button>
-              </Link>
             </div>
           </div>
         </div>

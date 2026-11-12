@@ -1,11 +1,15 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { requireAdmin } from "@/lib/security";
 
 export async function POST(
   request: NextRequest,
   { params }: { params: { id: string } }
 ) {
   try {
+    const auth = await requireAdmin();
+    if (auth instanceof NextResponse) return auth;
+
     const { outcome, meetingNotes, followUpDate, followUpNotes } = await request.json();
 
     if (!outcome) {

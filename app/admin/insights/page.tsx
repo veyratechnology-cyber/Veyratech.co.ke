@@ -29,12 +29,10 @@ export default async function InsightsAdminPage() {
             Manage blog posts and thought leadership content
           </p>
         </div>
-        <Link href="/admin/insights/new">
-          <Button variant="primary" size="lg">
+        <Button href="/admin/insights/new" variant="primary" size="lg">
             <Plus size={20} />
             New Post
           </Button>
-        </Link>
       </div>
 
       <Card>
@@ -94,12 +92,10 @@ export default async function InsightsAdminPage() {
           ) : (
             <div className="text-center py-12">
               <p className="text-text-muted mb-4">No insights yet</p>
-              <Link href="/admin/insights/new">
-                <Button variant="primary" size="md">
+              <Button href="/admin/insights/new" variant="primary" size="md">
                   <Plus size={20} />
                   Create Your First Post
                 </Button>
-              </Link>
             </div>
           )}
         </CardContent>

@@ -136,11 +136,9 @@ export default async function InsightsPage({
               <p className="text-text-secondary mb-6">
                 We're working on creating valuable content. Check back soon for expert insights!
               </p>
-              <Link href="/contact">
-                <Button variant="primary">
+              <Button href="/contact" variant="primary">
                   Get in Touch
                 </Button>
-              </Link>
             </div>
           </div>
         </section>
@@ -357,17 +355,13 @@ export default async function InsightsPage({
               Our consulting team can help you implement these strategies in your organization
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link href="/book-consultation">
-                <Button variant="secondary" size="lg" className="w-full sm:w-auto bg-primary-dark text-secondary hover:bg-primary-dark">
+              <Button href="/book-consultation" variant="secondary" size="lg" className="w-full sm:w-auto bg-primary-dark text-secondary hover:bg-primary-dark">
                   Book a Consultation
                   <ArrowRight size={18} />
                 </Button>
-              </Link>
-              <Link href="/services">
-                <Button variant="outline" size="lg" className="w-full sm:w-auto border-white text-white hover:bg-primary-dark hover:text-secondary">
+              <Button href="/services" variant="outline" size="lg" className="w-full sm:w-auto border-white text-white hover:bg-primary-dark hover:text-secondary">
                   View Services
                 </Button>
-              </Link>
             </div>
           </div>
         </div>

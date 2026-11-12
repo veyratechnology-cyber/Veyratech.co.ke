@@ -1,5 +1,4 @@
 import React from "react";
-import Link from "next/link";
 import { Button, Card, CardContent } from "@/components/shared";
 import { PRINCIPLES } from "@/lib/constants";
 import { ArrowRight, CheckCircle } from "lucide-react";
@@ -230,17 +229,13 @@ export default function AboutPage() {
               If you're tired of consultant BS and just want someone to help solve your actual problems, let's talk.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link href="/book-consultation">
-                <Button variant="secondary" size="lg" className="bg-primary-dark text-secondary hover:bg-primary-dark">
+              <Button href="/book-consultation" variant="secondary" size="lg" className="bg-primary-dark text-secondary hover:bg-primary-dark">
                   Book a Free Consultation
                   <ArrowRight size={20} />
                 </Button>
-              </Link>
-              <Link href="/contact">
-                <Button variant="outline" size="lg" className="border-white text-white hover:bg-primary-dark hover:text-secondary">
+              <Button href="/contact" variant="outline" size="lg" className="border-white text-white hover:bg-primary-dark hover:text-secondary">
                   Just Email Us
                 </Button>
-              </Link>
             </div>
             <p className="mt-6 text-text-muted">
               First conversation is always free. No sales pitch, no pressure.

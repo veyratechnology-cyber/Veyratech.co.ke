@@ -17,44 +17,48 @@ import { initiateSTKPush } from "@/lib/mpesa";
 import { sendConsultationConfirmation, sendConsultationNotification } from "@/lib/email";
 import { reserveTimeSlot } from "@/lib/scheduling";
 import { createConsultationEvent, isGoogleCalendarConfigured } from "@/lib/google-calendar";
+import { packages } from "@/lib/pricing/packages";
+import { enforceRateLimit } from "@/lib/security";
 
 // Validation schema
 const bookingSchema = z.object({
   // Package & Payment
   packageId: z.string().min(1, "Package selection is required"),
   packageCategory: z.enum(['consultation', 'ai', 'support']),
-  quotedAmount: z.number().positive("Amount must be greater than zero"),
+  // Client-sent amount is ignored for billing; the server price list is the source of truth.
+  quotedAmount: z.number().optional(),
   paymentMethod: z.enum(['MPESA', 'BANK_TRANSFER', 'INVOICE_LATER']),
   mpesaPhone: z.string().optional(),
   
   // Personal Information
-  name: z.string().min(2, "Name is required"),
-  email: z.string().email("Invalid email address"),
-  phone: z.string().min(7, "Phone number is required"),
-  company: z.string().optional(),
-  jobTitle: z.string().optional(),
+  name: z.string().trim().min(2, "Name is required").max(100),
+  email: z.string().trim().email("Invalid email address").max(255),
+  phone: z.string().trim().min(7, "Phone number is required").max(30),
+  company: z.string().max(150).optional(),
+  jobTitle: z.string().max(150).optional(),
   
   // Business Information
-  industry: z.string().optional(),
-  businessChallenge: z.string().min(20, "Please describe your challenge in more detail"),
-  consultationTypes: z.array(z.string()).optional(),
+  industry: z.string().max(100).optional(),
+  businessChallenge: z.string().min(20, "Please describe your challenge in more detail").max(5000),
+  consultationTypes: z.array(z.string().max(100)).max(20).optional(),
   
   // Meeting Details
   meetingType: z.enum(['GOOGLE_MEET', 'PHONE', 'IN_PERSON']),
-  preferredDate: z.string(),
-  preferredTime: z.string(),
-  meetingLocation: z.string().optional(),
+  preferredDate: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, "Invalid date"),
+  preferredTime: z.string().regex(/^\d{2}:\d{2}$/, "Invalid time"),
+  meetingLocation: z.string().max(300).optional(),
 });
 
 export async function POST(request: NextRequest) {
   try {
+    // 5 bookings per IP per hour (each one can trigger an M-Pesa prompt and emails)
+    const limited = enforceRateLimit(request, "book-with-payment", 5, 60 * 60 * 1000);
+    if (limited) return limited;
+
     const body = await request.json();
     console.log("[BOOKING] Received booking request:", {
-      name: body.name,
-      email: body.email,
-      package: body.packageId,
-      amount: body.quotedAmount,
-      paymentMethod: body.paymentMethod,
+      package: body?.packageId,
+      paymentMethod: body?.paymentMethod,
     });
 
     // Validate input
@@ -68,6 +72,13 @@ export async function POST(request: NextRequest) {
     }
 
     const data = validation.data;
+
+    // SECURITY: look up the price on the server. Never trust the amount sent by the browser.
+    const pkg = packages[data.packageCategory].find((p) => p.id === data.packageId);
+    if (!pkg) {
+      return NextResponse.json({ error: "Unknown package" }, { status: 400 });
+    }
+    const serverPrice = pkg.price;
 
     // Parse preferred date/time
     let preferredDateTime: Date | null = null;
@@ -89,7 +100,7 @@ export async function POST(request: NextRequest) {
     // Step 1: Create Invoice First
     console.log("[BOOKING] Creating invoice...");
     const invoiceNumber = generateInvoiceNumber();
-    const subtotal = data.quotedAmount;
+    const subtotal = serverPrice;
     const vatAmount = subtotal * 0.16; // 16% VAT
     const totalAmount = subtotal + vatAmount;
 
@@ -162,7 +173,7 @@ export async function POST(request: NextRequest) {
         // Add payment tracking
         packageId: data.packageId,
         packageName: `${data.packageCategory} - ${data.packageId}`,
-        quotedAmount: data.quotedAmount,
+        quotedAmount: serverPrice,
         paymentStatus: data.paymentMethod === 'MPESA' ? 'PROCESSING' : 'PENDING',
         paymentMethod: data.paymentMethod,
         invoiceId: invoice.id,
@@ -308,7 +319,7 @@ export async function POST(request: NextRequest) {
             adminId: admin.id,
             type: "NEW_CONSULTATION",
             title: "New Paid Consultation Booking",
-            message: `${data.name} booked a ${data.packageCategory} consultation (${data.packageId}) for KSH ${data.quotedAmount.toLocaleString()}. Payment: ${data.paymentMethod}`,
+            message: `${data.name} booked a ${data.packageCategory} consultation (${data.packageId}) for KSH ${serverPrice.toLocaleString()}. Payment: ${data.paymentMethod}`,
             link: `/admin/consultations/${consultation.id}`,
             isRead: false,
           })),
@@ -343,7 +354,6 @@ export async function POST(request: NextRequest) {
       {
         error: "An unexpected error occurred",
         message: "Please try again or contact us at consulting@veyratech.co.ke",
-        details: process.env.NODE_ENV === 'development' ? error.message : undefined,
       },
       { status: 500 }
     );

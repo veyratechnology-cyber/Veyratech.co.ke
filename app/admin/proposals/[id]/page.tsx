@@ -140,12 +140,10 @@ function ProposalDetailClient({ proposal: initialProposal }: { proposal: Proposa
       {/* Header */}
       <div className="flex items-center justify-between flex-wrap gap-4">
         <div className="flex items-center gap-4">
-          <Link href="/admin/proposals">
-            <Button variant="outline" size="sm">
+          <Button href="/admin/proposals" variant="outline" size="sm">
               <ArrowLeft size={16} />
               Back
             </Button>
-          </Link>
           <div>
             <h1 className="text-3xl font-sora font-bold text-text-primary">
               {proposal.title}

@@ -1,5 +1,4 @@
 import React from "react";
-import Link from "next/link";
 import { Button, Card, CardContent } from "@/components/shared";
 import { Star, ExternalLink, MessageSquare } from "lucide-react";
 import type { Metadata } from "next";
@@ -117,11 +116,9 @@ export default function ReviewsPage() {
             <p className="text-lg text-text-secondary mb-8">
               We're currently gathering feedback from our clients. Check back soon to see what they have to say about working with VeyraTech.
             </p>
-            <Link href="/contact">
-              <Button variant="primary" size="lg">
+            <Button href="/contact" variant="primary" size="lg">
                 Work With Us
               </Button>
-            </Link>
           </div>
         </div>
       </section>
@@ -147,11 +144,9 @@ export default function ReviewsPage() {
                   <ExternalLink size={20} />
                 </Button>
               </a>
-              <Link href="/contact">
-                <Button variant="outline" size="lg" className="border-white text-white hover:bg-primary-dark">
+              <Button href="/contact" variant="outline" size="lg" className="border-white text-white hover:bg-primary-dark">
                   Contact Us
                 </Button>
-              </Link>
             </div>
           </div>
         </div>

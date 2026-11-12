@@ -1,5 +1,4 @@
 import React from "react";
-import Link from "next/link";
 import { Button, Badge } from "@/components/shared";
 import { getPublishedInsightBySlug } from "@/lib/db/queries";
 import { INSIGHT_CATEGORIES } from "@/lib/constants";
@@ -46,12 +45,10 @@ export default async function InsightDetailPage({ params }: Props) {
       {/* Back Navigation */}
       <section className="py-6 bg-white border-b border-gray-100">
         <div className="container-custom">
-          <Link href="/insights">
-            <Button variant="ghost" size="sm">
+          <Button href="/insights" variant="ghost" size="sm">
               <ArrowLeft size={16} />
               Back to Insights
             </Button>
-          </Link>
         </div>
       </section>
 
@@ -141,11 +138,9 @@ export default async function InsightDetailPage({ params }: Props) {
             <p className="text-xl mb-8 text-gray-100">
               Let's discuss how RoyalTech can help your organization.
             </p>
-            <Link href="/book-consultation">
-              <Button variant="primary" size="lg" className="bg-white text-primary hover:bg-gray-100">
+            <Button href="/book-consultation" variant="primary" size="lg" className="bg-white text-primary hover:bg-gray-100">
                 Book a Consultation
               </Button>
-            </Link>
           </div>
         </div>
       </section>

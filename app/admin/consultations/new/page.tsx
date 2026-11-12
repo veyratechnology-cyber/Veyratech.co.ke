@@ -163,9 +163,7 @@ export default function NewConsultationPage() {
             </div>
 
             <div className="flex justify-end gap-4">
-              <Link href="/admin/consultations">
-                <Button variant="outline">Cancel</Button>
-              </Link>
+              <Button href="/admin/consultations" variant="outline">Cancel</Button>
               <Button type="submit" disabled={isSubmitting}>
                 {isSubmitting ? "Scheduling..." : "Schedule Consultation"}
               </Button>

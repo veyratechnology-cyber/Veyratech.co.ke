@@ -1,7 +1,6 @@
 'use client';
 
 import { useEffect } from 'react';
-import Link from 'next/link';
 import { Button } from '@/components/shared';
 
 export default function Error({
@@ -49,11 +48,9 @@ export default function Error({
               Try Again
             </Button>
             
-            <Link href="/">
-              <Button variant="outline" className="w-full">
+            <Button href="/" variant="outline" className="w-full">
                 Go Home
               </Button>
-            </Link>
           </div>
 
           <p className="text-xs text-text-muted mt-6">

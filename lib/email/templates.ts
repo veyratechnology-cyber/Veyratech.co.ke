@@ -4,6 +4,7 @@
  */
 
 import { wrapEmailTemplate } from './resend-client';
+import { escapeData } from '@/lib/security/html';
 
 /**
  * New Consultation Notification (Admin)
@@ -18,6 +19,8 @@ export function consultationNotificationEmail(data: {
   preferredDate?: Date;
   consultationUrl: string;
 }) {
+  const raw = data;
+  data = escapeData(data);
   const content = `
     <h1>🎉 New Consultation Request!</h1>
     <p>A potential client has just booked a consultation. Here are the details:</p>
@@ -59,7 +62,7 @@ export function consultationNotificationEmail(data: {
   `;
 
   return {
-    subject: `New Consultation Request from ${data.name}${data.company ? ` (${data.company})` : ''}`,
+    subject: `New Consultation Request from ${raw.name}${raw.company ? ` (${raw.company})` : ''}`,
     html: wrapEmailTemplate(content, 'New Consultation Request'),
   };
 }
@@ -72,6 +75,7 @@ export function consultationConfirmationEmail(data: {
   consultationType: string[];
   preferredDate?: Date;
 }) {
+  data = escapeData(data);
   const content = `
     <h1>Thank You for Your Interest! 🎉</h1>
     <p>Hi ${data.name},</p>
@@ -127,6 +131,8 @@ export function customBusinessEmail(data: {
   callToActionText?: string;
   callToActionUrl?: string;
 }) {
+  const raw = data;
+  data = escapeData(data);
   const content = `
     <p>Hi ${data.recipientName},</p>
     
@@ -145,7 +151,7 @@ export function customBusinessEmail(data: {
   `;
 
   return {
-    subject: data.subject,
+    subject: raw.subject,
     html: wrapEmailTemplate(content, data.subject),
   };
 }
@@ -161,6 +167,8 @@ export function proposalEmail(data: {
   proposalUrl: string;
   expirationDate?: Date;
 }) {
+  const raw = data;
+  data = escapeData(data);
   const content = `
     <h1>📄 Proposal for ${data.clientCompany}</h1>
     <p>Dear ${data.clientName},</p>
@@ -200,7 +208,7 @@ export function proposalEmail(data: {
   `;
 
   return {
-    subject: `Proposal: ${data.proposalTitle} - VeyraTech`,
+    subject: `Proposal: ${raw.proposalTitle} - VeyraTech`,
     html: wrapEmailTemplate(content, 'Proposal'),
   };
 }
@@ -215,6 +223,8 @@ export function followUpEmail(data: {
   callToActionText?: string;
   callToActionUrl?: string;
 }) {
+  const raw = data;
+  data = escapeData(data);
   const content = `
     <h1>Following Up</h1>
     <p>Hi ${data.clientName},</p>
@@ -238,7 +248,7 @@ export function followUpEmail(data: {
   `;
 
   return {
-    subject: `Following up: ${data.lastInteraction}`,
+    subject: `Following up: ${raw.lastInteraction}`,
     html: wrapEmailTemplate(content, 'Follow Up'),
   };
 }
@@ -255,6 +265,8 @@ export function meetingScheduledEmail(data: {
   meetingLocation?: string;
   agenda?: string;
 }) {
+  const raw = data;
+  data = escapeData(data);
   const content = `
     <h1>✅ Meeting Confirmed!</h1>
     <p>Hi ${data.clientName},</p>
@@ -299,7 +311,7 @@ export function meetingScheduledEmail(data: {
   `;
 
   return {
-    subject: `Meeting Confirmed: ${new Date(data.meetingDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })} - VeyraTech`,
+    subject: `Meeting Confirmed: ${new Date(raw.meetingDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })} - VeyraTech`,
     html: wrapEmailTemplate(content, 'Meeting Confirmed'),
   };
 }

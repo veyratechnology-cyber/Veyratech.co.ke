@@ -1,228 +1,307 @@
 "use client";
 
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useCallback } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Logo, Button } from "@/components/shared";
 import { PUBLIC_NAV_ITEMS, SOLUTIONS_DROPDOWN } from "@/lib/constants";
-import { Menu, X, ChevronDown } from "lucide-react";
+import { Menu, X, ChevronDown, ArrowRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 /**
- * Public Website Navigation
- * VeyraTech Brand Design - Navy + Orange
- * Responsive header with mobile menu and Solutions dropdown
+ * Public Website Navigation (VeyraTech navy + orange)
+ * - Translucent header that gains a border/shadow once the page scrolls
+ * - Accessible Solutions dropdown (hover, click, keyboard, Escape)
+ * - Full-height mobile menu with scroll lock
  */
 export function Navigation() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [solutionsOpen, setSolutionsOpen] = useState(false);
   const [mobileSolutionsOpen, setMobileSolutionsOpen] = useState(false);
-  const dropdownRef = useRef<HTMLDivElement>(null);
+  const [scrolled, setScrolled] = useState(false);
+  const dropdownRef = useRef<HTMLLIElement>(null);
+  const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const pathname = usePathname();
 
-  const isActive = (href: string) => {
-    if (href === "/" && pathname === "/") return true;
-    if (href !== "/" && pathname.startsWith(href)) return true;
-    return false;
-  };
+  const isActive = useCallback(
+    (href: string) => (href === "/" ? pathname === "/" : pathname.startsWith(href)),
+    [pathname]
+  );
 
-  // Close dropdown when clicking outside
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 8);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
         setSolutionsOpen(false);
       }
     };
-
+    const handleKey = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setSolutionsOpen(false);
+        setMobileMenuOpen(false);
+      }
+    };
     document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
+    document.addEventListener("keydown", handleKey);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener("keydown", handleKey);
+    };
   }, []);
 
-  // Close dropdown on route change
   useEffect(() => {
     setSolutionsOpen(false);
     setMobileMenuOpen(false);
+    setMobileSolutionsOpen(false);
   }, [pathname]);
 
+  // Lock page scroll while the mobile menu is open
+  useEffect(() => {
+    document.body.style.overflow = mobileMenuOpen ? "hidden" : "";
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [mobileMenuOpen]);
+
+  const openDropdown = () => {
+    if (closeTimer.current) clearTimeout(closeTimer.current);
+    setSolutionsOpen(true);
+  };
+  const scheduleClose = () => {
+    closeTimer.current = setTimeout(() => setSolutionsOpen(false), 150);
+  };
+
+  const solutionsActive = pathname.startsWith("/solutions");
+
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-primary border-b border-border backdrop-blur-sm bg-opacity-95">
-      <div className="container-custom">
-        <div className="flex items-center justify-between h-20">
-          {/* Logo */}
-          <Link href="/" className="flex-shrink-0">
+    <header
+      className={cn(
+        "fixed inset-x-0 top-0 z-50 transition-[background-color,box-shadow,border-color] duration-300",
+        scrolled || mobileMenuOpen
+          ? "bg-primary/90 backdrop-blur-xl border-b border-white/10 shadow-[0_10px_30px_-12px_rgba(0,0,0,0.5)]"
+          : "bg-primary/60 backdrop-blur-md border-b border-transparent"
+      )}
+    >
+      <a
+        href="#main-content"
+        className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[60] focus:rounded-lg focus:bg-secondary focus:px-4 focus:py-2 focus:text-white"
+      >
+        Skip to content
+      </a>
+
+      <nav className="container-custom" aria-label="Main">
+        <div className="flex h-20 items-center justify-between gap-6">
+          <Link href="/" className="flex-shrink-0" aria-label="VeyraTech home">
             <Logo variant="full" theme="dark" />
           </Link>
 
-          {/* Desktop Navigation */}
-          <div className="hidden lg:flex items-center gap-8">
+          {/* Desktop navigation */}
+          <ul className="hidden xl:flex items-center gap-1">
             {PUBLIC_NAV_ITEMS.map((item) => {
-              // Solutions dropdown
               if (item.hasDropdown) {
                 return (
-                  <div key={item.href} className="relative" ref={dropdownRef}>
+                  <li
+                    key={item.href}
+                    className="relative"
+                    ref={dropdownRef}
+                    onMouseEnter={openDropdown}
+                    onMouseLeave={scheduleClose}
+                  >
                     <button
-                      onClick={() => setSolutionsOpen(!solutionsOpen)}
-                      onMouseEnter={() => setSolutionsOpen(true)}
+                      type="button"
+                      onClick={() => setSolutionsOpen((v) => !v)}
                       className={cn(
-                        "flex items-center gap-1 text-sm font-medium transition-colors hover:text-secondary",
-                        isActive(item.href) || pathname.startsWith("/solutions")
-                          ? "text-secondary"
-                          : "text-text-secondary"
+                        "relative flex items-center gap-1 rounded-lg px-3 py-2 text-sm font-medium transition-colors",
+                        solutionsActive || solutionsOpen ? "text-white" : "text-text-secondary hover:text-white"
                       )}
                       aria-expanded={solutionsOpen}
                       aria-haspopup="true"
+                      aria-controls="solutions-menu"
                     >
                       {item.label}
                       <ChevronDown
-                        size={16}
-                        className={cn(
-                          "transition-transform",
-                          solutionsOpen && "rotate-180"
-                        )}
+                        size={15}
+                        className={cn("transition-transform duration-200", solutionsOpen && "rotate-180")}
+                        aria-hidden="true"
                       />
+                      {solutionsActive && <ActiveDot />}
                     </button>
 
-                    {/* Dropdown Menu */}
-                    {solutionsOpen && (
-                      <div
-                        className="absolute top-full left-0 mt-2 w-72 bg-primary-dark border border-border rounded-lg shadow-xl py-2 z-50"
-                        onMouseLeave={() => setSolutionsOpen(false)}
-                      >
+                    <div
+                      id="solutions-menu"
+                      className={cn(
+                        "absolute left-1/2 top-full z-50 w-[22rem] -translate-x-1/2 pt-3 transition-all duration-200",
+                        solutionsOpen
+                          ? "visible translate-y-0 opacity-100"
+                          : "invisible -translate-y-1 opacity-0 pointer-events-none"
+                      )}
+                    >
+                      <div className="overflow-hidden rounded-2xl border border-white/10 bg-primary-dark/95 p-2 shadow-2xl backdrop-blur-xl">
                         {SOLUTIONS_DROPDOWN.map((solution) => (
                           <Link
                             key={solution.href}
                             href={solution.href}
-                            className="block px-4 py-3 hover:bg-primary transition-colors group"
+                            className="group flex items-start gap-3 rounded-xl px-3 py-3 transition-colors hover:bg-white/[0.05]"
                             onClick={() => setSolutionsOpen(false)}
+                            tabIndex={solutionsOpen ? 0 : -1}
                           >
-                            <div className="font-medium text-text-primary group-hover:text-secondary transition-colors">
-                              {solution.label}
-                            </div>
-                            <div className="text-sm text-text-muted mt-1">
-                              {solution.description}
-                            </div>
+                            <span className="mt-1.5 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-secondary/60 transition-colors group-hover:bg-secondary" />
+                            <span>
+                              <span className="block text-sm font-semibold text-text-primary transition-colors group-hover:text-secondary">
+                                {solution.label}
+                              </span>
+                              <span className="mt-0.5 block text-xs leading-relaxed text-text-muted/80">
+                                {solution.description}
+                              </span>
+                            </span>
                           </Link>
                         ))}
+                        <Link
+                          href="/solutions"
+                          className="mt-1 flex items-center justify-between rounded-xl border-t border-white/5 px-3 py-3 text-sm font-medium text-secondary hover:bg-secondary/10"
+                          tabIndex={solutionsOpen ? 0 : -1}
+                        >
+                          View all solutions <ArrowRight size={15} aria-hidden="true" />
+                        </Link>
                       </div>
-                    )}
-                  </div>
+                    </div>
+                  </li>
                 );
               }
 
-              // Regular navigation items
+              const active = isActive(item.href);
               return (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  className={cn(
-                    "text-sm font-medium transition-colors hover:text-secondary",
-                    isActive(item.href)
-                      ? "text-secondary"
-                      : "text-text-secondary"
-                  )}
-                >
-                  {item.label}
-                </Link>
+                <li key={item.href}>
+                  <Link
+                    href={item.href}
+                    aria-current={active ? "page" : undefined}
+                    className={cn(
+                      "relative block rounded-lg px-3 py-2 text-sm font-medium transition-colors",
+                      active ? "text-white" : "text-text-secondary hover:text-white"
+                    )}
+                  >
+                    {item.label}
+                    {active && <ActiveDot />}
+                  </Link>
+                </li>
               );
             })}
+          </ul>
+
+          <div className="hidden xl:block">
+            <Button href="/book-consultation" variant="primary" size="sm" className="px-5 py-2.5">
+              Start Your Project
+              <ArrowRight size={16} aria-hidden="true" />
+            </Button>
           </div>
 
-          {/* Desktop CTA */}
-          <div className="hidden lg:block">
-            <Link href="/book-consultation">
-              <Button variant="primary" size="md">
-                Start Your Project
-              </Button>
-            </Link>
-          </div>
-
-          {/* Mobile Menu Button */}
+          {/* Mobile menu button */}
           <button
-            className="lg:hidden p-2 text-text-secondary hover:text-secondary transition-colors"
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            aria-label="Toggle menu"
+            type="button"
+            className="xl:hidden -mr-2 rounded-lg p-2 text-text-secondary transition-colors hover:bg-white/5 hover:text-white"
+            onClick={() => setMobileMenuOpen((v) => !v)}
+            aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
+            aria-expanded={mobileMenuOpen}
+            aria-controls="mobile-menu"
           >
             {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
         </div>
-      </div>
+      </nav>
 
-      {/* Mobile Menu */}
-      {mobileMenuOpen && (
-        <div className="lg:hidden border-t border-border bg-primary-dark">
-          <div className="container-custom py-4 space-y-2">
+      {/* Mobile menu */}
+      <div
+        id="mobile-menu"
+        className={cn(
+          "xl:hidden fixed inset-x-0 top-20 bottom-0 overflow-y-auto border-t border-white/10 bg-primary-dark backdrop-blur-xl transition-all duration-300",
+          mobileMenuOpen ? "visible opacity-100" : "invisible opacity-0 pointer-events-none"
+        )}
+      >
+        <div className="container-custom flex min-h-full flex-col py-6">
+          <ul className="space-y-1">
             {PUBLIC_NAV_ITEMS.map((item) => {
-              // Solutions dropdown in mobile
               if (item.hasDropdown) {
                 return (
-                  <div key={item.href}>
+                  <li key={item.href}>
                     <button
-                      onClick={() => setMobileSolutionsOpen(!mobileSolutionsOpen)}
+                      type="button"
+                      onClick={() => setMobileSolutionsOpen((v) => !v)}
                       className={cn(
-                        "flex items-center justify-between w-full py-2 text-base font-medium transition-colors",
-                        isActive(item.href) || pathname.startsWith("/solutions")
-                          ? "text-secondary"
-                          : "text-text-secondary hover:text-secondary"
+                        "flex w-full items-center justify-between rounded-xl px-4 py-3 text-lg font-medium transition-colors",
+                        solutionsActive ? "bg-white/5 text-secondary" : "text-text-primary hover:bg-white/5"
                       )}
+                      aria-expanded={mobileSolutionsOpen}
                     >
                       {item.label}
                       <ChevronDown
                         size={20}
-                        className={cn(
-                          "transition-transform",
-                          mobileSolutionsOpen && "rotate-180"
-                        )}
+                        className={cn("transition-transform", mobileSolutionsOpen && "rotate-180")}
+                        aria-hidden="true"
                       />
                     </button>
-                    
-                    {/* Mobile Solutions Submenu */}
                     {mobileSolutionsOpen && (
-                      <div className="pl-4 mt-2 space-y-2">
+                      <ul className="ml-4 mt-1 space-y-1 border-l border-white/10 pl-3">
                         {SOLUTIONS_DROPDOWN.map((solution) => (
-                          <Link
-                            key={solution.href}
-                            href={solution.href}
-                            className="block py-2 text-sm text-text-secondary hover:text-secondary transition-colors"
-                            onClick={() => {
-                              setMobileMenuOpen(false);
-                              setMobileSolutionsOpen(false);
-                            }}
-                          >
-                            {solution.label}
-                          </Link>
+                          <li key={solution.href}>
+                            <Link
+                              href={solution.href}
+                              className="block rounded-lg px-3 py-2.5 text-[15px] text-text-secondary transition-colors hover:bg-white/5 hover:text-secondary"
+                            >
+                              {solution.label}
+                            </Link>
+                          </li>
                         ))}
-                      </div>
+                      </ul>
                     )}
-                  </div>
+                  </li>
                 );
               }
 
-              // Regular mobile menu items
+              const active = isActive(item.href);
               return (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  className={cn(
-                    "block py-2 text-base font-medium transition-colors",
-                    isActive(item.href)
-                      ? "text-secondary"
-                      : "text-text-secondary hover:text-secondary"
-                  )}
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  {item.label}
-                </Link>
+                <li key={item.href}>
+                  <Link
+                    href={item.href}
+                    aria-current={active ? "page" : undefined}
+                    className={cn(
+                      "block rounded-xl px-4 py-3 text-lg font-medium transition-colors",
+                      active ? "bg-white/5 text-secondary" : "text-text-primary hover:bg-white/5"
+                    )}
+                  >
+                    {item.label}
+                  </Link>
+                </li>
               );
             })}
-            <Link href="/book-consultation" onClick={() => setMobileMenuOpen(false)}>
-              <Button variant="primary" size="md" className="w-full mt-4">
-                Start Your Project
-              </Button>
-            </Link>
+          </ul>
+
+          <div className="mt-auto pt-8">
+            <Button href="/book-consultation" variant="primary" size="lg" className="w-full">
+              Start Your Project
+              <ArrowRight size={18} aria-hidden="true" />
+            </Button>
+            <p className="mt-3 text-center text-sm text-text-muted/70">
+              Free first consultation · Reply within 24 hours
+            </p>
           </div>
         </div>
-      )}
-    </nav>
+      </div>
+    </header>
+  );
+}
+
+function ActiveDot() {
+  return (
+    <span
+      aria-hidden="true"
+      className="absolute -bottom-0.5 left-1/2 h-1 w-1 -translate-x-1/2 rounded-full bg-secondary shadow-[0_0_8px_rgba(252,132,54,0.9)]"
+    />
   );
 }
 

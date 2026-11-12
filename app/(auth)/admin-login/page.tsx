@@ -8,7 +8,12 @@ import { Logo, Button, Input, Alert } from "@/components/shared";
 function LoginForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const callbackUrl = searchParams.get("callbackUrl") || "/admin";
+  // Only allow internal admin paths (prevents open-redirects like ?callbackUrl=https://evil.com)
+  const rawCallback = searchParams.get("callbackUrl") || "";
+  const callbackUrl =
+    rawCallback.startsWith("/admin") && !rawCallback.startsWith("//") && !rawCallback.includes("\\")
+      ? rawCallback
+      : "/admin";
   const error = searchParams.get("error");
 
   const [formData, setFormData] = useState({
@@ -121,14 +126,6 @@ function LoginForm() {
           </div>
         </div>
 
-        {/* Development Hint */}
-        {process.env.NODE_ENV === "development" && (
-          <div className="mt-4 p-4 bg-yellow-50 border border-yellow-200 rounded-lg text-sm text-text-primary">
-            <p className="font-semibold mb-1">Development Mode:</p>
-            <p>Email: admin@VeyraTech.com</p>
-            <p>Password: admin123</p>
-          </div>
-        )}
       </div>
     </div>
   );

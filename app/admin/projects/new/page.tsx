@@ -150,9 +150,7 @@ export default function NewProjectPage() {
             </div>
 
             <div className="flex justify-end gap-4">
-              <Link href="/admin/projects">
-                <Button variant="outline">Cancel</Button>
-              </Link>
+              <Button href="/admin/projects" variant="outline">Cancel</Button>
               <Button type="submit" disabled={isSubmitting}>
                 {isSubmitting ? "Creating..." : "Create Project"}
               </Button>

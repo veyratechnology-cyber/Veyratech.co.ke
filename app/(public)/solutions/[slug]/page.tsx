@@ -1,5 +1,4 @@
 import React from "react";
-import Link from "next/link";
 import { Button, Card, CardContent } from "@/components/shared";
 import { SOLUTIONS_DROPDOWN } from "@/lib/constants";
 import { ArrowRight, Check, Code, Smartphone, ShoppingCart, Settings, Zap, Network, Bot } from "lucide-react";
@@ -420,12 +419,10 @@ export default function SolutionPage({ params }: { params: { slug: string } }) {
             <p className="text-xl mb-10 opacity-90">
               Let's discuss how {solution.title.toLowerCase()} can transform your business operations.
             </p>
-            <Link href="/book-consultation">
-              <Button variant="secondary" size="lg" className="bg-primary-dark text-secondary hover:bg-primary">
+            <Button href="/book-consultation" variant="secondary" size="lg" className="bg-primary-dark text-secondary hover:bg-primary">
                 {solution.cta}
                 <ArrowRight size={20} />
               </Button>
-            </Link>
           </div>
         </div>
       </section>

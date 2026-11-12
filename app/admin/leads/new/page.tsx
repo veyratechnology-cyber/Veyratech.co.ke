@@ -203,9 +203,7 @@ export default function NewLeadPage() {
 
             {/* Actions */}
             <div className="flex justify-end gap-4">
-              <Link href="/admin/leads">
-                <Button variant="outline">Cancel</Button>
-              </Link>
+              <Button href="/admin/leads" variant="outline">Cancel</Button>
               <Button type="submit" disabled={isSubmitting}>
                 {isSubmitting ? "Creating..." : "Create Lead"}
               </Button>

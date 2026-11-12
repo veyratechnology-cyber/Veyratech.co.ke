@@ -1,10 +1,12 @@
-// EMERGENCY DATABASE SEEDER
-// Visit: https://vera-tech.vercel.app/api/admin/seed-database
-// This will insert ALL data directly into production database
+// DATABASE SEEDER (admin only)
+// DELETES and re-inserts all services and industry pages.
+// Requires an admin session AND the env var ALLOW_DB_SEED=true, and the request
+// body must be {"confirm": "DELETE_AND_RESEED"}.
 
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { Industry } from "@prisma/client";
+import { requireAdmin, serverError } from "@/lib/security";
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
@@ -12,6 +14,17 @@ export const maxDuration = 60;
 
 export async function POST(request: Request) {
   try {
+    const auth = await requireAdmin();
+    if (auth instanceof NextResponse) return auth;
+
+    if (process.env.ALLOW_DB_SEED !== "true") {
+      return NextResponse.json({ success: false, error: "Seeding is disabled. Set ALLOW_DB_SEED=true to enable it temporarily." }, { status: 403 });
+    }
+    const body = await request.json().catch(() => ({}));
+    if (body?.confirm !== "DELETE_AND_RESEED") {
+      return NextResponse.json({ success: false, error: 'Send {"confirm":"DELETE_AND_RESEED"} to proceed.' }, { status: 400 });
+    }
+
     const results: any = {
       timestamp: new Date().toISOString(),
       operations: [],
@@ -245,20 +258,14 @@ export async function POST(request: Request) {
     return NextResponse.json(results, { status: 200 });
     
   } catch (error) {
-    return NextResponse.json(
-      {
-        success: false,
-        error: "Failed to seed database",
-        message: error instanceof Error ? error.message : String(error),
-        stack: error instanceof Error ? error.stack : undefined,
-      },
-      { status: 500 }
-    );
+    return serverError("SEED_DATABASE", error, "Failed to seed database");
   }
 }
 
 // Allow GET for testing (will show instructions)
 export async function GET() {
+  const auth = await requireAdmin();
+  if (auth instanceof NextResponse) return auth;
   return NextResponse.json({
     message: "Database Seeder Endpoint",
     instructions: "Send a POST request to this endpoint to seed the database with all services and industries",

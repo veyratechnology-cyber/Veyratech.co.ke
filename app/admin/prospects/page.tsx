@@ -31,12 +31,10 @@ export default async function ProspectsPage() {
             Track and manage prospecting activities
           </p>
         </div>
-        <Link href="/admin/prospects/new">
-          <Button variant="primary" size="lg">
+        <Button href="/admin/prospects/new" variant="primary" size="lg">
             <Plus size={20} />
             Add Prospect
           </Button>
-        </Link>
       </div>
 
       <Card>
@@ -101,12 +99,10 @@ export default async function ProspectsPage() {
           ) : (
             <div className="text-center py-12">
               <p className="text-text-muted mb-4">No prospects yet</p>
-              <Link href="/admin/prospects/new">
-                <Button variant="primary" size="md">
+              <Button href="/admin/prospects/new" variant="primary" size="md">
                   <Plus size={20} />
                   Add Your First Prospect
                 </Button>
-              </Link>
             </div>
           )}
         </CardContent>

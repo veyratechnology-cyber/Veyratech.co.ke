@@ -3,6 +3,7 @@ import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/lib/db/prisma";
 import { safePrismaQuery } from "@/lib/prisma";
 import { z } from "zod";
+import { enforceRateLimit } from "@/lib/security";
 
 // Validation schema
 const contactSchema = z.object({
@@ -20,18 +21,19 @@ const contactSchema = z.object({
  */
 export async function POST(request: NextRequest) {
   try {
+    // 5 messages per IP per 15 minutes
+    const limited = enforceRateLimit(request, "contact", 5, 15 * 60 * 1000);
+    if (limited) return limited;
+
     const body = await request.json();
-    console.log("[CONTACT] Received data:", JSON.stringify(body, null, 2));
 
     // Validate input
     const validation = contactSchema.safeParse(body);
     if (!validation.success) {
-      console.error("[CONTACT] Validation failed:", validation.error.errors);
       return NextResponse.json(
-        { 
-          error: "Invalid input", 
-          details: validation.error.errors,
-          received: body 
+        {
+          error: "Invalid input",
+          details: validation.error.errors.map((e) => ({ path: e.path, message: e.message })),
         },
         { status: 400 }
       );
@@ -72,10 +74,6 @@ export async function POST(request: NextRequest) {
         {
           error: "Database connection failed",
           message: "Unable to save your message. Please try again or contact us directly at hello@veyratech.co.ke",
-          details: process.env.NODE_ENV === 'development' ? {
-            errorMessage: dbError.message,
-            errorCode: dbError.code
-          } : undefined
         },
         { status: 503 }
       );

@@ -15,6 +15,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { waitUntil } from "@vercel/functions";
 import prisma from "@/lib/db/prisma";
 import { z } from "zod";
+import { rateLimit, getClientIp as getSharedClientIp } from "@/lib/security";
 import { reserveTimeSlot } from "@/lib/scheduling";
 import { createConsultationEvent, isGoogleCalendarConfigured } from "@/lib/google-calendar";
 import { format } from "date-fns";
@@ -80,48 +81,16 @@ function isDisposableEmail(email: string): boolean {
 // SECURITY: RATE LIMITING
 // =============================================================================
 
-// Simple in-memory rate limiter (for production, use Redis)
-const rateLimitMap = new Map<string, { count: number; resetAt: number }>();
-
 /**
- * Rate limit: 3 requests per IP per 15 minutes
+ * Rate limit: 3 bookings per IP per 15 minutes (shared limiter in lib/security).
  */
 function checkRateLimit(ip: string): { allowed: boolean; retryAfter?: number } {
-  const now = Date.now();
-  const key = `consultation:${ip}`;
-  const limit = rateLimitMap.get(key);
-  
-  // Clean up expired entries
-  if (limit && now > limit.resetAt) {
-    rateLimitMap.delete(key);
-  }
-  
-  if (!limit) {
-    // First request
-    rateLimitMap.set(key, { count: 1, resetAt: now + 15 * 60 * 1000 }); // 15 min
-    return { allowed: true };
-  }
-  
-  if (limit.count >= 3) {
-    // Rate limit exceeded
-    const retryAfter = Math.ceil((limit.resetAt - now) / 1000);
-    return { allowed: false, retryAfter };
-  }
-  
-  // Increment counter
-  limit.count++;
-  return { allowed: true };
+  const result = rateLimit(`consultation:${ip}`, 3, 15 * 60 * 1000);
+  return { allowed: result.allowed, retryAfter: result.allowed ? undefined : result.retryAfterSeconds };
 }
 
-/**
- * Get client IP address from request
- */
 function getClientIp(request: NextRequest): string {
-  return (
-    request.headers.get('x-forwarded-for')?.split(',')[0] ||
-    request.headers.get('x-real-ip') ||
-    'unknown'
-  );
+  return getSharedClientIp(request);
 }
 
 // =============================================================================

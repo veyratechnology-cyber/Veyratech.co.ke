@@ -1,3 +1,5 @@
+import { randomInt } from 'crypto';
+import { escapeData } from '@/lib/security/html';
 /**
  * Professional Proposal Generator
  * Generate branded proposals with VeyraTech logo and company details
@@ -62,7 +64,7 @@ export function generateProposalNumber(): string {
   const date = new Date();
   const year = date.getFullYear();
   const month = String(date.getMonth() + 1).padStart(2, '0');
-  const random = Math.floor(Math.random() * 10000).toString().padStart(4, '0');
+  const random = randomInt(0, 1_000_000).toString().padStart(6, '0');
   return `PROP-${year}${month}-${random}`;
 }
 
@@ -70,6 +72,8 @@ export function generateProposalNumber(): string {
  * Generate professional proposal HTML
  */
 export function generateProposalHTML(data: ProposalData): string {
+  // Escape all user-supplied text before it is placed into HTML.
+  data = escapeData(data);
   const deliverablesList = data.deliverables
     .map((item, index) => `<li><strong>Deliverable ${index + 1}:</strong> ${item}</li>`)
     .join('');

@@ -62,12 +62,10 @@ export default async function ProposalsPage() {
             Create and manage client proposals
           </p>
         </div>
-        <Link href="/admin/proposals/new">
-          <Button variant="primary" size="lg">
+        <Button href="/admin/proposals/new" variant="primary" size="lg">
             <Plus size={20} />
             Create Proposal
           </Button>
-        </Link>
       </div>
 
       <Card>
@@ -135,12 +133,10 @@ export default async function ProposalsPage() {
             <div className="text-center py-12">
               <FileText className="mx-auto text-text-muted mb-4" size={48} />
               <p className="text-text-muted mb-4">No proposals yet</p>
-              <Link href="/admin/proposals/new">
-                <Button variant="primary" size="md">
+              <Button href="/admin/proposals/new" variant="primary" size="md">
                   <Plus size={20} />
                   Create Your First Proposal
                 </Button>
-              </Link>
             </div>
           )}
         </CardContent>

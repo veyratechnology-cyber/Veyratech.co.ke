@@ -61,3 +61,9 @@ next-env.d.ts
 *.swp
 *.swo
 *~
+
+# never commit credential notes
+VERCEL_VARIABLES*.txt
+*_CREDENTIALS*
+.env.*
+!.env.example

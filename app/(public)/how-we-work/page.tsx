@@ -1,5 +1,4 @@
 import React from "react";
-import Link from "next/link";
 import { Button, Card, CardContent } from "@/components/shared";
 import { METHODOLOGY } from "@/lib/constants";
 import { ArrowRight } from "lucide-react";
@@ -184,12 +183,10 @@ export default function HowWeWorkPage() {
             <p className="text-xl mb-10 text-gray-100">
               Schedule a consultation to discuss your technology challenges and explore how we can help.
             </p>
-            <Link href="/book-consultation">
-              <Button variant="secondary" size="lg" className="bg-primary-dark text-secondary hover:bg-primary-dark">
+            <Button href="/book-consultation" variant="secondary" size="lg" className="bg-primary-dark text-secondary hover:bg-primary-dark">
                 Book a Consultation
                 <ArrowRight size={20} />
               </Button>
-            </Link>
           </div>
         </div>
       </section>

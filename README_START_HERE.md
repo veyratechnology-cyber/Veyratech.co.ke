@@ -42,7 +42,7 @@ Verify your Vercel DATABASE_URL ends with:
 ### Action 3: Test (5 min)
 - Login: https://vera-tech.vercel.app/admin-login
 - Email: `admin@veyratech.com`
-- Password: `***REMOVED***`
+- Password: `<your admin password>`
 
 ---
 
@@ -196,7 +196,7 @@ User sees friendly message
 
 ### Login Credentials
 - Email: `admin@veyratech.com`
-- Password: `***REMOVED***`
+- Password: `<your admin password>`
 - **Change after testing succeeds**
 
 ### Never Share
@@ -339,7 +339,7 @@ You'll know everything works when:
 
 ### Credentials
 - Email: `admin@veyratech.com`
-- Password: `***REMOVED***`
+- Password: `<your admin password>`
 
 ### Key Files
 - Code: All deployed ✅

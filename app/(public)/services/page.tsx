@@ -141,12 +141,10 @@ export default async function ServicesPage() {
             <p className="text-xl mb-10 text-text-secondary">
               Schedule a consultation to explore how we can build a solution for your business.
             </p>
-            <Link href="/book-consultation">
-              <Button variant="secondary" size="lg" className="bg-primary-dark text-secondary hover:bg-primary-dark">
+            <Button href="/book-consultation" variant="secondary" size="lg" className="bg-primary-dark text-secondary hover:bg-primary-dark">
                 Start Your Project
                 <ArrowRight size={20} />
               </Button>
-            </Link>
           </div>
         </div>
       </section>

@@ -7,11 +7,42 @@
 
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/lib/db/prisma";
+import { timingSafeEqual } from "crypto";
+import { querySTKPushStatus } from "@/lib/mpesa";
+
+/**
+ * Authenticity checks:
+ * 1. If MPESA_CALLBACK_SECRET is set, the callback URL carries ?token=<secret>
+ *    (added in lib/mpesa) and requests without it are rejected.
+ * 2. If no secret is configured, a "success" callback is confirmed by asking
+ *    Safaricom directly (STK Push Query) before anything is marked as paid.
+ * 3. The paid amount must cover the invoice total.
+ */
+function tokenMatches(provided: string | null, expected: string): boolean {
+  if (!provided) return false;
+  const a = Buffer.from(provided);
+  const b = Buffer.from(expected);
+  return a.length === b.length && timingSafeEqual(a, b);
+}
+
+async function confirmedBySafaricom(checkoutRequestId: string): Promise<boolean> {
+  try {
+    const result = await querySTKPushStatus({ checkoutRequestId });
+    return String(result?.ResultCode) === "0";
+  } catch {
+    return false;
+  }
+}
 
 export async function POST(request: NextRequest) {
   try {
+    const secret = process.env.MPESA_CALLBACK_SECRET;
+    if (secret && !tokenMatches(request.nextUrl.searchParams.get("token"), secret)) {
+      console.warn("[MPESA-CALLBACK] Rejected callback with missing/invalid token");
+      return NextResponse.json({ ResultCode: 1, ResultDesc: "Unauthorized" }, { status: 401 });
+    }
+
     const body = await request.json();
-    console.log("[MPESA-CALLBACK] Received callback:", JSON.stringify(body, null, 2));
 
     // M-Pesa callback structure:
     // {
@@ -35,7 +66,7 @@ export async function POST(request: NextRequest) {
 
     const stkCallback = body?.Body?.stkCallback;
     
-    if (!stkCallback) {
+    if (!stkCallback || typeof stkCallback.CheckoutRequestID !== "string" || !stkCallback.CheckoutRequestID) {
       console.error("[MPESA-CALLBACK] Invalid callback structure");
       return NextResponse.json({ ResultCode: 1, ResultDesc: "Invalid callback" });
     }
@@ -104,16 +135,30 @@ export async function POST(request: NextRequest) {
       const {
         Amount,
         MpesaReceiptNumber,
-        TransactionDate,
         PhoneNumber,
       } = metadata;
 
-      console.log("[MPESA-CALLBACK] Payment successful:", {
-        Amount,
-        MpesaReceiptNumber,
-        TransactionDate,
-        PhoneNumber,
-      });
+      if (!secret && !(await confirmedBySafaricom(CheckoutRequestID))) {
+        console.warn("[MPESA-CALLBACK] Success callback could not be confirmed with Safaricom");
+        return NextResponse.json({ ResultCode: 1, ResultDesc: "Unverified" }, { status: 400 });
+      }
+
+      const expected = Math.round(Number(invoice.totalAmount ?? 0));
+      if (!Number.isFinite(Number(Amount)) || Number(Amount) < expected) {
+        console.warn("[MPESA-CALLBACK] Amount mismatch", { paid: Amount, expected, invoiceId: invoice.id });
+        await prisma.invoiceHistory.create({
+          data: {
+            invoiceId: invoice.id,
+            action: "PAYMENT_FAILED",
+            newValue: `Amount mismatch: paid ${Amount}, expected ${expected}`,
+            performedAt: new Date(),
+            notes: "M-Pesa callback rejected - amount lower than invoice total",
+          },
+        });
+        return NextResponse.json({ ResultCode: 0, ResultDesc: "Amount mismatch recorded" });
+      }
+
+      console.log("[MPESA-CALLBACK] Payment successful:", { MpesaReceiptNumber, invoiceId: invoice.id });
 
       // Create payment record
       await prisma.invoicePayment.create({

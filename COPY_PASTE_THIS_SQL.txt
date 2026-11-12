@@ -36,6 +36,6 @@ WHERE email = 'admin@veyratech.com';
 -- ============================================================================
 -- 1. Go to: https://vera-tech.vercel.app/admin-login
 -- 2. Email: admin@veyratech.com
--- 3. Password: ***REMOVED***
+-- 3. Password: <your admin password>
 -- 4. Should login IMMEDIATELY with NO 401 error
 -- ============================================================================

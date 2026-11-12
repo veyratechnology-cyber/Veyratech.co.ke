@@ -5,11 +5,15 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { generateInvoiceHTML, generateInvoiceNumber, InvoiceData } from '@/lib/invoices/generator';
 import { sendEmail, wrapEmailTemplate } from '@/lib/email/resend-client';
+import { requireAdmin, escapeHtml, serverError } from '@/lib/security';
 
 export const dynamic = 'force-dynamic';
 
 export async function POST(request: NextRequest) {
   try {
+    const auth = await requireAdmin();
+    if (auth instanceof NextResponse) return auth;
+
     const body = await request.json();
     
     const {
@@ -49,7 +53,7 @@ export async function POST(request: NextRequest) {
     if (sendToClient) {
       const emailContent = `
         <h2>Your Invoice from VeyraTech</h2>
-        <p>Dear ${clientName},</p>
+        <p>Dear ${escapeHtml(clientName)},</p>
         <p>Thank you for choosing VeyraTech for your technology consulting needs. Please find your invoice attached to this email.</p>
         <div class="info-box">
           <p><strong>Invoice Summary:</strong></p>
@@ -106,11 +110,7 @@ export async function POST(request: NextRequest) {
       invoiceNumber: invoiceData.invoiceNumber,
       invoiceHTML,
     });
-  } catch (error: any) {
-    console.error('[GENERATE_INVOICE_ERROR]:', error);
-    return NextResponse.json(
-      { error: error.message || 'Failed to generate invoice' },
-      { status: 500 }
-    );
+  } catch (error) {
+    return serverError('GENERATE_INVOICE_ERROR', error, 'Failed to generate invoice');
   }
 }

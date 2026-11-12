@@ -184,9 +184,7 @@ export default function NewServicePage() {
             </div>
 
             <div className="flex justify-end gap-4">
-              <Link href="/admin/services">
-                <Button variant="outline">Cancel</Button>
-              </Link>
+              <Button href="/admin/services" variant="outline">Cancel</Button>
               <Button type="submit" disabled={isSubmitting}>
                 {isSubmitting ? "Creating..." : "Create Service"}
               </Button>

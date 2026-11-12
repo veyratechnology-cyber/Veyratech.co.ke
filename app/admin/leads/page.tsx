@@ -45,12 +45,10 @@ export default async function LeadsPage() {
             Manage and track all incoming leads
           </p>
         </div>
-        <Link href="/admin/leads/new">
-          <Button variant="primary" size="lg">
+        <Button href="/admin/leads/new" variant="primary" size="lg">
             <Plus size={20} />
             Add Lead
           </Button>
-        </Link>
       </div>
 
       {/* Filters */}
@@ -158,12 +156,10 @@ export default async function LeadsPage() {
           ) : (
             <div className="text-center py-12">
               <p className="text-text-muted mb-4">No leads yet</p>
-              <Link href="/admin/leads/new">
-                <Button variant="primary" size="md">
+              <Button href="/admin/leads/new" variant="primary" size="md">
                   <Plus size={20} />
                   Add Your First Lead
                 </Button>
-              </Link>
             </div>
           )}
         </CardContent>

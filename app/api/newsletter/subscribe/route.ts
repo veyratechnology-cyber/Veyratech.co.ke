@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { initiateSTKPush, formatPhoneNumber } from '@/lib/mpesa';
 import { z } from 'zod';
+import { enforceRateLimit } from '@/lib/security';
 
 /**
  * Newsletter Subscription with M-Pesa Payment
@@ -9,12 +10,16 @@ import { z } from 'zod';
  */
 
 const subscribeSchema = z.object({
-  email: z.string().email('Invalid email address'),
-  phoneNumber: z.string().min(10, 'Phone number required'),
+  email: z.string().trim().toLowerCase().email('Invalid email address').max(255),
+  phoneNumber: z.string().trim().min(10, 'Phone number required').max(20),
 });
 
 export async function POST(request: NextRequest) {
   try {
+    // Each request sends an M-Pesa prompt to a phone number, so keep this tight.
+    const limited = enforceRateLimit(request, 'newsletter', 3, 60 * 60 * 1000);
+    if (limited) return limited;
+
     // Parse and validate request body
     const body = await request.json();
     const validation = subscribeSchema.safeParse(body);

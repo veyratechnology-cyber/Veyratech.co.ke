@@ -1,5 +1,4 @@
 import React from "react";
-import Link from "next/link";
 import { redirect } from "next/navigation";
 import prisma from "@/lib/db/prisma";
 import { Button } from "@/components/shared";
@@ -276,17 +275,13 @@ export default async function ConsultationSuccessPage({ searchParams }: PageProp
 
             {/* Action Buttons */}
             <div className="flex flex-col sm:flex-row gap-4 pt-4">
-              <Link href="/" className="flex-1">
-                <Button variant="outline" size="lg" className="w-full">
+              <Button href="/" variant="outline" size="lg" className="flex-1 w-full">
                   Return to Homepage
                 </Button>
-              </Link>
-              <Link href="/insights" className="flex-1">
-                <Button variant="primary" size="lg" className="w-full">
+              <Button href="/insights" variant="primary" size="lg" className="flex-1 w-full">
                   Read Our Insights
                   <ArrowRight size={20} />
                 </Button>
-              </Link>
             </div>
           </div>
         </div>

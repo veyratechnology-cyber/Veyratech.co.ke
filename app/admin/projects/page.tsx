@@ -26,12 +26,10 @@ export default async function ProjectsPage() {
             Manage active and completed projects
           </p>
         </div>
-        <Link href="/admin/projects/new">
-          <Button variant="primary" size="lg">
+        <Button href="/admin/projects/new" variant="primary" size="lg">
             <Plus size={20} />
             New Project
           </Button>
-        </Link>
       </div>
 
       {error ? (
@@ -114,12 +112,10 @@ export default async function ProjectsPage() {
             <div className="text-center py-12">
               <Briefcase className="mx-auto text-text-muted mb-4" size={48} />
               <p className="text-text-muted mb-4">No projects yet</p>
-              <Link href="/admin/projects/new">
-                <Button variant="primary" size="md">
+              <Button href="/admin/projects/new" variant="primary" size="md">
                   <Plus size={20} />
                   Create Your First Project
                 </Button>
-              </Link>
             </div>
           )}
         </CardContent>

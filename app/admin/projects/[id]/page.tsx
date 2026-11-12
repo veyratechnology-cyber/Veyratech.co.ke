@@ -56,12 +56,10 @@ export default async function ProjectDetailPage({
       {/* Header */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-4">
-          <Link href="/admin/projects">
-            <Button variant="outline" size="sm">
+          <Button href="/admin/projects" variant="outline" size="sm">
               <ArrowLeft size={16} />
               Back
             </Button>
-          </Link>
           <div>
             <h1 className="text-3xl font-sora font-bold text-text-primary">
               {project.name}

@@ -212,12 +212,10 @@ export default async function AdminDashboard() {
           <CardHeader>
             <div className="flex items-center justify-between">
               <CardTitle>Recent Leads</CardTitle>
-              <Link href="/admin/leads">
-                <Button variant="outline" size="sm">
+              <Button href="/admin/leads" variant="outline" size="sm">
                   View All
                   <ArrowRight size={16} />
                 </Button>
-              </Link>
             </div>
           </CardHeader>
           <CardContent>
@@ -255,12 +253,10 @@ export default async function AdminDashboard() {
           <CardHeader>
             <div className="flex items-center justify-between">
               <CardTitle>Recent Consultations</CardTitle>
-              <Link href="/admin/consultations">
-                <Button variant="outline" size="sm">
+              <Button href="/admin/consultations" variant="outline" size="sm">
                   View All
                   <ArrowRight size={16} />
                 </Button>
-              </Link>
             </div>
           </CardHeader>
           <CardContent>
@@ -309,30 +305,22 @@ export default async function AdminDashboard() {
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            <Link href="/admin/leads/new">
-              <Button variant="outline" size="lg" className="w-full">
+            <Button href="/admin/leads/new" variant="outline" size="lg" className="w-full">
                 <Users size={20} />
                 Add Lead
               </Button>
-            </Link>
-            <Link href="/admin/prospects/new">
-              <Button variant="outline" size="lg" className="w-full">
+            <Button href="/admin/prospects/new" variant="outline" size="lg" className="w-full">
                 <UserPlus size={20} />
                 Add Prospect
               </Button>
-            </Link>
-            <Link href="/admin/proposals/new">
-              <Button variant="outline" size="lg" className="w-full">
+            <Button href="/admin/proposals/new" variant="outline" size="lg" className="w-full">
                 <FileText size={20} />
                 Create Proposal
               </Button>
-            </Link>
-            <Link href="/admin/projects/new">
-              <Button variant="outline" size="lg" className="w-full">
+            <Button href="/admin/projects/new" variant="outline" size="lg" className="w-full">
                 <Briefcase size={20} />
                 New Project
               </Button>
-            </Link>
           </div>
         </CardContent>
       </Card>

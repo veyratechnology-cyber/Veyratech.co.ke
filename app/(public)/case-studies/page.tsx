@@ -3,7 +3,6 @@
 import React from 'react';
 import { Card, CardContent, Button } from '@/components/shared';
 import { ArrowRight, TrendingUp, Users, DollarSign } from 'lucide-react';
-import Link from 'next/link';
 
 const caseStudies = [
   {
@@ -141,12 +140,10 @@ export default function CaseStudiesPage() {
                     ))}
                   </div>
 
-                  <Link href="/book-consultation">
-                    <Button className="w-full group">
+                  <Button href="/book-consultation" className="w-full group">
                       Achieve Similar Results
                       <ArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" size={18} />
                     </Button>
-                  </Link>
                 </CardContent>
               </div>
             </Card>
@@ -165,16 +162,12 @@ export default function CaseStudiesPage() {
               Let's discuss how we can help transform your business through technology
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link href="/book-consultation">
-                <Button size="lg" className="w-full sm:w-auto">
+              <Button href="/book-consultation" size="lg" className="w-full sm:w-auto">
                   Book Free Consultation
                 </Button>
-              </Link>
-              <Link href="/services">
-                <Button size="lg" variant="outline" className="w-full sm:w-auto">
+              <Button href="/services" size="lg" variant="outline" className="w-full sm:w-auto">
                   View Our Services
                 </Button>
-              </Link>
             </div>
           </CardContent>
         </Card>

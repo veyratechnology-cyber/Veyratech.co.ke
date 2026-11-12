@@ -26,12 +26,10 @@ export default async function ServicesPage() {
             Manage your service offerings
           </p>
         </div>
-        <Link href="/admin/services/new">
-          <Button variant="primary" size="lg">
+        <Button href="/admin/services/new" variant="primary" size="lg">
             <Plus size={20} />
             Add Service
           </Button>
-        </Link>
       </div>
 
       <Card>

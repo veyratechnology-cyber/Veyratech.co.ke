@@ -26,7 +26,7 @@ FROM admins
 WHERE email = 'admin@veyratech.com';
 ```
 
-**Login**: `admin@veyratech.com` / `***REMOVED***`
+**Login**: `admin@veyratech.com` / `<your admin password>`
 
 ### 2. Setup Google Search Console (10 minutes)
 
@@ -93,7 +93,7 @@ WHERE email = 'admin@veyratech.com';
 
 ### Test 1: Admin Login ✅
 - URL: https://vera-tech.vercel.app/admin-login
-- Credentials: `admin@veyratech.com` / `***REMOVED***`
+- Credentials: `admin@veyratech.com` / `<your admin password>`
 - Expected: Works immediately on first try
 
 ### Test 2: Contact Form ✅

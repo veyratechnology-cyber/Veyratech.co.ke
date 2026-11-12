@@ -14,7 +14,7 @@ export async function GET(request: NextRequest) {
     const { searchParams } = new URL(request.url);
     const subscriptionId = searchParams.get('subscriptionId');
 
-    if (!subscriptionId) {
+    if (!subscriptionId || subscriptionId.length > 64) {
       return NextResponse.json(
         { success: false, error: 'Subscription ID required' },
         { status: 400 }
@@ -25,7 +25,6 @@ export async function GET(request: NextRequest) {
       where: { id: subscriptionId },
       select: {
         id: true,
-        email: true,
         status: true,
         paymentStatus: true,
         paidAt: true,

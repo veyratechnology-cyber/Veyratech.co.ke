@@ -1,4 +1,5 @@
 import { Resend } from "resend";
+import { escapeData } from "@/lib/security/html";
 import { format } from "date-fns";
 
 // Initialize Resend client - only if API key is available
@@ -23,6 +24,8 @@ export async function sendConsultationConfirmation(data: {
   googleMeetLink?: string;
   wasRescheduled?: boolean;
 }) {
+  const raw = data;
+  data = escapeData(data);
   try {
     if (!resend) {
       console.log("[EMAIL] Resend not configured, skipping confirmation email");
@@ -88,8 +91,8 @@ export async function sendConsultationConfirmation(data: {
 
     await resend.emails.send({
       from: FROM_EMAIL,
-      to: data.email,
-      subject: data.scheduledAt
+      to: raw.email,
+      subject: raw.scheduledAt
         ? "Your VeyraTech Consultation is Confirmed"
         : "We've Received Your Consultation Request",
       html: `
@@ -189,6 +192,8 @@ export async function sendConsultationNotification(data: {
   scheduledAt?: Date;
   wasRescheduled?: boolean;
 }) {
+  const raw = data;
+  data = escapeData(data);
   try {
     if (!resend) {
       console.log("[EMAIL] Resend not configured, skipping admin notification");
@@ -212,7 +217,7 @@ export async function sendConsultationNotification(data: {
     await resend.emails.send({
       from: FROM_EMAIL,
       to: CONSULTING_EMAIL, // Send consultation bookings to consulting@veyratech.co.ke
-      subject: `New Consultation Request from ${data.name}`,
+      subject: `New Consultation Request from ${raw.name}`,
       html: `
         <!DOCTYPE html>
         <html>
@@ -275,6 +280,8 @@ export async function sendMeetingReminder(data: {
   timeUntil: "24h" | "1h" | "10m";
   isAdmin?: boolean;
 }) {
+  const raw = data;
+  data = escapeData(data);
   const timeLabels = {
     "24h": { subject: "tomorrow", body: "24 hours" },
     "1h": { subject: "in 1 hour", body: "1 hour" },
@@ -291,7 +298,7 @@ export async function sendMeetingReminder(data: {
 
     await resend.emails.send({
       from: FROM_EMAIL,
-      to: data.email,
+      to: raw.email,
       subject: `Reminder: Your VeyraTech consultation is ${label.subject}`,
       html: `
         <!DOCTYPE html>
@@ -370,6 +377,8 @@ export async function sendContactNotification(data: {
   subject: string;
   message: string;
 }) {
+  const raw = data;
+  data = escapeData(data);
   if (!resend) {
     console.error("[EMAIL] Resend not configured - API key missing!");
     throw new Error("Email service not configured");
@@ -379,7 +388,7 @@ export async function sendContactNotification(data: {
     const result = await resend.emails.send({
       from: FROM_EMAIL,
       to: ADMIN_EMAIL, // General inquiries go to hello@veyratech.co.ke
-      subject: `Contact Form: ${data.subject}`,
+      subject: `Contact Form: ${raw.subject}`,
       html: `
         <h2>New Contact Message</h2>
         <p>You have received a new message from your website contact form.</p>
@@ -425,6 +434,8 @@ export async function sendContactConfirmation(data: {
   name: string;
   email: string;
 }) {
+  const raw = data;
+  data = escapeData(data);
   if (!resend) {
     console.error("[EMAIL] Resend not configured - API key missing!");
     throw new Error("Email service not configured");
@@ -433,7 +444,7 @@ export async function sendContactConfirmation(data: {
   try {
     const result = await resend.emails.send({
       from: FROM_EMAIL,
-      to: data.email,
+      to: raw.email,
       subject: "We've Received Your Message",
       html: `
         <h2>Thank You for Contacting Us!</h2>

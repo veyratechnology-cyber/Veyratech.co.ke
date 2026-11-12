@@ -1,195 +1,141 @@
 import React from "react";
 import Link from "next/link";
-import { Logo } from "@/components/shared";
-import { COMPANY, PUBLIC_NAV_ITEMS, SERVICE_AREAS } from "@/lib/constants";
-import { Mail, Phone, Linkedin, Twitter } from "lucide-react";
+import { Logo, Button } from "@/components/shared";
+import { COMPANY, SOLUTIONS_DROPDOWN } from "@/lib/constants";
+import { Mail, Phone, Linkedin, Twitter, ArrowRight } from "lucide-react";
+
+// Same profiles as the structured data in lib/seo/structured-data.ts
+const SOCIAL_LINKS = [
+  { href: "https://www.linkedin.com/company/veyratech", label: "VeyraTech on LinkedIn", icon: Linkedin },
+  { href: "https://twitter.com/veyratech", label: "VeyraTech on X (Twitter)", icon: Twitter },
+];
+
+const COMPANY_LINKS = [
+  { href: "/about", label: "About Us" },
+  { href: "/how-we-work", label: "How We Work" },
+  { href: "/case-studies", label: "Case Studies" },
+  { href: "/pricing", label: "Pricing" },
+  { href: "/insights", label: "Insights" },
+  { href: "/support", label: "Client Support" },
+];
+
+const CONTACT_EMAILS = [
+  { label: "General inquiries", email: "hello@veyratech.co.ke" },
+  { label: "Consulting", email: "consulting@veyratech.co.ke" },
+  { label: "Client support", email: "support@veyratech.co.ke" },
+];
+
+const linkClass = "text-text-secondary/80 transition-colors hover:text-secondary";
 
 /**
- * Public Website Footer
- * Mctaba Labs Brand Design - Navy + Orange
- * Company information and navigation links
+ * Public Website Footer (VeyraTech navy + orange)
  */
 export function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="bg-primary-dark border-t border-border text-text-muted">
-      <div className="container-custom py-16">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
-          {/* Company Info */}
+    <footer className="border-t border-white/10 bg-primary-dark text-text-muted">
+      {/* Contact band */}
+      <div className="border-b border-white/5">
+        <div className="container-custom flex flex-col items-start justify-between gap-6 py-10 md:flex-row md:items-center">
+          <div>
+            <p className="font-sora text-2xl font-bold text-text-primary">Have a project in mind?</p>
+            <p className="mt-1 text-text-secondary/80">Tell us what&apos;s slowing your business down. The first conversation is free.</p>
+          </div>
+          <Button href="/book-consultation" variant="primary" className="flex-shrink-0">
+            Book a Consultation
+            <ArrowRight size={18} aria-hidden="true" />
+          </Button>
+        </div>
+      </div>
+
+      <div className="container-custom py-14">
+        <div className="grid grid-cols-1 gap-12 sm:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr_1.2fr]">
           <div>
             <Logo variant="full" theme="dark" className="mb-6" />
-            <p className="text-text-muted mb-6">
-              {COMPANY.description}
-            </p>
-            <div className="flex gap-4">
-              <a
-                href="https://linkedin.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-text-secondary hover:text-secondary transition-colors"
-                aria-label="LinkedIn"
-              >
-                <Linkedin size={20} />
-              </a>
-              <a
-                href="https://twitter.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-text-secondary hover:text-secondary transition-colors"
-                aria-label="Twitter"
-              >
-                <Twitter size={20} />
-              </a>
+            <p className="max-w-sm text-sm leading-relaxed text-text-muted/80">{COMPANY.description}</p>
+            <div className="mt-6 flex gap-3">
+              {SOCIAL_LINKS.map(({ href, label, icon: Icon }) => (
+                <a
+                  key={href}
+                  href={href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={label}
+                  className="flex h-10 w-10 items-center justify-center rounded-full border border-white/10 text-text-secondary transition-colors hover:border-secondary/60 hover:text-secondary"
+                >
+                  <Icon size={18} aria-hidden="true" />
+                </a>
+              ))}
             </div>
           </div>
 
-          {/* Company Links */}
-          <div>
-            <h3 className="font-sora font-bold text-lg mb-4 text-text-primary">Company</h3>
-            <ul className="space-y-3">
-              <li>
-                <Link
-                  href="/about"
-                  className="text-text-secondary hover:text-secondary transition-colors"
-                >
-                  About Us
+          <FooterColumn title="Company">
+            {COMPANY_LINKS.map((link) => (
+              <li key={link.href}>
+                <Link href={link.href} className={linkClass}>
+                  {link.label}
                 </Link>
               </li>
-              <li>
-                <Link
-                  href="/how-we-work"
-                  className="text-text-secondary hover:text-secondary transition-colors"
-                >
-                  How We Work
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/insights"
-                  className="text-text-secondary hover:text-secondary transition-colors"
-                >
-                  Insights
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/contact"
-                  className="text-text-secondary hover:text-secondary transition-colors"
-                >
-                  Contact
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/support"
-                  className="text-text-secondary hover:text-secondary transition-colors"
-                >
-                  Client Support
-                </Link>
-              </li>
-            </ul>
-          </div>
+            ))}
+          </FooterColumn>
 
-          {/* Solutions */}
-          <div>
-            <h3 className="font-sora font-bold text-lg mb-4 text-text-primary">Solutions</h3>
-            <ul className="space-y-3">
-              {SERVICE_AREAS.slice(0, 6).map((service) => (
-                <li key={service.value}>
-                  <Link
-                    href="/services"
-                    className="text-text-secondary hover:text-secondary transition-colors"
-                  >
-                    {service.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
+          <FooterColumn title="Solutions">
+            {SOLUTIONS_DROPDOWN.slice(0, 6).map((solution) => (
+              <li key={solution.href}>
+                <Link href={solution.href} className={linkClass}>
+                  {solution.label}
+                </Link>
+              </li>
+            ))}
+          </FooterColumn>
 
-          {/* Contact */}
-          <div>
-            <h3 className="font-sora font-bold text-lg mb-4 text-text-primary">Contact</h3>
-            <ul className="space-y-4">
-              <li>
-                <div className="text-text-primary text-sm font-medium mb-1">General Inquiries</div>
-                <div className="flex items-center gap-2">
-                  <Mail size={16} className="text-secondary flex-shrink-0" />
-                  <a
-                    href="mailto:hello@veyratech.co.ke"
-                    className="text-text-secondary hover:text-secondary transition-colors text-sm"
-                  >
-                    hello@veyratech.co.ke
-                  </a>
-                </div>
+          <FooterColumn title="Contact">
+            {CONTACT_EMAILS.map(({ label, email }) => (
+              <li key={email}>
+                <span className="block text-xs font-medium uppercase tracking-wider text-text-muted/60">{label}</span>
+                <a href={`mailto:${email}`} className={`${linkClass} mt-1 inline-flex items-center gap-2 text-sm`}>
+                  <Mail size={15} className="flex-shrink-0 text-secondary" aria-hidden="true" />
+                  {email}
+                </a>
               </li>
+            ))}
+            {COMPANY.phone && (
               <li>
-                <div className="text-text-primary text-sm font-medium mb-1">Consulting</div>
-                <div className="flex items-center gap-2">
-                  <Mail size={16} className="text-secondary flex-shrink-0" />
-                  <a
-                    href="mailto:consulting@veyratech.co.ke"
-                    className="text-text-secondary hover:text-secondary transition-colors text-sm"
-                  >
-                    consulting@veyratech.co.ke
-                  </a>
-                </div>
+                <span className="block text-xs font-medium uppercase tracking-wider text-text-muted/60">Phone</span>
+                <a href={`tel:${COMPANY.phone}`} className={`${linkClass} mt-1 inline-flex items-center gap-2 text-sm`}>
+                  <Phone size={15} className="flex-shrink-0 text-secondary" aria-hidden="true" />
+                  {COMPANY.phone}
+                </a>
               </li>
-              <li>
-                <div className="text-text-primary text-sm font-medium mb-1">Client Support</div>
-                <div className="flex items-center gap-2">
-                  <Mail size={16} className="text-secondary flex-shrink-0" />
-                  <a
-                    href="mailto:support@veyratech.co.ke"
-                    className="text-text-secondary hover:text-secondary transition-colors text-sm"
-                  >
-                    support@veyratech.co.ke
-                  </a>
-                </div>
-              </li>
-              {COMPANY.phone && (
-                <li>
-                  <div className="text-text-primary text-sm font-medium mb-1">Phone</div>
-                  <div className="flex items-center gap-2">
-                    <Phone size={16} className="text-secondary flex-shrink-0" />
-                    <a
-                      href={`tel:${COMPANY.phone}`}
-                      className="text-text-secondary hover:text-secondary transition-colors text-sm"
-                    >
-                      {COMPANY.phone}
-                    </a>
-                  </div>
-                </li>
-              )}
-            </ul>
-          </div>
+            )}
+          </FooterColumn>
         </div>
 
-        {/* Bottom Bar */}
-        <div className="mt-12 pt-8 border-t border-border">
-          <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-            <p className="text-text-muted text-sm">
-              © {currentYear} {COMPANY.name}. All rights reserved.
-            </p>
-            <div className="flex gap-6">
-              <Link
-                href="/privacy"
-                className="text-text-muted hover:text-secondary transition-colors text-sm"
-              >
-                Privacy Policy
-              </Link>
-              <Link
-                href="/terms"
-                className="text-text-muted hover:text-secondary transition-colors text-sm"
-              >
-                Terms of Service
-              </Link>
-            </div>
+        <div className="mt-14 flex flex-col items-center justify-between gap-4 border-t border-white/5 pt-8 text-sm md:flex-row">
+          <p className="text-text-muted/70">
+            © {currentYear} {COMPANY.name}. All rights reserved.
+          </p>
+          <div className="flex gap-6">
+            <Link href="/privacy" className="text-text-muted/70 transition-colors hover:text-secondary">
+              Privacy Policy
+            </Link>
+            <Link href="/terms" className="text-text-muted/70 transition-colors hover:text-secondary">
+              Terms of Service
+            </Link>
           </div>
         </div>
       </div>
     </footer>
+  );
+}
+
+function FooterColumn({ title, children }: { title: string; children: React.ReactNode }) {
+  return (
+    <div>
+      <h3 className="mb-5 font-sora text-sm font-semibold uppercase tracking-[0.14em] text-text-primary">{title}</h3>
+      <ul className="space-y-3">{children}</ul>
+    </div>
   );
 }
 

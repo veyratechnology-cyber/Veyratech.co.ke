@@ -180,12 +180,10 @@ export default function PricingPage() {
             <p className="text-text-secondary mb-8 text-lg">
               Book a free consultation and we'll help you find the perfect solution
             </p>
-            <Link href="/book-consultation?package=consultation-comprehensive">
-              <Button size="lg">
+            <Button href="/book-consultation?package=consultation-comprehensive" size="lg">
                 Book Free Consultation
                 <ArrowRight className="ml-2" size={18} />
               </Button>
-            </Link>
           </CardContent>
         </Card>
       </div>

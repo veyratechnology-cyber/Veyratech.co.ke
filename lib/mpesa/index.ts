@@ -11,7 +11,10 @@ const MPESA_CONFIG = {
   consumerSecret: process.env.MPESA_CONSUMER_SECRET || '',
   shortcode: process.env.MPESA_SHORTCODE || '',
   passkey: process.env.MPESA_PASSKEY || '',
-  callbackUrl: `${process.env.NEXT_PUBLIC_APP_URL}/api/mpesa/callback`,
+  // The secret token lets the callback endpoint reject forged "payment succeeded" requests.
+  callbackUrl: `${process.env.NEXT_PUBLIC_APP_URL}/api/mpesa/callback${
+    process.env.MPESA_CALLBACK_SECRET ? `?token=${encodeURIComponent(process.env.MPESA_CALLBACK_SECRET)}` : ''
+  }`,
   environment: process.env.MPESA_ENVIRONMENT || 'sandbox', // 'sandbox' or 'production'
 };
 

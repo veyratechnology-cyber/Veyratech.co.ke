@@ -1,6 +1,7 @@
 // @ts-nocheck
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { requireAdmin } from "@/lib/security";
 import { updateConsultationEvent } from "@/lib/google-calendar";
 import { sendConsultationConfirmation } from "@/lib/email";
 
@@ -9,6 +10,9 @@ export async function POST(
   { params }: { params: { id: string } }
 ) {
   try {
+    const auth = await requireAdmin();
+    if (auth instanceof NextResponse) return auth;
+
     const { newDateTime, reason } = await request.json();
 
     if (!newDateTime) {
@@ -31,6 +35,12 @@ export async function POST(
 
     // Parse new date
     const newScheduledAt = new Date(newDateTime);
+    if (Number.isNaN(newScheduledAt.getTime()) || newScheduledAt.getTime() < Date.now()) {
+      return NextResponse.json(
+        { error: "New date must be a valid date in the future" },
+        { status: 400 }
+      );
+    }
 
     // Update Google Calendar if event exists
     if (consultation.googleCalendarEventId) {

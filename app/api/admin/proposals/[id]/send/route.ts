@@ -6,6 +6,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { generateProposalHTML, generateProposalFromDB } from '@/lib/proposals/generator';
 import { sendEmail, wrapEmailTemplate } from '@/lib/email/resend-client';
+import { requireAdmin, escapeHtml, serverError } from '@/lib/security';
 
 export const dynamic = 'force-dynamic';
 
@@ -14,6 +15,9 @@ export async function POST(
   { params }: { params: { id: string } }
 ) {
   try {
+    const auth = await requireAdmin();
+    if (auth instanceof NextResponse) return auth;
+
     const { id } = params;
 
     // Fetch proposal with lead details
@@ -51,16 +55,16 @@ export async function POST(
     // Create email content
     const emailContent = `
       <h2>Your Proposal from VeyraTech</h2>
-      <p>Dear ${proposal.lead.name},</p>
-      <p>Thank you for considering VeyraTech for your technology consulting needs. We're excited to present our proposal for <strong>${proposal.title}</strong>.</p>
+      <p>Dear ${escapeHtml(proposal.lead.name)},</p>
+      <p>Thank you for considering VeyraTech for your technology consulting needs. We're excited to present our proposal for <strong>${escapeHtml(proposal.title)}</strong>.</p>
       <p>Please find the detailed proposal attached to this email. We've carefully tailored our solution to address your specific requirements and business objectives.</p>
       <div class="info-box">
         <p><strong>Proposal Details:</strong></p>
         <ul style="margin: 10px 0; padding-left: 20px;">
-          <li><strong>Project:</strong> ${proposal.title}</li>
-          <li><strong>Company:</strong> ${proposal.clientCompany}</li>
-          <li><strong>Investment:</strong> ${proposal.investment}</li>
-          <li><strong>Timeline:</strong> ${proposal.timeline}</li>
+          <li><strong>Project:</strong> ${escapeHtml(proposal.title)}</li>
+          <li><strong>Company:</strong> ${escapeHtml(proposal.clientCompany)}</li>
+          <li><strong>Investment:</strong> ${escapeHtml(proposal.investment)}</li>
+          <li><strong>Timeline:</strong> ${escapeHtml(proposal.timeline)}</li>
         </ul>
       </div>
       <p>You can also <a href="${process.env.NEXTAUTH_URL}/admin/proposals/${proposal.id}/preview" class="button" style="display: inline-block; padding: 12px 24px; background-color: #FC8436; color: #FFFFFF; text-decoration: none; border-radius: 6px; margin: 10px 0;">View Online</a></p>
@@ -72,7 +76,7 @@ export async function POST(
         <li>Schedule a call to discuss the proposal</li>
         <li>Request any modifications or clarifications</li>
       </ul>
-      <p>We look forward to the opportunity to work with ${proposal.clientCompany} and help drive your technology initiatives forward.</p>
+      <p>We look forward to the opportunity to work with ${escapeHtml(proposal.clientCompany)} and help drive your technology initiatives forward.</p>
       <p style="margin-top: 30px;">Best regards,<br><strong>The VeyraTech Team</strong></p>
     `;
 
@@ -110,11 +114,7 @@ export async function POST(
       message: 'Proposal sent successfully',
       emailId: emailResult.id,
     });
-  } catch (error: any) {
-    console.error('[SEND_PROPOSAL_ERROR]:', error);
-    return NextResponse.json(
-      { error: error.message || 'Failed to send proposal' },
-      { status: 500 }
-    );
+  } catch (error) {
+    return serverError('SEND_PROPOSAL_ERROR', error, 'Failed to send proposal');
   }
 }

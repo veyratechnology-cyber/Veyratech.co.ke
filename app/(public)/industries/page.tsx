@@ -181,17 +181,13 @@ export default async function IndustriesPage() {
               Our consulting methodology applies across all sectors. We focus on understanding your unique business challenges first.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link href="/book-consultation">
-                <Button variant="secondary" size="lg" className="w-full sm:w-auto bg-primary-dark text-secondary hover:bg-primary-dark">
+              <Button href="/book-consultation" variant="secondary" size="lg" className="w-full sm:w-auto bg-primary-dark text-secondary hover:bg-primary-dark">
                   Book a Consultation
                   <ArrowRight size={18} />
                 </Button>
-              </Link>
-              <Link href="/contact">
-                <Button variant="outline" size="lg" className="w-full sm:w-auto border-white text-white hover:bg-primary-dark hover:text-secondary">
+              <Button href="/contact" variant="outline" size="lg" className="w-full sm:w-auto border-white text-white hover:bg-primary-dark hover:text-secondary">
                   Contact Us
                 </Button>
-              </Link>
             </div>
           </div>
         </div>

@@ -24,12 +24,10 @@ export default async function IndustriesAdminPage() {
             Manage industry solution pages
           </p>
         </div>
-        <Link href="/admin/industries/new">
-          <Button variant="primary" size="lg">
+        <Button href="/admin/industries/new" variant="primary" size="lg">
             <Plus size={20} />
             Add Industry
           </Button>
-        </Link>
       </div>
 
       <Card>

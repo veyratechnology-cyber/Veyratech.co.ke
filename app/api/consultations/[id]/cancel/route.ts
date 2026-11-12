@@ -1,6 +1,7 @@
 // @ts-nocheck
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { requireAdmin } from "@/lib/security";
 import { cancelConsultationEvent } from "@/lib/google-calendar";
 
 export async function POST(
@@ -8,9 +9,12 @@ export async function POST(
   { params }: { params: { id: string } }
 ) {
   try {
+    const auth = await requireAdmin();
+    if (auth instanceof NextResponse) return auth;
+
     const { reason } = await request.json();
 
-    if (!reason || !reason.trim()) {
+    if (typeof reason !== "string" || !reason.trim() || reason.length > 2000) {
       return NextResponse.json(
         { error: "Cancellation reason required" },
         { status: 400 }

@@ -54,7 +54,7 @@ async function testConnection() {
     console.log('\n✅ Your admin login should work at:');
     console.log('   https://vera-tech.vercel.app/admin-login');
     console.log('   Email: admin@veyratech.com');
-    console.log('   Password: ***REMOVED***');
+    console.log('   Password: <your admin password>');
     
   } catch (error) {
     console.error('❌ Database error:', error.message);

@@ -178,9 +178,7 @@ export default function NewInsightPage() {
             </div>
 
             <div className="flex justify-end gap-4">
-              <Link href="/admin/insights">
-                <Button variant="outline">Cancel</Button>
-              </Link>
+              <Button href="/admin/insights" variant="outline">Cancel</Button>
               <Button type="submit" disabled={isSubmitting}>
                 {isSubmitting ? "Creating..." : "Create Insight"}
               </Button>

@@ -1,5 +1,16 @@
 import { NextRequest, NextResponse } from "next/server";
 import { Resend } from "resend";
+import { z } from "zod";
+import { enforceRateLimit, escapeHtml } from "@/lib/security";
+
+const schema = z.object({
+  name: z.string().trim().min(1).max(100),
+  email: z.string().trim().email().max(255),
+  phone: z.string().trim().max(30).optional().or(z.literal("")),
+  company: z.string().trim().max(150).optional().or(z.literal("")),
+  role: z.string().trim().max(150).optional().or(z.literal("")),
+  building: z.string().trim().max(2000).optional().or(z.literal("")),
+});
 
 const resend = process.env.RESEND_API_KEY 
   ? new Resend(process.env.RESEND_API_KEY)
@@ -14,16 +25,27 @@ const FROM_EMAIL = process.env.EMAIL_FROM || "VeyraTech <noreply@veyratech.com>"
  */
 export async function POST(req: NextRequest) {
   try {
-    const body = await req.json();
-    const { name, email, phone, company, role, building } = body;
+    // This endpoint emails the address it is given, so rate-limit it hard.
+    const limited = enforceRateLimit(req, "portfolio-contact", 3, 60 * 60 * 1000);
+    if (limited) return limited;
 
-    // Validation
-    if (!name || !email) {
+    const parsed = schema.safeParse(await req.json().catch(() => null));
+    if (!parsed.success) {
       return NextResponse.json(
-        { error: "Name and email are required" },
+        { error: "Name and a valid email are required" },
         { status: 400 }
       );
     }
+
+    // Escape everything that goes into HTML emails.
+    const raw = parsed.data;
+    const email = raw.email;
+    const name = escapeHtml(raw.name);
+    const phone = escapeHtml(raw.phone);
+    const company = escapeHtml(raw.company);
+    const role = escapeHtml(raw.role);
+    const building = escapeHtml(raw.building);
+    const emailHtml = escapeHtml(email);
 
     // Email to Aggrey
     const aggreyEmailContent = `
@@ -33,7 +55,7 @@ export async function POST(req: NextRequest) {
         
         <div style="background: #f5f5f5; padding: 20px; border-radius: 8px; margin: 20px 0;">
           <p><strong>Name:</strong> ${name}</p>
-          <p><strong>Email:</strong> <a href="mailto:${email}">${email}</a></p>
+          <p><strong>Email:</strong> <a href="mailto:${emailHtml}">${emailHtml}</a></p>
           ${phone ? `<p><strong>Phone:</strong> ${phone}</p>` : ""}
           ${company ? `<p><strong>Company:</strong> ${company}</p>` : ""}
           ${role ? `<p><strong>Role:</strong> ${role}</p>` : ""}
@@ -60,7 +82,7 @@ export async function POST(req: NextRequest) {
       await resend.emails.send({
         from: FROM_EMAIL,
         to: "gisembaaggrey@gmail.com",
-        subject: `🤝 New Connection: ${name}${company ? ` from ${company}` : ""}`,
+        subject: `🤝 New Connection: ${raw.name}${raw.company ? ` from ${raw.company}` : ""}`.replace(/\s+/g, " "),
         html: aggreyEmailContent,
       });
     } else {
@@ -105,13 +127,7 @@ export async function POST(req: NextRequest) {
     }
 
     // Log for WhatsApp integration (future)
-    console.log("📱 WhatsApp notification needed for:", {
-      name,
-      phone,
-      company,
-      role,
-      building,
-    });
+    console.log("[PORTFOLIO] New connection received");
 
     return NextResponse.json({
       success: true,

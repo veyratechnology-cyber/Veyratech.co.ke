@@ -108,17 +108,13 @@ export default async function IndustryDetailPage({ params }: IndustryPageProps) 
               {industry.description}
             </p>
             <div className="flex flex-col sm:flex-row gap-4 mt-8">
-              <Link href="/book-consultation">
-                <Button variant="primary" size="lg">
+              <Button href="/book-consultation" variant="primary" size="lg">
                   Book a Consultation
                   <ArrowRight size={20} />
                 </Button>
-              </Link>
-              <Link href="/contact">
-                <Button variant="outline" size="lg" className="border-white text-white hover:bg-white hover:text-primary">
+              <Button href="/contact" variant="outline" size="lg" className="border-white text-white hover:bg-white hover:text-primary">
                   Contact Us
                 </Button>
-              </Link>
             </div>
           </div>
         </div>
@@ -199,12 +195,10 @@ export default async function IndustryDetailPage({ params }: IndustryPageProps) 
                 ))}
               </div>
               <div className="mt-8 text-center">
-                <Link href="/services">
-                  <Button variant="outline" size="lg">
+                <Button href="/services" variant="outline" size="lg">
                     View All Services
                     <ArrowRight size={20} />
                   </Button>
-                </Link>
               </div>
             </div>
           </div>
@@ -260,17 +254,13 @@ export default async function IndustryDetailPage({ params }: IndustryPageProps) 
               Let's discuss how technology and AI can create competitive advantage for your organization.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link href="/book-consultation">
-                <Button variant="primary" size="lg" className="bg-white text-primary hover:bg-gray-100">
+              <Button href="/book-consultation" variant="primary" size="lg" className="bg-white text-primary hover:bg-gray-100">
                   Book a Consultation
                   <ArrowRight size={20} />
                 </Button>
-              </Link>
-              <Link href="/industries">
-                <Button variant="outline" size="lg" className="border-white text-white hover:bg-white hover:text-primary">
+              <Button href="/industries" variant="outline" size="lg" className="border-white text-white hover:bg-white hover:text-primary">
                   View All Industries
                 </Button>
-              </Link>
             </div>
           </div>
         </div>

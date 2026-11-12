@@ -14,7 +14,7 @@ export default function PublicLayout({
   return (
     <>
       <Navigation />
-      <main className="min-h-screen pt-20">
+      <main id="main-content" className="min-h-screen pt-20">
         {children}
       </main>
       <Footer />

@@ -1,5 +1,4 @@
 import React from "react";
-import Link from "next/link";
 import { Button, Card, CardContent } from "@/components/shared";
 import { ArrowRight, Award, Newspaper, Users, TrendingUp } from "lucide-react";
 import type { Metadata } from "next";
@@ -139,12 +138,10 @@ export default function MediaPage() {
                     <p className="text-text-secondary mb-4">
                       {release.excerpt}
                     </p>
-                    <Link href={release.link}>
-                      <Button variant="outline" size="sm">
+                    <Button href={release.link} variant="outline" size="sm">
                         Read More
                         <ArrowRight size={16} />
                       </Button>
-                    </Link>
                   </CardContent>
                 </Card>
               ))}
@@ -180,16 +177,12 @@ export default function MediaPage() {
                   </p>
                 </div>
                 <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                  <Link href="/about">
-                    <Button variant="primary">
+                  <Button href="/about" variant="primary">
                       About VeyraTech
                     </Button>
-                  </Link>
-                  <Link href="/contact">
-                    <Button variant="outline">
+                  <Button href="/contact" variant="outline">
                       Contact Us
                     </Button>
-                  </Link>
                 </div>
               </CardContent>
             </Card>
