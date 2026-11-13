@@ -160,10 +160,10 @@ export default function PricingPage() {
           <Card>
             <CardContent className="p-6">
               <h3 className="font-semibold text-text-primary mb-2">
-                What's included in the free consultation?
+                What's included in the consultation?
               </h3>
               <p className="text-text-secondary">
-                A 45-minute video call with our experts to discuss your challenges, explore solutions, and receive a preliminary roadmap. No commitment required.
+                A 60-minute session (KSH 15,000 excl. VAT) with our team: an in-depth look at your business challenge, expert recommendations, actionable next steps and a follow-up summary document.
               </p>
             </CardContent>
           </Card>
@@ -178,10 +178,10 @@ export default function PricingPage() {
               Not Sure Which Package to Choose?
             </h2>
             <p className="text-text-secondary mb-8 text-lg">
-              Book a free consultation and we'll help you find the perfect solution
+              Book a consultation and we'll help you find the right solution
             </p>
             <Button href="/book-consultation?package=consultation-comprehensive" size="lg">
-                Book Free Consultation
+                Book a Consultation Today
                 <ArrowRight className="ml-2" size={18} />
               </Button>
           </CardContent>

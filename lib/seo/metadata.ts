@@ -142,8 +142,8 @@ export const servicesMetadata = generateMetadata({
 
 export const consultationMetadata = generateMetadata({
   title: 'Book a Technology Consultation',
-  description: 'Schedule a free consultation with our technology experts. Get personalized advice on AI adoption, automation, and digital transformation.',
-  keywords: ['free consultation', 'technology advice', 'AI consultation'],
+  description: 'Schedule a consultation with our technology experts. Get personalized advice on AI adoption, automation, and digital transformation.',
+  keywords: ['book consultation', 'technology advice', 'AI consultation'],
   url: '/consultation',
 });
 

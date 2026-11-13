@@ -40,10 +40,10 @@ export function Footer() {
         <div className="container-custom flex flex-col items-start justify-between gap-6 py-10 md:flex-row md:items-center">
           <div>
             <p className="font-sora text-2xl font-bold text-text-primary">Have a project in mind?</p>
-            <p className="mt-1 text-text-secondary/80">Tell us what&apos;s slowing your business down. The first conversation is free.</p>
+            <p className="mt-1 text-text-secondary/80">Tell us what&apos;s slowing your business down and we&apos;ll show you how to fix it.</p>
           </div>
           <Button href="/book-consultation" variant="primary" className="flex-shrink-0">
-            Book a Consultation
+            Book a Consultation Today
             <ArrowRight size={18} aria-hidden="true" />
           </Button>
         </div>

@@ -102,7 +102,7 @@ export default function HomePage() {
 
               <div className="mt-10 flex flex-col justify-center gap-3 sm:flex-row lg:justify-start">
                 <Button href="/book-consultation" variant="primary" size="lg">
-                  Book a Free Consultation
+                  Book a Consultation Today
                   <ArrowRight size={20} aria-hidden="true" />
                 </Button>
                 <Button href="#services" variant="secondary" size="lg">
@@ -111,7 +111,7 @@ export default function HomePage() {
               </div>
 
               <ul className="mt-10 flex flex-wrap justify-center gap-x-6 gap-y-3 text-sm text-text-muted/80 lg:justify-start">
-                {["Free first consultation", "No sales pitch", "Plain-English advice"].map((item) => (
+                {["60-minute expert session", "No sales pitch", "Plain-English advice"].map((item) => (
                   <li key={item} className="flex items-center gap-2">
                     <CheckCircle2 size={16} className="text-success" aria-hidden="true" />
                     {item}
@@ -290,10 +290,10 @@ export default function HomePage() {
                   ))}
                 </div>
                 <Button href="/book-consultation" variant="primary" size="lg" className="mt-7 w-full">
-                  Book Your Consultation
+                  Book a Consultation Today
                   <ArrowRight size={20} aria-hidden="true" />
                 </Button>
-                <p className="mt-3 text-center text-xs text-text-muted/60">First consultation is free</p>
+                <p className="mt-3 text-center text-xs text-text-muted/60">60 minutes · KSH 15,000 (excl. VAT) · pay after we confirm</p>
               </div>
             </div>
           </div>

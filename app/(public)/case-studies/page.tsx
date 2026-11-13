@@ -163,7 +163,7 @@ export default function CaseStudiesPage() {
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button href="/book-consultation" size="lg" className="w-full sm:w-auto">
-                  Book Free Consultation
+                  Book a Consultation Today
                 </Button>
               <Button href="/services" size="lg" variant="outline" className="w-full sm:w-auto">
                   View Our Services

@@ -230,7 +230,7 @@ export default function AboutPage() {
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button href="/book-consultation" variant="secondary" size="lg" className="bg-primary-dark text-secondary hover:bg-primary-dark">
-                  Book a Free Consultation
+                  Book a Consultation Today
                   <ArrowRight size={20} />
                 </Button>
               <Button href="/contact" variant="outline" size="lg" className="border-white text-white hover:bg-primary-dark hover:text-secondary">
@@ -238,7 +238,7 @@ export default function AboutPage() {
                 </Button>
             </div>
             <p className="mt-6 text-text-muted">
-              First conversation is always free. No sales pitch, no pressure.
+              An honest conversation about your business. No sales pitch, no pressure.
             </p>
           </div>
         </div>
