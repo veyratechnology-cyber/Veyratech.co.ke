@@ -64,7 +64,7 @@ export function Sidebar({ adminName }: SidebarProps) {
   return (
     <aside className="fixed left-0 top-0 h-screen w-64 bg-primary text-white overflow-y-auto flex flex-col">
       {/* Logo */}
-      <div className="p-6 border-b border-primary-dark">
+      <div className="p-6 border-b border-primary-dark bg-[#04070D]">
         <Logo variant="full" theme="dark" />
       </div>
 

@@ -60,7 +60,7 @@ function LoginForm() {
       <div className="w-full max-w-md">
         <div className="bg-primary-dark rounded-2xl shadow-2xl p-8">
           {/* Logo */}
-          <div className="flex justify-center mb-8">
+          <div className="flex justify-center mb-8 rounded-xl bg-[#04070D] py-5">
             <Logo variant="full" theme="light" />
           </div>
 

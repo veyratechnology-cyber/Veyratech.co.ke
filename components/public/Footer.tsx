@@ -34,7 +34,7 @@ export function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="border-t border-white/10 bg-primary-dark text-text-muted">
+    <footer className="border-t border-white/10 bg-[#04070D] text-text-muted">
       {/* Contact band */}
       <div className="border-b border-white/5">
         <div className="container-custom flex flex-col items-start justify-between gap-6 py-10 md:flex-row md:items-center">

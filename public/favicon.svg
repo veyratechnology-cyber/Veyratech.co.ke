@@ -1,4 +1,7 @@
-﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
-  <rect width="100" height="100" fill="#0055FF"/>
-  <text x="50" y="70" font-family="Arial, sans-serif" font-size="60" font-weight="bold" fill="white" text-anchor="middle">V</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <rect width="100" height="100" rx="18" fill="#000000"/>
+  <g transform="translate(10 13.5) scale(0.8)">
+    <polygon points="0,0 24,0 50,64 76,19 90,19 50,91" fill="#1238B0"/>
+    <polygon points="26,0 100,0 89.4,17.6 72.6,17.6 51,52 43,38 55,17.6 33,17.6" fill="#F58220"/>
+  </g>
 </svg>

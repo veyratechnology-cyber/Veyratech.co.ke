@@ -180,8 +180,8 @@ async function sendProposalEmail(data: {
     <body>
       <div class="container">
         <div class="header">
-          <div class="logo">VeyraTech</div>
-          <p style="color: #666; margin: 0;">Management & Technology Consulting</p>
+          <div class="logo"><span style="color:#1238B0;">VEYRA</span> <span style="color:#F58220;">TECH</span></div>
+          <p style="color: #666; margin: 0;">Technology &amp; Consulting</p>
         </div>
         
         <h1>New Proposal for ${data.clientCompany}</h1>

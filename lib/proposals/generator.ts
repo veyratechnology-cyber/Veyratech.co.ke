@@ -415,10 +415,9 @@ export function generateProposalHTML(data: ProposalData): string {
     <div class="header">
       <div class="logo-section">
         <!-- VeyraTech Logo -->
-        <svg width="180" height="50" viewBox="0 0 180 50" xmlns="http://www.w3.org/2000/svg" class="logo">
-          <rect x="0" y="10" width="40" height="30" fill="${COMPANY_INFO.color.primary}" rx="4"/>
-          <path d="M 8 20 L 20 35 L 32 20" stroke="white" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-          <text x="50" y="32" font-family="Arial, sans-serif" font-size="24" font-weight="bold" fill="${COMPANY_INFO.color.primary}">${COMPANY_INFO.name}</text>
+        <svg width="230" height="50" viewBox="0 0 230 50" xmlns="http://www.w3.org/2000/svg" class="logo">
+          <g transform="translate(0 2) scale(0.5)"><polygon points="0,0 24,0 50,64 76,19 90,19 50,91" fill="#1238B0"/><polygon points="26,0 100,0 89.4,17.6 72.6,17.6 51,52 43,38 55,17.6 33,17.6" fill="#F58220"/></g>
+          <text x="60" y="34" font-family="Arial, sans-serif" font-size="26" font-weight="bold"><tspan fill="#1238B0">VEYRA</tspan><tspan fill="#F58220" dx="6">TECH</tspan></text>
         </svg>
         <div class="company-tagline">${COMPANY_INFO.tagline}</div>
       </div>

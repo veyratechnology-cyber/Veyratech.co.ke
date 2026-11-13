@@ -128,7 +128,7 @@ export default function AdminSidebar() {
   return (
     <aside className="w-64 bg-primary-dark text-text-primary border-r border-border flex flex-col">
       {/* Logo */}
-      <div className="p-6 border-b border-border">
+      <div className="p-6 border-b border-border bg-[#04070D]">
         <Link href="/admin">
           <Logo variant="full" theme="dark" />
         </Link>

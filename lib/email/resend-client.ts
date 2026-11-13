@@ -184,8 +184,8 @@ export function wrapEmailTemplate(content: string, title?: string): string {
 <body>
   <div class="container">
     <div class="header">
-      <div class="logo">VeyraTech</div>
-      <div class="tagline">Software Development &amp; Technology Solutions</div>
+      <div class="logo" style="background:#000000;border-radius:10px;padding:18px 12px 6px;"><span style="color:#2F5BE0;">VEYRA</span> <span style="color:#F58220;">TECH</span></div>
+      <div class="tagline">Technology &amp; Consulting</div>
     </div>
     <div class="content">
       ${content}

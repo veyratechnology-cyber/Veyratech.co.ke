@@ -4,80 +4,64 @@ import { cn } from "@/lib/utils";
 interface LogoProps {
   className?: string;
   variant?: "full" | "symbol" | "wordmark";
+  /** kept for backwards compatibility; the logo uses fixed brand colours */
   theme?: "light" | "dark";
+  /** show the "Technology & Consulting" line under the wordmark */
+  tagline?: boolean;
+}
+
+// Official logo colours
+export const LOGO_BLUE = "#1238B0";
+export const LOGO_ORANGE = "#F58220";
+
+/**
+ * The VT mark: a blue "V" with an orange "T" nested inside it.
+ * Shapes are shared with public/favicon.svg and the generated app icons.
+ */
+export const LOGO_MARK = {
+  viewBox: "0 0 100 92",
+  v: "0,0 24,0 50,64 76,19 90,19 50,91",
+  t: "26,0 100,0 89.4,17.6 72.6,17.6 51,52 43,38 55,17.6 33,17.6",
+};
+
+export function LogoMark({ className }: { className?: string }) {
+  return (
+    <svg viewBox={LOGO_MARK.viewBox} xmlns="http://www.w3.org/2000/svg" className={cn("h-10 w-auto", className)} role="img" aria-label="VeyraTech">
+      <polygon points={LOGO_MARK.v} fill={LOGO_BLUE} />
+      <polygon points={LOGO_MARK.t} fill={LOGO_ORANGE} />
+    </svg>
+  );
+}
+
+function Wordmark({ className }: { className?: string }) {
+  return (
+    <span className={cn("font-sora font-extrabold tracking-tight leading-none", className)}>
+      <span style={{ color: LOGO_BLUE }}>VEYRA</span> <span style={{ color: LOGO_ORANGE }}>TECH</span>
+    </span>
+  );
 }
 
 /**
- * VeyraTech Logo Component
- * Navy + Orange Brand System
- * Modern, geometric logo representing technology and transformation
+ * VeyraTech logo: VT mark + "VEYRA TECH" wordmark + "Technology & Consulting".
+ * Designed for dark surfaces (it is drawn on black in the brand artwork).
  */
-export function Logo({ className, variant = "full", theme = "light" }: LogoProps) {
-  const symbolColor = theme === "light" ? "#FC8436" : "#FC8436";
-  const textColor = theme === "light" ? "#FFFFFF" : "#FFFFFF";
-
-  if (variant === "symbol") {
-    return (
-      <svg
-        viewBox="0 0 48 48"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-        className={cn("w-10 h-10", className)}
-        aria-label="VeyraTech"
-      >
-        {/* V and T geometric symbol representing connection and technology */}
-        <path
-          d="M8 8H12L18 28L24 8H28L18 40H14L8 8Z"
-          fill={symbolColor}
-        />
-        <path
-          d="M32 8H44V12H40V40H36V12H32V8Z"
-          fill={symbolColor}
-          opacity="0.8"
-        />
-        <circle cx="40" cy="16" r="2.5" fill={symbolColor} />
-      </svg>
-    );
-  }
+export function Logo({ className, variant = "full", tagline = true }: LogoProps) {
+  if (variant === "symbol") return <LogoMark className={className} />;
 
   if (variant === "wordmark") {
     return (
       <div className={cn("flex items-center", className)}>
-        <span className="font-sora font-bold text-2xl" style={{ color: textColor }}>
-          VEYRA<span style={{ color: symbolColor }}>TECH</span>
-        </span>
+        <Wordmark className="text-2xl" />
       </div>
     );
   }
 
-  // Full logo (symbol + wordmark)
   return (
-    <div className={cn("flex items-center gap-3", className)}>
-      <svg
-        viewBox="0 0 48 48"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-        className="w-10 h-10"
-        aria-label="VeyraTech Symbol"
-      >
-        <path
-          d="M8 8H12L18 28L24 8H28L18 40H14L8 8Z"
-          fill={symbolColor}
-        />
-        <path
-          d="M32 8H44V12H40V40H36V12H32V8Z"
-          fill={symbolColor}
-          opacity="0.8"
-        />
-        <circle cx="40" cy="16" r="2.5" fill={symbolColor} />
-      </svg>
-      <div className="flex flex-col">
-        <span className="font-sora font-bold text-xl leading-tight" style={{ color: textColor }}>
-          VEYRA<span style={{ color: symbolColor }}>TECH</span>
-        </span>
-        <span className="text-xs font-inter" style={{ color: textColor, opacity: 0.7 }}>
-          Software Development & Solutions
-        </span>
+    <div className={cn("flex items-center gap-2.5", className)}>
+      <LogoMark className="h-10" />
+      <div className="flex flex-col items-end">
+        <Wordmark className="text-[22px]" />
+        {tagline && <span className="mt-1 text-[10px] font-semibold leading-none text-white">Technology &amp; Consulting</span>}
       </div>
     </div>
   );

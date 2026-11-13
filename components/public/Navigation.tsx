@@ -50,8 +50,8 @@ export function Navigation() {
       className={cn(
         "fixed inset-x-0 top-0 z-50 transition-[background-color,box-shadow,border-color] duration-300",
         scrolled || mobileMenuOpen
-          ? "bg-primary/90 backdrop-blur-xl border-b border-white/10 shadow-[0_10px_30px_-12px_rgba(0,0,0,0.5)]"
-          : "bg-transparent border-b border-transparent"
+          ? "bg-[#04070D]/95 backdrop-blur-xl border-b border-white/10 shadow-[0_10px_30px_-12px_rgba(0,0,0,0.6)]"
+          : "bg-[#04070D]/80 backdrop-blur-md border-b border-white/5"
       )}
     >
       <a
@@ -115,7 +115,7 @@ export function Navigation() {
       <div
         id="mobile-menu"
         className={cn(
-          "md:hidden fixed inset-x-0 top-20 bottom-0 z-40 overflow-y-auto border-t border-white/10 bg-primary-dark transition-all duration-300",
+          "md:hidden fixed inset-x-0 top-20 bottom-0 z-40 overflow-y-auto border-t border-white/10 bg-[#04070D] transition-all duration-300",
           mobileMenuOpen ? "visible opacity-100" : "invisible opacity-0 pointer-events-none"
         )}
       >
