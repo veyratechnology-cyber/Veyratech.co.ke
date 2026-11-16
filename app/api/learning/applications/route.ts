@@ -8,6 +8,22 @@ import { submitApplication } from "@/lib/learning/applications";
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
+    
+    console.log("[API] Received application data:", {
+      hasName: !!body.name,
+      hasEmail: !!body.email,
+      hasPhone: !!body.phone,
+      hasDateOfBirth: !!body.dateOfBirth,
+      hasCountry: !!body.country,
+      hasEducationLevel: !!body.educationLevel,
+      hasInstitution: !!body.institution,
+      hasProgramme: !!body.programme,
+      hasMotivation: !!body.motivation,
+      hasLearningGoals: !!body.learningGoals,
+      hasReferralSource: !!body.referralSource,
+      motivationLength: body.motivation?.length || 0,
+      learningGoalsLength: body.learningGoals?.length || 0,
+    });
 
     // Validate required fields
     const requiredFields = [
@@ -26,6 +42,7 @@ export async function POST(request: NextRequest) {
 
     for (const field of requiredFields) {
       if (!body[field]) {
+        console.error(`[API] Missing field: ${field}`);
         return NextResponse.json(
           { success: false, error: `Missing required field: ${field}` },
           { status: 400 }
@@ -74,8 +91,17 @@ export async function POST(request: NextRequest) {
     }
   } catch (error) {
     console.error("[API] Application submission error:", error);
+    
+    // Return detailed error for debugging
+    const errorMessage = error instanceof Error ? error.message : "Unknown error";
+    console.error("[API] Error details:", errorMessage);
+    
     return NextResponse.json(
-      { success: false, error: "An error occurred while processing your application" },
+      { 
+        success: false, 
+        error: "An error occurred while processing your application",
+        debug: process.env.NODE_ENV === 'development' ? errorMessage : undefined
+      },
       { status: 500 }
     );
   }
