@@ -883,4 +883,4 @@ SELECT 'applications', COUNT(*) FROM applications;
 
 -- Success message
 SELECT '✅ Database schema created successfully!' as status;
-SELECT '📊 Total tables: ' || COUNT(*) FROM pg_tables WHERE schemaname = 'public' as info;
+SELECT '📊 Total tables: ' || COUNT(*)::text as info FROM pg_tables WHERE schemaname = 'public';
