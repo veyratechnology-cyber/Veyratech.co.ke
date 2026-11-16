@@ -112,9 +112,11 @@ export default function ApplyPage() {
         setSubmitted(true);
         setStep(4);
       } else {
+        console.error("[FORM] Submission failed:", data);
         setErrors({ submit: data.error || "Failed to submit application" });
       }
     } catch (error) {
+      console.error("[FORM] Error submitting:", error);
       setErrors({ submit: "An error occurred. Please try again." });
     } finally {
       setLoading(false);
