@@ -85,13 +85,13 @@ export async function submitApplication(data: {
         name, email, phone, date_of_birth, country,
         education_level, institution, field_of_study, programme,
         motivation, previous_experience, learning_goals, referral_source,
-        status, created_at, updated_at
+        reference_number, status, created_at, updated_at
       )
       VALUES (
         ${data.name}, ${email}, ${data.phone}, ${data.dateOfBirth}, ${data.country},
         ${data.educationLevel}, ${data.institution}, ${data.fieldOfStudy || null}, ${data.programme},
         ${data.motivation}, ${data.previousExperience || null}, ${data.learningGoals}, ${data.referralSource},
-        'PENDING', NOW(), NOW()
+        ${referenceNumber}, 'PENDING', NOW(), NOW()
       )
       RETURNING id
     `;
