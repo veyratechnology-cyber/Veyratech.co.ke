@@ -13,11 +13,21 @@ BEGIN;
 -- ENUMS
 -- ============================================================
 
+-- Drop existing types if needed (optional - comment out if you want to keep them)
+-- DROP TYPE IF EXISTS admin_status CASCADE;
+-- DROP TYPE IF EXISTS industry CASCADE;
+-- ... (add others if needed)
+
 -- Admin Status
-CREATE TYPE admin_status AS ENUM ('ACTIVE', 'INACTIVE');
+DO $$ BEGIN
+    CREATE TYPE admin_status AS ENUM ('ACTIVE', 'INACTIVE');
+EXCEPTION
+    WHEN duplicate_object THEN null;
+END $$;
 
 -- Industry
-CREATE TYPE industry AS ENUM (
+DO $$ BEGIN
+    CREATE TYPE industry AS ENUM (
   'REAL_ESTATE', 'CONSTRUCTION', 'FINANCE', 'BANKING', 'INSURANCE',
   'RETAIL', 'HEALTHCARE', 'HOSPITALITY', 'EDUCATION', 'MANUFACTURING',
   'LOGISTICS_TRANSPORT', 'AGRICULTURE', 'PROFESSIONAL_SERVICES',
