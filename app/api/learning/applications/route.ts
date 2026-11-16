@@ -11,19 +11,17 @@ export async function POST(request: NextRequest) {
 
     // Validate required fields
     const requiredFields = [
-      "fullName",
+      "name",
       "email",
       "phone",
+      "dateOfBirth",
       "country",
-      "city",
       "educationLevel",
       "institution",
-      "currentOccupation",
-      "programmingExperience",
-      "programmeId",
-      "whyJoin",
-      "goals",
-      "weeklyAvailability",
+      "programme",
+      "motivation",
+      "learningGoals",
+      "referralSource",
     ];
 
     for (const field of requiredFields) {
@@ -45,24 +43,16 @@ export async function POST(request: NextRequest) {
     }
 
     // Validate minimum text lengths
-    if (body.whyJoin.length < 50) {
+    if (body.motivation.length < 100) {
       return NextResponse.json(
-        { success: false, error: "Please provide a more detailed reason for joining (minimum 50 characters)" },
+        { success: false, error: "Please provide a more detailed reason for joining (minimum 100 characters)" },
         { status: 400 }
       );
     }
 
-    if (body.goals.length < 50) {
+    if (body.learningGoals.length < 50) {
       return NextResponse.json(
         { success: false, error: "Please provide more detailed goals (minimum 50 characters)" },
-        { status: 400 }
-      );
-    }
-
-    // Validate hasLaptop is boolean
-    if (typeof body.hasLaptop !== "boolean") {
-      return NextResponse.json(
-        { success: false, error: "Invalid laptop availability value" },
         { status: 400 }
       );
     }

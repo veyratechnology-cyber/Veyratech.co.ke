@@ -40,20 +40,19 @@ export async function hasExistingApplication(email: string, programmeId: string)
  * Submit new application
  */
 export async function submitApplication(data: {
-  fullName: string;
+  name: string;
   email: string;
   phone: string;
+  dateOfBirth: string;
   country: string;
-  city: string;
   educationLevel: string;
   institution: string;
-  currentOccupation: string;
-  programmingExperience: string;
-  programmeId: string;
-  whyJoin: string;
-  goals: string;
-  weeklyAvailability: string;
-  hasLaptop: boolean;
+  fieldOfStudy?: string;
+  programme: string;
+  motivation: string;
+  previousExperience?: string;
+  learningGoals: string;
+  referralSource: string;
 }): Promise<{
   success: boolean;
   error?: string;
@@ -64,79 +63,53 @@ export async function submitApplication(data: {
     const email = data.email.toLowerCase().trim();
 
     // Check for existing application
-    const hasExisting = await hasExistingApplication(email, data.programmeId);
-    if (hasExisting) {
+    const existing = await prisma.$queryRaw<{ id: string }[]>`
+      SELECT id FROM applications
+      WHERE email = ${email}
+      AND status IN ('PENDING', 'ACCEPTED')
+      LIMIT 1
+    `;
+
+    if (existing.length > 0) {
       return {
         success: false,
-        error: "You have already submitted an application for this programme.",
-      };
-    }
-
-    // Verify programme exists
-    const programme = await prisma.programme.findUnique({
-      where: { id: data.programmeId },
-      select: { id: true, name: true, published: true },
-    });
-
-    if (!programme || !programme.published) {
-      return {
-        success: false,
-        error: "Programme not found or not available.",
+        error: "You have already submitted an application. Please check your email for updates.",
       };
     }
 
     const referenceNumber = generateReferenceNumber();
 
-    // Create learning profile first
-    const profile = await prisma.learningProfile.create({
-      data: {
-        userId: `student-${Date.now()}-${Math.random().toString(36).substring(7)}`,
-        userType: "STUDENT",
-        email,
-        passwordHash: "", // Will be set during activation
-        name: data.fullName,
-        phone: data.phone,
-        country: data.country,
-        city: data.city,
-        status: "PENDING",
-      },
-    });
+    // Create application using raw SQL
+    const result = await prisma.$queryRaw<{ id: string }[]>`
+      INSERT INTO applications (
+        name, email, phone, date_of_birth, country,
+        education_level, institution, field_of_study, programme,
+        motivation, previous_experience, learning_goals, referral_source,
+        status, created_at, updated_at
+      )
+      VALUES (
+        ${data.name}, ${email}, ${data.phone}, ${data.dateOfBirth}, ${data.country},
+        ${data.educationLevel}, ${data.institution}, ${data.fieldOfStudy || null}, ${data.programme},
+        ${data.motivation}, ${data.previousExperience || null}, ${data.learningGoals}, ${data.referralSource},
+        'PENDING', NOW(), NOW()
+      )
+      RETURNING id
+    `;
 
-    // Create application
-    const application = await prisma.application.create({
-      data: {
-        profileId: profile.id,
-        fullName: data.fullName,
-        email,
-        phone: data.phone,
-        country: data.country,
-        city: data.city,
-        educationLevel: data.educationLevel,
-        institution: data.institution,
-        currentOccupation: data.currentOccupation,
-        programmingExperience: data.programmingExperience,
-        programmeId: data.programmeId,
-        whyJoin: data.whyJoin,
-        goals: data.goals,
-        weeklyAvailability: data.weeklyAvailability,
-        hasLaptop: data.hasLaptop,
-        status: "SUBMITTED",
-        referenceNumber,
-      },
-    });
+    const applicationId = result[0]?.id;
 
     // Send confirmation email
     await sendApplicationConfirmation({
       email,
-      name: data.fullName,
+      name: data.name,
       referenceNumber,
-      programmeName: programme.name,
+      programmeName: data.programme,
     });
 
     return {
       success: true,
       referenceNumber,
-      applicationId: application.id,
+      applicationId,
     };
   } catch (error) {
     console.error("[APPLICATION] Submit error:", error);

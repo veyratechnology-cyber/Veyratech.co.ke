@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { ArrowLeft, ArrowRight, Check, Loader2 } from "lucide-react";
+import { COUNTRIES, EDUCATION_LEVELS, REFERRAL_SOURCES, PROGRAMMES } from "@/lib/learning/countries";
 
 export default function ApplyPage() {
   const [step, setStep] = useState(1);
@@ -13,26 +14,25 @@ export default function ApplyPage() {
 
   const [formData, setFormData] = useState({
     // Personal Information
-    fullName: "",
+    name: "",
     email: "",
     phone: "",
+    dateOfBirth: "",
     country: "Kenya",
-    city: "",
 
-    // Education & Experience
+    // Education & Background
     educationLevel: "",
     institution: "",
-    currentOccupation: "",
-    programmingExperience: "none",
+    fieldOfStudy: "",
 
     // Programme Selection
-    programmeId: "web-dev-fundamentals",
+    programme: "Web Development Fundamentals",
 
-    // Motivation
-    whyJoin: "",
-    goals: "",
-    weeklyAvailability: "",
-    hasLaptop: "yes",
+    // Motivation & Goals
+    motivation: "",
+    previousExperience: "",
+    learningGoals: "",
+    referralSource: "",
   });
 
   const handleInputChange = (
@@ -54,28 +54,27 @@ export default function ApplyPage() {
     const newErrors: Record<string, string> = {};
 
     if (currentStep === 1) {
-      if (!formData.fullName.trim()) newErrors.fullName = "Full name is required";
+      if (!formData.name.trim()) newErrors.name = "Full name is required";
       if (!formData.email.trim()) newErrors.email = "Email is required";
       else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email))
         newErrors.email = "Invalid email format";
       if (!formData.phone.trim()) newErrors.phone = "Phone number is required";
+      if (!formData.dateOfBirth) newErrors.dateOfBirth = "Date of birth is required";
       if (!formData.country.trim()) newErrors.country = "Country is required";
-      if (!formData.city.trim()) newErrors.city = "City is required";
     }
 
     if (currentStep === 2) {
       if (!formData.educationLevel) newErrors.educationLevel = "Please select your education level";
       if (!formData.institution.trim()) newErrors.institution = "Institution name is required";
-      if (!formData.currentOccupation.trim()) newErrors.currentOccupation = "Current occupation is required";
+      if (!formData.programme) newErrors.programme = "Please select a programme";
     }
 
     if (currentStep === 3) {
-      if (!formData.whyJoin.trim() || formData.whyJoin.length < 50)
-        newErrors.whyJoin = "Please provide at least 50 characters";
-      if (!formData.goals.trim() || formData.goals.length < 50)
-        newErrors.goals = "Please provide at least 50 characters";
-      if (!formData.weeklyAvailability.trim())
-        newErrors.weeklyAvailability = "Please specify your weekly availability";
+      if (!formData.motivation.trim() || formData.motivation.length < 100)
+        newErrors.motivation = "Please provide at least 100 characters explaining why you want to join";
+      if (!formData.learningGoals.trim() || formData.learningGoals.length < 50)
+        newErrors.learningGoals = "Please provide at least 50 characters describing your learning goals";
+      if (!formData.referralSource) newErrors.referralSource = "Please tell us how you heard about us";
     }
 
     setErrors(newErrors);
@@ -103,10 +102,7 @@ export default function ApplyPage() {
       const response = await fetch("/api/learning/applications", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          ...formData,
-          hasLaptop: formData.hasLaptop === "yes",
-        }),
+        body: JSON.stringify(formData),
       });
 
       const data = await response.json();
@@ -152,38 +148,46 @@ export default function ApplyPage() {
               <h2 className="text-lg font-semibold text-text-primary mb-3">
                 What Happens Next?
               </h2>
-              <ul className="space-y-2 text-text-secondary">
+              <ul className="space-y-3 text-text-secondary">
                 <li className="flex items-start">
-                  <Check className="w-5 h-5 text-secondary mr-2 mt-0.5 flex-shrink-0" />
-                  <span>You'll receive a confirmation email with your reference number</span>
+                  <div className="bg-secondary/10 rounded-full w-6 h-6 flex items-center justify-center mt-0.5 mr-3 flex-shrink-0">
+                    <span className="text-secondary text-sm font-bold">1</span>
+                  </div>
+                  <span>You'll receive a confirmation email with your reference number within a few minutes</span>
                 </li>
                 <li className="flex items-start">
-                  <Check className="w-5 h-5 text-secondary mr-2 mt-0.5 flex-shrink-0" />
-                  <span>Our team will review your application within 3-5 business days</span>
+                  <div className="bg-secondary/10 rounded-full w-6 h-6 flex items-center justify-center mt-0.5 mr-3 flex-shrink-0">
+                    <span className="text-secondary text-sm font-bold">2</span>
+                  </div>
+                  <span>Our admissions team will review your application within 3-5 business days</span>
                 </li>
                 <li className="flex items-start">
-                  <Check className="w-5 h-5 text-secondary mr-2 mt-0.5 flex-shrink-0" />
-                  <span>If accepted, you'll receive account activation instructions</span>
+                  <div className="bg-secondary/10 rounded-full w-6 h-6 flex items-center justify-center mt-0.5 mr-3 flex-shrink-0">
+                    <span className="text-secondary text-sm font-bold">3</span>
+                  </div>
+                  <span>If accepted, you'll receive an email with your login credentials to access the learning platform</span>
                 </li>
                 <li className="flex items-start">
-                  <Check className="w-5 h-5 text-secondary mr-2 mt-0.5 flex-shrink-0" />
-                  <span>You can then set your password and start learning immediately</span>
+                  <div className="bg-secondary/10 rounded-full w-6 h-6 flex items-center justify-center mt-0.5 mr-3 flex-shrink-0">
+                    <span className="text-secondary text-sm font-bold">4</span>
+                  </div>
+                  <span>Once logged in, you can start your learning journey immediately!</span>
                 </li>
               </ul>
             </div>
 
+            <div className="bg-blue-500/10 border border-blue-500/20 rounded-lg p-4 mb-6">
+              <p className="text-sm text-blue-600 dark:text-blue-400">
+                <strong>Important:</strong> Check your spam/junk folder if you don't receive the confirmation email within 10 minutes.
+              </p>
+            </div>
+
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link
-                href="/students"
+                href="/"
                 className="inline-flex items-center justify-center px-6 py-3 bg-secondary hover:bg-secondary/90 text-white font-semibold rounded-lg transition-colors"
               >
-                Back to Learning Portal
-              </Link>
-              <Link
-                href="/"
-                className="inline-flex items-center justify-center px-6 py-3 bg-background hover:bg-primary/10 text-text-primary font-semibold rounded-lg border border-border transition-colors"
-              >
-                Go to Homepage
+                Back to Homepage
               </Link>
             </div>
           </div>
@@ -199,17 +203,17 @@ export default function ApplyPage() {
           {/* Header */}
           <div className="mb-8">
             <Link
-              href="/students"
+              href="/"
               className="inline-flex items-center text-secondary hover:text-secondary/80 mb-4"
             >
               <ArrowLeft className="w-5 h-5 mr-2" />
-              Back to Learning Portal
+              Back to Homepage
             </Link>
             <h1 className="text-3xl md:text-4xl font-bold text-text-primary mb-2">
-              Apply to VeyraTech Learning
+              Apply to VeyraTech Learning Programme
             </h1>
             <p className="text-text-secondary">
-              Complete this application to join our learning programme
+              Join our free learning programme and start your tech career
             </p>
           </div>
 
@@ -230,7 +234,7 @@ export default function ApplyPage() {
                 Personal Info
               </span>
               <span className={step >= 2 ? "text-secondary font-medium" : ""}>
-                Education
+                Education & Programme
               </span>
               <span className={step >= 3 ? "text-secondary font-medium" : ""}>
                 Motivation
@@ -243,118 +247,128 @@ export default function ApplyPage() {
             {/* Step 1: Personal Information */}
             {step === 1 && (
               <div className="space-y-6">
-                <h2 className="text-2xl font-bold text-text-primary mb-6">
-                  Personal Information
-                </h2>
+                <div>
+                  <h2 className="text-2xl font-bold text-text-primary mb-2">Personal Information</h2>
+                  <p className="text-text-secondary text-sm mb-6">Tell us about yourself</p>
+                </div>
 
                 <div>
                   <label className="block text-sm font-medium text-text-primary mb-2">
-                    Full Name *
+                    Full Name <span className="text-red-500">*</span>
                   </label>
                   <input
                     type="text"
-                    name="fullName"
-                    value={formData.fullName}
+                    name="name"
+                    value={formData.name}
                     onChange={handleInputChange}
                     className={`w-full px-4 py-3 bg-background border ${
-                      errors.fullName ? "border-red-500" : "border-border"
-                    } rounded-lg focus:outline-none focus:border-secondary text-text-primary`}
+                      errors.name ? "border-red-500" : "border-border"
+                    } rounded-lg focus:outline-none focus:ring-2 focus:ring-secondary/50 focus:border-secondary text-text-primary`}
                     placeholder="John Doe"
                   />
-                  {errors.fullName && (
-                    <p className="mt-1 text-sm text-red-500">{errors.fullName}</p>
-                  )}
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-text-primary mb-2">
-                    Email Address *
-                  </label>
-                  <input
-                    type="email"
-                    name="email"
-                    value={formData.email}
-                    onChange={handleInputChange}
-                    className={`w-full px-4 py-3 bg-background border ${
-                      errors.email ? "border-red-500" : "border-border"
-                    } rounded-lg focus:outline-none focus:border-secondary text-text-primary`}
-                    placeholder="john@example.com"
-                  />
-                  {errors.email && (
-                    <p className="mt-1 text-sm text-red-500">{errors.email}</p>
-                  )}
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-text-primary mb-2">
-                    Phone Number *
-                  </label>
-                  <input
-                    type="tel"
-                    name="phone"
-                    value={formData.phone}
-                    onChange={handleInputChange}
-                    className={`w-full px-4 py-3 bg-background border ${
-                      errors.phone ? "border-red-500" : "border-border"
-                    } rounded-lg focus:outline-none focus:border-secondary text-text-primary`}
-                    placeholder="+254 712 345 678"
-                  />
-                  {errors.phone && (
-                    <p className="mt-1 text-sm text-red-500">{errors.phone}</p>
+                  {errors.name && (
+                    <p className="mt-1 text-sm text-red-500">{errors.name}</p>
                   )}
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
                     <label className="block text-sm font-medium text-text-primary mb-2">
-                      Country *
+                      Email Address <span className="text-red-500">*</span>
                     </label>
                     <input
-                      type="text"
-                      name="country"
-                      value={formData.country}
+                      type="email"
+                      name="email"
+                      value={formData.email}
                       onChange={handleInputChange}
                       className={`w-full px-4 py-3 bg-background border ${
-                        errors.country ? "border-red-500" : "border-border"
-                      } rounded-lg focus:outline-none focus:border-secondary text-text-primary`}
+                        errors.email ? "border-red-500" : "border-border"
+                      } rounded-lg focus:outline-none focus:ring-2 focus:ring-secondary/50 focus:border-secondary text-text-primary`}
+                      placeholder="john@example.com"
                     />
-                    {errors.country && (
-                      <p className="mt-1 text-sm text-red-500">{errors.country}</p>
+                    {errors.email && (
+                      <p className="mt-1 text-sm text-red-500">{errors.email}</p>
                     )}
                   </div>
 
                   <div>
                     <label className="block text-sm font-medium text-text-primary mb-2">
-                      City *
+                      Phone Number <span className="text-red-500">*</span>
                     </label>
                     <input
-                      type="text"
-                      name="city"
-                      value={formData.city}
+                      type="tel"
+                      name="phone"
+                      value={formData.phone}
                       onChange={handleInputChange}
                       className={`w-full px-4 py-3 bg-background border ${
-                        errors.city ? "border-red-500" : "border-border"
-                      } rounded-lg focus:outline-none focus:border-secondary text-text-primary`}
-                      placeholder="Nairobi"
+                        errors.phone ? "border-red-500" : "border-border"
+                      } rounded-lg focus:outline-none focus:ring-2 focus:ring-secondary/50 focus:border-secondary text-text-primary`}
+                      placeholder="+254 712 345 678"
                     />
-                    {errors.city && (
-                      <p className="mt-1 text-sm text-red-500">{errors.city}</p>
+                    {errors.phone && (
+                      <p className="mt-1 text-sm text-red-500">{errors.phone}</p>
+                    )}
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div>
+                    <label className="block text-sm font-medium text-text-primary mb-2">
+                      Date of Birth <span className="text-red-500">*</span>
+                    </label>
+                    <input
+                      type="date"
+                      name="dateOfBirth"
+                      value={formData.dateOfBirth}
+                      onChange={handleInputChange}
+                      max={new Date(Date.now() - 13 * 365 * 24 * 60 * 60 * 1000).toISOString().split('T')[0]}
+                      className={`w-full px-4 py-3 bg-background border ${
+                        errors.dateOfBirth ? "border-red-500" : "border-border"
+                      } rounded-lg focus:outline-none focus:ring-2 focus:ring-secondary/50 focus:border-secondary text-text-primary`}
+                    />
+                    {errors.dateOfBirth && (
+                      <p className="mt-1 text-sm text-red-500">{errors.dateOfBirth}</p>
+                    )}
+                    <p className="mt-1 text-xs text-text-muted">You must be at least 13 years old</p>
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-text-primary mb-2">
+                      Country <span className="text-red-500">*</span>
+                    </label>
+                    <select
+                      name="country"
+                      value={formData.country}
+                      onChange={handleInputChange}
+                      className={`w-full px-4 py-3 bg-background border ${
+                        errors.country ? "border-red-500" : "border-border"
+                      } rounded-lg focus:outline-none focus:ring-2 focus:ring-secondary/50 focus:border-secondary text-text-primary`}
+                    >
+                      {COUNTRIES.map((country) => (
+                        <option key={country.code} value={country.name}>
+                          {country.name}
+                        </option>
+                      ))}
+                    </select>
+                    {errors.country && (
+                      <p className="mt-1 text-sm text-red-500">{errors.country}</p>
                     )}
                   </div>
                 </div>
               </div>
             )}
 
-            {/* Step 2: Education & Experience */}
+            {/* Step 2: Education & Programme */}
             {step === 2 && (
               <div className="space-y-6">
-                <h2 className="text-2xl font-bold text-text-primary mb-6">
-                  Education & Experience
-                </h2>
+                <div>
+                  <h2 className="text-2xl font-bold text-text-primary mb-2">Education & Programme Selection</h2>
+                  <p className="text-text-secondary text-sm mb-6">Your educational background and programme choice</p>
+                </div>
 
                 <div>
                   <label className="block text-sm font-medium text-text-primary mb-2">
-                    Education Level *
+                    Current Education Level <span className="text-red-500">*</span>
                   </label>
                   <select
                     name="educationLevel"
@@ -362,14 +376,14 @@ export default function ApplyPage() {
                     onChange={handleInputChange}
                     className={`w-full px-4 py-3 bg-background border ${
                       errors.educationLevel ? "border-red-500" : "border-border"
-                    } rounded-lg focus:outline-none focus:border-secondary text-text-primary`}
+                    } rounded-lg focus:outline-none focus:ring-2 focus:ring-secondary/50 focus:border-secondary text-text-primary`}
                   >
                     <option value="">Select your education level</option>
-                    <option value="high-school">High School</option>
-                    <option value="diploma">Diploma</option>
-                    <option value="undergraduate">Undergraduate</option>
-                    <option value="graduate">Graduate</option>
-                    <option value="other">Other</option>
+                    {EDUCATION_LEVELS.map((level) => (
+                      <option key={level.value} value={level.value}>
+                        {level.label}
+                      </option>
+                    ))}
                   </select>
                   {errors.educationLevel && (
                     <p className="mt-1 text-sm text-red-500">{errors.educationLevel}</p>
@@ -378,7 +392,7 @@ export default function ApplyPage() {
 
                 <div>
                   <label className="block text-sm font-medium text-text-primary mb-2">
-                    Institution *
+                    Institution Name <span className="text-red-500">*</span>
                   </label>
                   <input
                     type="text"
@@ -387,8 +401,8 @@ export default function ApplyPage() {
                     onChange={handleInputChange}
                     className={`w-full px-4 py-3 bg-background border ${
                       errors.institution ? "border-red-500" : "border-border"
-                    } rounded-lg focus:outline-none focus:border-secondary text-text-primary`}
-                    placeholder="University of Nairobi"
+                    } rounded-lg focus:outline-none focus:ring-2 focus:ring-secondary/50 focus:border-secondary text-text-primary`}
+                    placeholder="e.g., University of Nairobi, Strathmore University"
                   />
                   {errors.institution && (
                     <p className="mt-1 text-sm text-red-500">{errors.institution}</p>
@@ -397,68 +411,49 @@ export default function ApplyPage() {
 
                 <div>
                   <label className="block text-sm font-medium text-text-primary mb-2">
-                    Current Occupation *
+                    Field of Study (if applicable)
                   </label>
                   <input
                     type="text"
-                    name="currentOccupation"
-                    value={formData.currentOccupation}
+                    name="fieldOfStudy"
+                    value={formData.fieldOfStudy}
                     onChange={handleInputChange}
-                    className={`w-full px-4 py-3 bg-background border ${
-                      errors.currentOccupation ? "border-red-500" : "border-border"
-                    } rounded-lg focus:outline-none focus:border-secondary text-text-primary`}
-                    placeholder="Student, Working Professional, etc."
+                    className="w-full px-4 py-3 bg-background border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-secondary/50 focus:border-secondary text-text-primary"
+                    placeholder="e.g., Computer Science, Business, Engineering"
                   />
-                  {errors.currentOccupation && (
-                    <p className="mt-1 text-sm text-red-500">{errors.currentOccupation}</p>
-                  )}
+                  <p className="mt-1 text-xs text-text-muted">Leave blank if not applicable</p>
                 </div>
 
                 <div>
                   <label className="block text-sm font-medium text-text-primary mb-2">
-                    Programming Experience *
+                    Select Programme <span className="text-red-500">*</span>
                   </label>
                   <select
-                    name="programmingExperience"
-                    value={formData.programmingExperience}
+                    name="programme"
+                    value={formData.programme}
                     onChange={handleInputChange}
-                    className="w-full px-4 py-3 bg-background border border-border rounded-lg focus:outline-none focus:border-secondary text-text-primary"
+                    className={`w-full px-4 py-3 bg-background border ${
+                      errors.programme ? "border-red-500" : "border-border"
+                    } rounded-lg focus:outline-none focus:ring-2 focus:ring-secondary/50 focus:border-secondary text-text-primary`}
                   >
-                    <option value="none">No experience</option>
-                    <option value="beginner">Beginner (less than 1 year)</option>
-                    <option value="intermediate">Intermediate (1-2 years)</option>
-                    <option value="advanced">Advanced (2+ years)</option>
+                    {PROGRAMMES.map((programme) => (
+                      <option key={programme.value} value={programme.label}>
+                        {programme.label} ({programme.duration} - {programme.level})
+                      </option>
+                    ))}
                   </select>
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-text-primary mb-2">
-                    Do you have access to a laptop? *
-                  </label>
-                  <div className="flex gap-4">
-                    <label className="flex items-center">
-                      <input
-                        type="radio"
-                        name="hasLaptop"
-                        value="yes"
-                        checked={formData.hasLaptop === "yes"}
-                        onChange={handleInputChange}
-                        className="mr-2"
-                      />
-                      <span className="text-text-primary">Yes</span>
-                    </label>
-                    <label className="flex items-center">
-                      <input
-                        type="radio"
-                        name="hasLaptop"
-                        value="no"
-                        checked={formData.hasLaptop === "no"}
-                        onChange={handleInputChange}
-                        className="mr-2"
-                      />
-                      <span className="text-text-primary">No</span>
-                    </label>
-                  </div>
+                  {errors.programme && (
+                    <p className="mt-1 text-sm text-red-500">{errors.programme}</p>
+                  )}
+                  
+                  {/* Programme Description */}
+                  {formData.programme && (
+                    <div className="mt-3 p-4 bg-secondary/5 border border-secondary/20 rounded-lg">
+                      <p className="text-sm text-text-secondary">
+                        {PROGRAMMES.find(p => p.label === formData.programme)?.description}
+                      </p>
+                    </div>
+                  )}
                 </div>
               </div>
             )}
@@ -466,30 +461,31 @@ export default function ApplyPage() {
             {/* Step 3: Motivation */}
             {step === 3 && (
               <div className="space-y-6">
-                <h2 className="text-2xl font-bold text-text-primary mb-6">
-                  Tell Us About Yourself
-                </h2>
+                <div>
+                  <h2 className="text-2xl font-bold text-text-primary mb-2">Tell Us About Yourself</h2>
+                  <p className="text-text-secondary text-sm mb-6">Help us understand your motivation and goals</p>
+                </div>
 
                 <div>
                   <label className="block text-sm font-medium text-text-primary mb-2">
-                    Why do you want to join this programme? * (minimum 50 characters)
+                    Why do you want to join this programme? <span className="text-red-500">*</span>
                   </label>
                   <textarea
-                    name="whyJoin"
-                    value={formData.whyJoin}
+                    name="motivation"
+                    value={formData.motivation}
                     onChange={handleInputChange}
-                    rows={5}
+                    rows={6}
                     className={`w-full px-4 py-3 bg-background border ${
-                      errors.whyJoin ? "border-red-500" : "border-border"
-                    } rounded-lg focus:outline-none focus:border-secondary text-text-primary resize-none`}
-                    placeholder="Share your motivation and interest in learning software development..."
+                      errors.motivation ? "border-red-500" : "border-border"
+                    } rounded-lg focus:outline-none focus:ring-2 focus:ring-secondary/50 focus:border-secondary text-text-primary resize-none`}
+                    placeholder="Share your motivation for learning software development. What interests you about technology? What problem do you want to solve? Be specific and genuine."
                   />
                   <div className="flex justify-between mt-1">
-                    {errors.whyJoin ? (
-                      <p className="text-sm text-red-500">{errors.whyJoin}</p>
+                    {errors.motivation ? (
+                      <p className="text-sm text-red-500">{errors.motivation}</p>
                     ) : (
-                      <p className="text-sm text-text-muted">
-                        {formData.whyJoin.length} / 50 characters minimum
+                      <p className={`text-sm ${formData.motivation.length >= 100 ? 'text-green-600' : 'text-text-muted'}`}>
+                        {formData.motivation.length} / 100 characters minimum
                       </p>
                     )}
                   </div>
@@ -497,24 +493,39 @@ export default function ApplyPage() {
 
                 <div>
                   <label className="block text-sm font-medium text-text-primary mb-2">
-                    What are your learning goals? * (minimum 50 characters)
+                    Previous Programming Experience
                   </label>
                   <textarea
-                    name="goals"
-                    value={formData.goals}
+                    name="previousExperience"
+                    value={formData.previousExperience}
                     onChange={handleInputChange}
-                    rows={5}
+                    rows={4}
+                    className="w-full px-4 py-3 bg-background border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-secondary/50 focus:border-secondary text-text-primary resize-none"
+                    placeholder="Have you coded before? Mention any languages, courses, or projects. If none, just say 'No previous experience' - that's completely fine!"
+                  />
+                  <p className="mt-1 text-xs text-text-muted">No experience required - this helps us tailor your learning path</p>
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-text-primary mb-2">
+                    What are your learning goals? <span className="text-red-500">*</span>
+                  </label>
+                  <textarea
+                    name="learningGoals"
+                    value={formData.learningGoals}
+                    onChange={handleInputChange}
+                    rows={4}
                     className={`w-full px-4 py-3 bg-background border ${
-                      errors.goals ? "border-red-500" : "border-border"
-                    } rounded-lg focus:outline-none focus:border-secondary text-text-primary resize-none`}
-                    placeholder="What do you hope to achieve? What kind of projects do you want to build?"
+                      errors.learningGoals ? "border-red-500" : "border-border"
+                    } rounded-lg focus:outline-none focus:ring-2 focus:ring-secondary/50 focus:border-secondary text-text-primary resize-none`}
+                    placeholder="What do you hope to achieve? Career change? Build a startup? Freelance? Get a job? Be specific."
                   />
                   <div className="flex justify-between mt-1">
-                    {errors.goals ? (
-                      <p className="text-sm text-red-500">{errors.goals}</p>
+                    {errors.learningGoals ? (
+                      <p className="text-sm text-red-500">{errors.learningGoals}</p>
                     ) : (
-                      <p className="text-sm text-text-muted">
-                        {formData.goals.length} / 50 characters minimum
+                      <p className={`text-sm ${formData.learningGoals.length >= 50 ? 'text-green-600' : 'text-text-muted'}`}>
+                        {formData.learningGoals.length} / 50 characters minimum
                       </p>
                     )}
                   </div>
@@ -522,20 +533,25 @@ export default function ApplyPage() {
 
                 <div>
                   <label className="block text-sm font-medium text-text-primary mb-2">
-                    Weekly Availability * (e.g., "10-15 hours per week, evenings and weekends")
+                    How did you hear about us? <span className="text-red-500">*</span>
                   </label>
-                  <input
-                    type="text"
-                    name="weeklyAvailability"
-                    value={formData.weeklyAvailability}
+                  <select
+                    name="referralSource"
+                    value={formData.referralSource}
                     onChange={handleInputChange}
                     className={`w-full px-4 py-3 bg-background border ${
-                      errors.weeklyAvailability ? "border-red-500" : "border-border"
-                    } rounded-lg focus:outline-none focus:border-secondary text-text-primary`}
-                    placeholder="10-15 hours per week"
-                  />
-                  {errors.weeklyAvailability && (
-                    <p className="mt-1 text-sm text-red-500">{errors.weeklyAvailability}</p>
+                      errors.referralSource ? "border-red-500" : "border-border"
+                    } rounded-lg focus:outline-none focus:ring-2 focus:ring-secondary/50 focus:border-secondary text-text-primary`}
+                  >
+                    <option value="">Select an option</option>
+                    {REFERRAL_SOURCES.map((source) => (
+                      <option key={source.value} value={source.value}>
+                        {source.label}
+                      </option>
+                    ))}
+                  </select>
+                  {errors.referralSource && (
+                    <p className="mt-1 text-sm text-red-500">{errors.referralSource}</p>
                   )}
                 </div>
 
@@ -544,6 +560,12 @@ export default function ApplyPage() {
                     <p className="text-red-500">{errors.submit}</p>
                   </div>
                 )}
+
+                <div className="bg-blue-500/10 border border-blue-500/20 rounded-lg p-4">
+                  <p className="text-sm text-blue-600 dark:text-blue-400">
+                    <strong>Note:</strong> By submitting this application, you confirm that all information provided is accurate and complete.
+                  </p>
+                </div>
               </div>
             )}
 
@@ -566,7 +588,7 @@ export default function ApplyPage() {
                   onClick={nextStep}
                   className="inline-flex items-center px-6 py-3 bg-secondary hover:bg-secondary/90 text-white font-semibold rounded-lg transition-colors ml-auto"
                 >
-                  Next
+                  Continue
                   <ArrowRight className="w-5 h-5 ml-2" />
                 </button>
               ) : (
@@ -578,7 +600,7 @@ export default function ApplyPage() {
                   {loading ? (
                     <>
                       <Loader2 className="w-5 h-5 mr-2 animate-spin" />
-                      Submitting...
+                      Submitting Application...
                     </>
                   ) : (
                     <>
@@ -590,6 +612,13 @@ export default function ApplyPage() {
               )}
             </div>
           </form>
+
+          {/* Info Box */}
+          <div className="mt-6 p-4 bg-background-light border border-border rounded-lg">
+            <p className="text-sm text-text-secondary text-center">
+              Need help? Email us at <a href="mailto:hello@veyratech.co.ke" className="text-secondary hover:underline">hello@veyratech.co.ke</a>
+            </p>
+          </div>
         </div>
       </div>
     </div>

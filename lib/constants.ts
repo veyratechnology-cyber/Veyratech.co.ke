@@ -234,7 +234,6 @@ export const PUBLIC_NAV_ITEMS: { label: string; href: string }[] = [
   { label: "Home", href: "/" },
   { label: "About Us", href: "/about" },
   { label: "Services", href: "/services" },
-  { label: "Students", href: "/students" },
   { label: "Contact", href: "/contact" },
 ];
 
