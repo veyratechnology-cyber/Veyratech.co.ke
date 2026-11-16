@@ -4,7 +4,16 @@
 
 import { Resend } from "resend";
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+// Lazy-load Resend to avoid initialization during build
+let resendClient: Resend | null = null;
+
+function getResendClient(): Resend {
+  if (!resendClient) {
+    resendClient = new Resend(process.env.RESEND_API_KEY);
+  }
+  return resendClient;
+}
+
 const FROM_EMAIL = process.env.EMAIL_FROM || "VeyraTech <noreply@veyratech.co.ke>";
 const APP_URL = process.env.NEXT_PUBLIC_APP_URL || "https://veyratech.co.ke";
 
@@ -103,7 +112,7 @@ export async function sendApplicationConfirmation(data: {
       </html>
     `;
 
-    await resend.emails.send({
+    await getResendClient().emails.send({
       from: FROM_EMAIL,
       to: data.email,
       subject: `Application Received - ${data.programmeName} | VeyraTech Learning`,
@@ -230,7 +239,7 @@ export async function sendAdmissionNotification(data: {
       </html>
     `;
 
-    await resend.emails.send({
+    await getResendClient().emails.send({
       from: FROM_EMAIL,
       to: data.email,
       subject: `🎉 Congratulations! You've Been Admitted to ${data.programmeName}`,
@@ -292,7 +301,7 @@ export async function sendAssignmentSubmissionNotification(data: {
       </html>
     `;
 
-    await resend.emails.send({
+    await getResendClient().emails.send({
       from: FROM_EMAIL,
       to: data.mentorEmail,
       subject: `New Assignment Submission from ${data.studentName}`,
