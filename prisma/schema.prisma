@@ -1019,3 +1019,289 @@ enum PaymentMethod {
 
   @@map("payment_method")
 }
+
+// ============================================================
+// LEARNING & MENTORSHIP MODULE
+// ============================================================
+
+model LearningProfile {
+  id              String          @id @default(uuid())
+  userId          String          @unique @map("user_id")
+  userType        UserType        @map("user_type")
+  email           String          @unique
+  passwordHash    String          @map("password_hash")
+  name            String
+  phone           String?
+  country         String?
+  city            String?
+  status          ProfileStatus   @default(PENDING)
+  activatedAt     DateTime?       @map("activated_at")
+  lastLoginAt     DateTime?       @map("last_login_at")
+  createdAt       DateTime        @default(now()) @map("created_at")
+  updatedAt       DateTime        @updatedAt @map("updated_at")
+  
+  // Relations
+  application     Application?
+  enrollments     Enrollment[]
+  mentorAssignments MentorAssignment[] @relation("MentorAssignments")
+  studentAssignments MentorAssignment[] @relation("StudentAssignments")
+  submissions     Submission[]
+  mentorSessions  MentorshipSession[] @relation("MentorSessions")
+  studentSessions MentorshipSession[] @relation("StudentSessions")
+
+  @@index([email])
+  @@index([userType])
+  @@index([status])
+  @@map("learning_profiles")
+}
+
+model Application {
+  id                    String              @id @default(uuid())
+  profileId             String              @unique @map("profile_id")
+  profile               LearningProfile     @relation(fields: [profileId], references: [id], onDelete: Cascade)
+  
+  // Personal Info
+  fullName              String              @map("full_name")
+  email                 String
+  phone                 String
+  country               String
+  city                  String
+  
+  // Education & Experience
+  educationLevel        String              @map("education_level")
+  institution           String
+  currentOccupation     String              @map("current_occupation")
+  programmingExperience String              @map("programming_experience")
+  
+  // Programme Info
+  programmeId           String              @map("programme_id")
+  programme             Programme           @relation(fields: [programmeId], references: [id])
+  
+  // Motivation
+  whyJoin               String              @db.Text @map("why_join")
+  goals                 String              @db.Text
+  weeklyAvailability    String              @map("weekly_availability")
+  hasLaptop             Boolean             @map("has_laptop")
+  
+  // Application Status
+  status                ApplicationStatus   @default(SUBMITTED)
+  referenceNumber       String              @unique @map("reference_number")
+  
+  // Admin Review
+  reviewedById          String?             @map("reviewed_by_id")
+  reviewedAt            DateTime?           @map("reviewed_at")
+  adminNotes            String?             @db.Text @map("admin_notes")
+  rejectionReason       String?             @db.Text @map("rejection_reason")
+  
+  createdAt             DateTime            @default(now()) @map("created_at")
+  updatedAt             DateTime            @updatedAt @map("updated_at")
+
+  @@index([status])
+  @@index([programmeId])
+  @@index([createdAt])
+  @@map("applications")
+}
+
+model Programme {
+  id                String          @id @default(uuid())
+  name              String
+  slug              String          @unique
+  description       String          @db.Text
+  duration          String
+  level             String
+  objectives        String          @db.Text
+  prerequisites     String?         @db.Text
+  published         Boolean         @default(false)
+  displayOrder      Int             @default(0) @map("display_order")
+  createdAt         DateTime        @default(now()) @map("created_at")
+  updatedAt         DateTime        @updatedAt @map("updated_at")
+  
+  // Relations
+  modules           Module[]
+  enrollments       Enrollment[]
+  applications      Application[]
+
+  @@index([slug])
+  @@index([published])
+  @@map("programmes")
+}
+
+model Module {
+  id                String          @id @default(uuid())
+  programmeId       String          @map("programme_id")
+  programme         Programme       @relation(fields: [programmeId], references: [id], onDelete: Cascade)
+  title             String
+  description       String          @db.Text
+  displayOrder      Int             @default(0) @map("display_order")
+  createdAt         DateTime        @default(now()) @map("created_at")
+  updatedAt         DateTime        @updatedAt @map("updated_at")
+  
+  // Relations
+  lessons           Lesson[]
+  assignments       Assignment[]
+
+  @@index([programmeId])
+  @@index([displayOrder])
+  @@map("modules")
+}
+
+model Lesson {
+  id                String          @id @default(uuid())
+  moduleId          String          @map("module_id")
+  module            Module          @relation(fields: [moduleId], references: [id], onDelete: Cascade)
+  title             String
+  content           String          @db.Text
+  displayOrder      Int             @default(0) @map("display_order")
+  published         Boolean         @default(false)
+  createdAt         DateTime        @default(now()) @map("created_at")
+  updatedAt         DateTime        @updatedAt @map("updated_at")
+
+  @@index([moduleId])
+  @@index([displayOrder])
+  @@map("lessons")
+}
+
+model Assignment {
+  id                String          @id @default(uuid())
+  moduleId          String          @map("module_id")
+  module            Module          @relation(fields: [moduleId], references: [id], onDelete: Cascade)
+  title             String
+  description       String          @db.Text
+  instructions      String          @db.Text
+  dueDate           DateTime?       @map("due_date")
+  published         Boolean         @default(false)
+  createdAt         DateTime        @default(now()) @map("created_at")
+  updatedAt         DateTime        @updatedAt @map("updated_at")
+  
+  // Relations
+  submissions       Submission[]
+
+  @@index([moduleId])
+  @@index([published])
+  @@map("assignments")
+}
+
+model Enrollment {
+  id                String              @id @default(uuid())
+  profileId         String              @map("profile_id")
+  profile           LearningProfile     @relation(fields: [profileId], references: [id], onDelete: Cascade)
+  programmeId       String              @map("programme_id")
+  programme         Programme           @relation(fields: [programmeId], references: [id], onDelete: Cascade)
+  status            EnrollmentStatus    @default(ACTIVE)
+  enrolledAt        DateTime            @default(now()) @map("enrolled_at")
+  completedAt       DateTime?           @map("completed_at")
+  
+  @@unique([profileId, programmeId])
+  @@index([status])
+  @@map("enrollments")
+}
+
+model MentorAssignment {
+  id                String              @id @default(uuid())
+  mentorId          String              @map("mentor_id")
+  mentor            LearningProfile     @relation("MentorAssignments", fields: [mentorId], references: [id], onDelete: Cascade)
+  studentId         String              @map("student_id")
+  student           LearningProfile     @relation("StudentAssignments", fields: [studentId], references: [id], onDelete: Cascade)
+  assignedAt        DateTime            @default(now()) @map("assigned_at")
+  
+  @@unique([mentorId, studentId])
+  @@index([mentorId])
+  @@index([studentId])
+  @@map("mentor_assignments")
+}
+
+model Submission {
+  id                String              @id @default(uuid())
+  assignmentId      String              @map("assignment_id")
+  assignment        Assignment          @relation(fields: [assignmentId], references: [id], onDelete: Cascade)
+  studentId         String              @map("student_id")
+  student           LearningProfile     @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  content           String              @db.Text
+  submittedAt       DateTime            @default(now()) @map("submitted_at")
+  status            SubmissionStatus    @default(SUBMITTED)
+  
+  // Mentor Feedback
+  reviewedById      String?             @map("reviewed_by_id")
+  reviewedAt        DateTime?           @map("reviewed_at")
+  feedback          String?             @db.Text
+  grade             String?
+  
+  @@unique([assignmentId, studentId])
+  @@index([studentId])
+  @@index([status])
+  @@map("submissions")
+}
+
+model MentorshipSession {
+  id                String              @id @default(uuid())
+  mentorId          String              @map("mentor_id")
+  mentor            LearningProfile     @relation("MentorSessions", fields: [mentorId], references: [id], onDelete: Cascade)
+  studentId         String              @map("student_id")
+  student           LearningProfile     @relation("StudentSessions", fields: [studentId], references: [id], onDelete: Cascade)
+  title             String
+  description       String?             @db.Text
+  scheduledAt       DateTime            @map("scheduled_at")
+  duration          Int                 @default(60)
+  meetingLink       String?             @map("meeting_link")
+  status            SessionStatus       @default(SCHEDULED)
+  notes             String?             @db.Text
+  createdAt         DateTime            @default(now()) @map("created_at")
+
+  @@index([mentorId])
+  @@index([studentId])
+  @@index([scheduledAt])
+  @@map("mentorship_sessions")
+}
+
+// Learning Module Enums
+enum UserType {
+  STUDENT
+  MENTOR
+
+  @@map("user_type")
+}
+
+enum ProfileStatus {
+  PENDING
+  ACTIVE
+  INACTIVE
+  SUSPENDED
+
+  @@map("profile_status")
+}
+
+enum ApplicationStatus {
+  SUBMITTED
+  UNDER_REVIEW
+  ACCEPTED
+  REJECTED
+  WAITLISTED
+
+  @@map("application_status")
+}
+
+enum EnrollmentStatus {
+  ACTIVE
+  COMPLETED
+  SUSPENDED
+  WITHDRAWN
+
+  @@map("enrollment_status")
+}
+
+enum SubmissionStatus {
+  SUBMITTED
+  UNDER_REVIEW
+  APPROVED
+  NEEDS_REVISION
+
+  @@map("submission_status")
+}
+
+enum SessionStatus {
+  SCHEDULED
+  COMPLETED
+  CANCELLED
+
+  @@map("session_status")
+}
