@@ -20,11 +20,7 @@ import {
   Mail,
   Newspaper,
   UsersRound,
-  DollarSign,
   Receipt,
-  GraduationCap,
-  UserCheck,
-  ClipboardList,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -110,26 +106,6 @@ const navItems: NavItem[] = [
     label: "Team",
     href: "/admin/team",
     icon: <UsersRound size={20} />,
-  },
-  {
-    label: "Learning",
-    href: "/admin/learning",
-    icon: <GraduationCap size={20} />,
-  },
-  {
-    label: "Applications",
-    href: "/admin/learning/applications",
-    icon: <ClipboardList size={20} />,
-  },
-  {
-    label: "Students",
-    href: "/admin/learning/students",
-    icon: <Users size={20} />,
-  },
-  {
-    label: "Mentors",
-    href: "/admin/learning/mentors",
-    icon: <UserCheck size={20} />,
   },
   {
     label: "Settings",
