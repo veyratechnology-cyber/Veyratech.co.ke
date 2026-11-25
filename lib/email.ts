@@ -216,7 +216,7 @@ export async function sendConsultationNotification(data: {
 
     await resend.emails.send({
       from: FROM_EMAIL,
-      to: CONSULTING_EMAIL, // Send consultation bookings to consulting@veyratech.co.ke
+      to: [CONSULTING_EMAIL, 'gisembaaggrey@gmail.com'], // Send to both consulting email and directly to Gmail
       subject: `New Consultation Request from ${raw.name}`,
       html: `
         <!DOCTYPE html>
@@ -387,7 +387,7 @@ export async function sendContactNotification(data: {
   try {
     const result = await resend.emails.send({
       from: FROM_EMAIL,
-      to: ADMIN_EMAIL, // General inquiries go to hello@veyratech.co.ke
+      to: [ADMIN_EMAIL, 'gisembaaggrey@gmail.com'], // Send to both admin email and directly to Gmail
       subject: `Contact Form: ${raw.subject}`,
       html: `
         <h2>New Contact Message</h2>
