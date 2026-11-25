@@ -1,7 +1,6 @@
-// @ts-nocheck
 import React from "react";
 import Link from "next/link";
-import { prisma } from "@/lib/prisma";
+import prisma from "@/lib/db/prisma";
 import { Card, CardHeader, CardTitle, CardContent, Button } from "@/components/shared";
 import {
   Users,
@@ -30,34 +29,34 @@ async function getDashboardStats() {
       activeProposals,
       activeProjects,
     ] = await Promise.all([
-      prisma.lead.count().catch(e => { console.error("[COUNT] lead error:", e.message); return 0; }),
+      prisma.lead.count().catch(() => 0),
       prisma.lead.count({
         where: {
           createdAt: {
             gte: new Date(new Date().setDate(1)),
           },
         },
-      }).catch(e => { console.error("[COUNT] new leads error:", e.message); return 0; }),
-      prisma.prospect.count().catch(e => { console.error("[COUNT] prospect error:", e.message); return 0; }),
+      }).catch(() => 0),
+      prisma.prospect.count().catch(() => 0),
       prisma.consultation.count({
         where: {
           status: {
             in: ["NEW", "REVIEWING", "CONTACTED", "SCHEDULED"],
           },
         },
-      }).catch(e => { console.error("[COUNT] consultation error:", e.message); return 0; }),
+      }).catch(() => 0),
       prisma.proposal.count({
         where: {
           status: {
             in: ["DRAFT", "SENT", "VIEWED"],
           },
         },
-      }).catch(e => { console.error("[COUNT] proposal error:", e.message); return 0; }),
+      }).catch(() => 0),
       prisma.project.count({
         where: {
           status: "ACTIVE",
         },
-      }).catch(e => { console.error("[COUNT] project error:", e.message); return 0; }),
+      }).catch(() => 0),
     ]);
 
     return {
@@ -70,7 +69,14 @@ async function getDashboardStats() {
     };
   } catch (error: any) {
     console.error("[getDashboardStats] Error:", error.message);
-    throw error;
+    return {
+      totalLeads: 0,
+      newLeadsThisMonth: 0,
+      totalProspects: 0,
+      pendingConsultations: 0,
+      activeProposals: 0,
+      activeProjects: 0,
+    };
   }
 }
 
