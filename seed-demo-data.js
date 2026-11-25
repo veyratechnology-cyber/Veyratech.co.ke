@@ -7,17 +7,31 @@ const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 
 async function seedDemoData() {
-  console.log('🌱 Seeding demo data for VeyraTech CRM...\n');
+  console.log('🌱 Adding demo data to VeyraTech CRM (non-destructive)...\n');
 
   try {
-    // Clear existing data (optional)
-    console.log('🗑️  Clearing existing demo data...');
-    await prisma.lead.deleteMany({});
-    await prisma.consultation.deleteMany({});
-    await prisma.proposal.deleteMany({});
-    await prisma.project.deleteMany({});
-    await prisma.prospect.deleteMany({});
-    console.log('✅ Cleared existing data\n');
+    // Check existing data first
+    const existingLeads = await prisma.lead.count();
+    const existingConsultations = await prisma.consultation.count();
+    const existingProspects = await prisma.prospect.count();
+
+    console.log('📊 Current database state:');
+    console.log(`   Leads: ${existingLeads}`);
+    console.log(`   Consultations: ${existingConsultations}`);
+    console.log(`   Prospects: ${existingProspects}\n`);
+
+    if (existingLeads > 0 || existingConsultations > 0 || existingProspects > 0) {
+      console.log('⚠️  WARNING: Database already has data!');
+      console.log('⚠️  This script will NOT delete existing data.');
+      console.log('⚠️  It will only add demo data if tables are empty.\n');
+      
+      if (existingConsultations > 0) {
+        console.log('❌ REAL CONSULTATION BOOKINGS DETECTED!');
+        console.log('❌ Refusing to modify database to protect customer data.');
+        console.log('\n✅ Your real data is safe. Exiting...\n');
+        return;
+      }
+    }
 
     // Create Leads
     console.log('👥 Creating sample leads...');
