@@ -80,10 +80,10 @@ export default async function ConsultationsPage({ searchParams }: PageProps) {
                     <thead>
                       <tr className="border-b border-border">
                         <th className="text-left py-3 px-4 font-semibold text-text-primary">Name</th>
+                        <th className="text-left py-3 px-4 font-semibold text-text-primary">Email</th>
                         <th className="text-left py-3 px-4 font-semibold text-text-primary">Company</th>
-                        <th className="text-left py-3 px-4 font-semibold text-text-primary">Industry</th>
-                        <th className="text-left py-3 px-4 font-semibold text-text-primary">Meeting Type</th>
-                        <th className="text-left py-3 px-4 font-semibold text-text-primary">Scheduled</th>
+                        <th className="text-left py-3 px-4 font-semibold text-text-primary">Phone</th>
+                        <th className="text-left py-3 px-4 font-semibold text-text-primary">Preferred Date</th>
                         <th className="text-left py-3 px-4 font-semibold text-text-primary">Status</th>
                         <th className="text-left py-3 px-4 font-semibold text-text-primary">Actions</th>
                       </tr>
@@ -95,19 +95,13 @@ export default async function ConsultationsPage({ searchParams }: PageProps) {
                           className="border-b border-border hover:bg-primary"
                         >
                           <td className="py-3 px-4 font-medium">{consultation.name}</td>
+                          <td className="py-3 px-4 text-sm">{consultation.email}</td>
                           <td className="py-3 px-4">{consultation.company || "-"}</td>
+                          <td className="py-3 px-4 text-sm">{consultation.phone || "-"}</td>
                           <td className="py-3 px-4 text-sm">
-                            {consultation.industry?.replace(/_/g, " ") || "-"}
-                          </td>
-                          <td className="py-3 px-4 text-sm">
-                            {consultation.meetingType?.replace(/_/g, " ") || "-"}
-                          </td>
-                          <td className="py-3 px-4 text-sm">
-                            {consultation.actualScheduledAt
-                              ? new Date(consultation.actualScheduledAt).toLocaleDateString()
-                              : consultation.preferredDate
+                            {consultation.preferredDate
                               ? new Date(consultation.preferredDate).toLocaleDateString()
-                              : "Not scheduled"}
+                              : "Not set"}
                           </td>
                           <td className="py-3 px-4">
                             <Badge 

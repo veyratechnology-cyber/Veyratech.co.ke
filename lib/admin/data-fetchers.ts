@@ -45,13 +45,14 @@ export async function getConsultations(options?: {
       const where: any = {};
 
       if (options?.status) where.status = options.status;
-      if (options?.meetingType) where.meetingType = options.meetingType;
-      if (options?.industry) where.industry = options.industry;
+      // Skip meetingType and industry if columns don't exist
+      // if (options?.meetingType) where.meetingType = options.meetingType;
+      // if (options?.industry) where.industry = options.industry;
 
       if (options?.dateFrom || options?.dateTo) {
-        where.actualScheduledAt = {};
-        if (options.dateFrom) where.actualScheduledAt.gte = new Date(options.dateFrom);
-        if (options.dateTo) where.actualScheduledAt.lte = new Date(options.dateTo);
+        where.preferredDate = {}; // Use preferredDate instead of actualScheduledAt
+        if (options.dateFrom) where.preferredDate.gte = new Date(options.dateFrom);
+        if (options.dateTo) where.preferredDate.lte = new Date(options.dateTo);
       }
 
       if (options?.search) {
@@ -59,7 +60,6 @@ export async function getConsultations(options?: {
           { name: { contains: options.search, mode: "insensitive" } },
           { email: { contains: options.search, mode: "insensitive" } },
           { company: { contains: options.search, mode: "insensitive" } },
-          { phone: { contains: options.search, mode: "insensitive" } },
         ];
       }
 
@@ -68,6 +68,17 @@ export async function getConsultations(options?: {
           where,
           orderBy: { createdAt: "desc" },
           take: 100, // Limit for performance
+          select: {
+            id: true,
+            name: true,
+            email: true,
+            phone: true,
+            company: true,
+            status: true,
+            preferredDate: true,
+            createdAt: true,
+            // Only select fields that exist
+          }
         }),
         client.consultation.groupBy({
           by: ["status"],
