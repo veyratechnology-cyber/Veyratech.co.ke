@@ -13,7 +13,7 @@ async function setupAdmin() {
   console.log('🔧 Setting up VeyraTech CRM Admin...\n');
 
   const adminData = {
-    email: 'Admin@veyratech.co.ke',
+    email: 'admin@veyratech.co.ke', // Lowercase for auth compatibility
     password: 'Bonaventure123kenya',
     name: 'VeyraTech Administrator'
   };

@@ -10,11 +10,12 @@
 DELETE FROM admins;
 
 -- Insert VeyraTech CRM Admin
+-- Email: admin@veyratech.co.ke (lowercase for auth compatibility)
 -- Password: Bonaventure123kenya (hashed with bcrypt)
 INSERT INTO admins (name, email, password_hash, status, created_at, updated_at)
 VALUES (
   'VeyraTech Administrator',
-  'Admin@veyratech.co.ke',
+  'admin@veyratech.co.ke',
   '$2b$10$YXS9KqN.gL3vBzHLBkO8FeVBYF7FjnP3qDHZEKqvU2h3rX5oN9Jty',
   'ACTIVE',
   NOW(),
@@ -31,13 +32,13 @@ SELECT
   created_at,
   '✅ Admin account ready!' as message
 FROM admins 
-WHERE email = 'Admin@veyratech.co.ke';
+WHERE email = 'admin@veyratech.co.ke';
 
 -- ============================================================================
 -- LOGIN INSTRUCTIONS
 -- ============================================================================
 -- URL:      https://www.veyratech.co.ke/admin/login
--- Email:    Admin@veyratech.co.ke
+-- Email:    admin@veyratech.co.ke
 -- Password: Bonaventure123kenya
 -- ============================================================================
 
